@@ -8,7 +8,7 @@ public final class Main {
 
         var model = new Model();
         var controller = new Controller();
-        var view = new DefaultView(1000,800);
+        var view = new DefaultView(1200,800);
 
         // Connect M, V and C
         controller.setModel(model);
