@@ -1,26 +1,21 @@
 import processing.core.PApplet;
+import Models.Model;
+import Controllers.Controller;
+import Views.DefaultView;
 
-/**
- * Just a basic Processing template to check if your IDE is configured correctly.
- */
-public class Main extends PApplet {
+public final class Main {
     public static void main(String[] args) {
-        PApplet.main(Main.class);
-    }
 
-    public Main() {}
+        var model = new Model();
+        var controller = new Controller();
+        var view = new DefaultView(1000,800);
 
-    @Override
-    public void settings() {
-        setSize(600, 400);
-    }
+        // Connect M, V and C
+        controller.setModel(model);
+        controller.setView(view);
+        view.setController(controller);
 
-    @Override
-    public void setup() {
-    }
-
-    @Override
-    public void draw() {
-        background(255);
+        // Starts the processing application
+        PApplet.runSketch(new String[]{""}, view);
     }
 }
