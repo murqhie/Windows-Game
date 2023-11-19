@@ -3,6 +3,12 @@ import Models.Model;
 import Models.Objects.Player;
 import Views.IView;
 import Models.DataStructures.GameState;
+
+import java.awt.event.KeyEvent;
+
+import static processing.core.PApplet.max;
+import static processing.core.PApplet.min;
+
 public class Controller implements IController {
     private Model model;
     private IView view;
@@ -16,8 +22,36 @@ public class Controller implements IController {
         }
         if(model.getState() == GameState.PLAYING){
             view.drawPlaying();
+            model.getPlayer().move();
         }
     }
+    public void handleKeyboard(KeyEvent event) {
+        Player player = model.getPlayer();
+        switch (model.getState()) {
+            case START, GAME_OVER -> {
+                if (event.getKeyChar() == ' ') {
+                    model.setState(GameState.PLAYING);
+                    model.startNewGame();
+                }
+            }
+            case PLAYING -> {
+                if (event.getKeyChar() == 'w') {
+                    player.setAcceleration("UP");
+                }
+                if (event.getKeyChar() == 'a') {
+                    player.setAcceleration("LEFT");
+                }
+                if (event.getKeyChar() == 's') {
+                    player.setAcceleration("DOWN");;
+                }
+                if (event.getKeyChar() == 'd') {
+                    player.setAcceleration("RIGHT");;
+                }
+            }
+
+        }
+    }
+
     public Player getPlayer(){
         return model.getPlayer();
     }
@@ -38,4 +72,5 @@ public class Controller implements IController {
         model.getWindow().setWidth(winWidth);
         model.getWindow().setHeight(winHeight);
     }
+
 }

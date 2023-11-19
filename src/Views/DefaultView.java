@@ -4,6 +4,8 @@ import Controllers.IController;
 import Models.Objects.Player;
 import processing.core.PApplet;
 
+import java.awt.event.KeyEvent;
+
 public class DefaultView extends PApplet implements IView{
     IController controller;
     int winWidth;
@@ -32,9 +34,12 @@ public class DefaultView extends PApplet implements IView{
     }
 
     public void drawPlaying(){
+        background(0);
         Player player = controller.getPlayer();
         rect(player.getX(),player.getY(),player.getHeight(),player.getWidth());
     }
+
+    public void keyPressed(KeyEvent event){controller.handleKeyboard(event);  }
 
     public void setController(IController controller) {
         this.controller = controller;
