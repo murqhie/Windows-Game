@@ -22,6 +22,7 @@ public class Controller implements IController {
         }
         if(model.getState() == GameState.PLAYING){
             view.drawPlaying();
+            getPlayer().setShootDirection(new Vector(view.getMousePosition().getX() - getPlayer().getX(), view.getMousePosition().getY() - getPlayer().getY()));
             model.getPlayer().move();
             model.getPlayer().shoot();
 

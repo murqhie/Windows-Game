@@ -17,6 +17,8 @@ public class Player {
     boolean mouseInput = false;
     ArrayList<Projectile> projectiles = new ArrayList<>();
     Vector shootTimer = new Vector(10, 0); // (Delay, Timer)
+    int shootingSpeed = 5;
+    Vector shootDirection;
     public Player(int radius, Window window) {
         this.radius = radius;
         this.window = window;
@@ -30,11 +32,12 @@ public class Player {
     }
     public void shoot(){
         if(shootTimer.getY() <= 0 & mouseInput){
-        projectiles.add(new Projectile(this.position,new Vector(0,-1)));
+        projectiles.add(new Projectile(this.position,shootDirection.unit().multiplicate(shootingSpeed)));
         shootTimer.setY(shootTimer.getX());
         }
         shootTimer.setY(shootTimer.getY()-1);
     }
+
     public boolean isCollidingWithWindow(){
         if(this.position.getX()-radius <= window.getPosition().getX()){return true;}
         if(this.position.getY()-radius <= window.getPosition().getY()){return true;}
@@ -58,4 +61,6 @@ public class Player {
     public int getRadius() {return radius;}
     public ArrayList<Projectile> getProjectiles() {return projectiles;}
     public void setMouseInput(boolean mouseInput) {this.mouseInput = mouseInput;}
+
+    public void setShootDirection(Vector shootDirection) {this.shootDirection = shootDirection;}
 }
