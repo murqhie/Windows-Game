@@ -1,7 +1,10 @@
 package Controllers;
 import Models.Objects.Player;
+import Models.Objects.Window;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
+
+import java.util.ArrayList;
 
 public interface IController {
     void tick();
@@ -12,4 +15,5 @@ public interface IController {
     void handleKeyReleased(KeyEvent event);
     void handleMousePressed(MouseEvent event);
     void handleMouseReleased(MouseEvent event);
+    ArrayList<Window> getWindows();
 }

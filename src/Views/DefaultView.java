@@ -4,6 +4,7 @@ import Controllers.IController;
 import Models.DataStructures.Vector;
 import Models.Objects.Player;
 import Models.Objects.Projectile;
+import Models.Objects.Window;
 import processing.core.PApplet;
 
 import processing.event.KeyEvent;
@@ -11,21 +12,14 @@ import processing.event.MouseEvent;
 
 public class DefaultView extends PApplet implements IView{
     IController controller;
-    int winWidth;
-    int winHeight;
-
-    public DefaultView(int winWidth, int winHeight){
-        this.winWidth = winWidth;
-        this.winHeight = winHeight;
-    }
+    public DefaultView(){  }
     @Override
     public void settings() {
-        setSize(winWidth,winHeight);
+        size(1000,1000);
     }
     @Override
     public void setup() {
         controller.setGameState("START");
-        controller.setWindow(winWidth, winHeight);
 
     }
     public void draw(){
@@ -34,7 +28,12 @@ public class DefaultView extends PApplet implements IView{
     }
     public void drawPlaying(){
         background(0);
+        for (Window window : controller.getWindows()) {
+            fill(window.getColor());
+            rect(window.getPosition().getX(),window.getPosition().getY(),window.getWidth(), window.getHeight());
+        }
         Player player = controller.getPlayer();
+
         drawPlayer(player);
         drawProjectiles(player);
 
@@ -52,7 +51,7 @@ public class DefaultView extends PApplet implements IView{
         }
     }
     private void drawPlayer(Player player){
-
+        fill(player.getColor());
         circle(player.getX(),player.getY(),player.getRadius()*2);
     }
 
@@ -61,4 +60,7 @@ public class DefaultView extends PApplet implements IView{
     public void mousePressed(MouseEvent event){controller.handleMousePressed(event);}
     public void mouseReleased(MouseEvent event){controller.handleMouseReleased(event);}
     public void setController(IController controller) {this.controller = controller;}
+    public int getScreenHeight(){return height;}
+    public int getScreenWidth(){return width;}
+
 }

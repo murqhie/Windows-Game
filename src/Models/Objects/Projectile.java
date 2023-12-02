@@ -21,6 +21,14 @@ public class Projectile {
         if(this.position.getY()+radius >= window.getPosition().getY() + window.getHeight()){return true;}
         return false;
     }
+    public String isCollidingWith(){
+        if(this.position.getX()-radius <= window.getPosition().getX()){return "LEFT";}
+        if(this.position.getY()-radius <= window.getPosition().getY()){return "UP";}
+        if(this.position.getX()+radius >= window.getPosition().getX() + window.getWidth()){return "RIGHT";}
+        if(this.position.getY()+radius >= window.getPosition().getY() + window.getHeight()){return "DOWN";}
+        return null;
+    }
+
 
     public void move() {
         this.position = this.position.add(this.velocity);
@@ -28,4 +36,5 @@ public class Projectile {
     public float getX(){return position.getX();}
     public float getY(){return position.getY();}
     public int getRadius() {return radius;}
+    public Window getWindow() {return window;}
 }

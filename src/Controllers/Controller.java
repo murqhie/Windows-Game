@@ -3,10 +3,13 @@ import Models.DataStructures.Vector;
 import Models.Model;
 import Models.Objects.Player;
 import Models.Objects.Projectile;
+import Models.Objects.Window;
 import Views.IView;
 import Models.DataStructures.GameState;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
+
+import java.util.ArrayList;
 
 public class Controller implements IController {
     private Model model;
@@ -15,10 +18,14 @@ public class Controller implements IController {
 
     @Override
     public void tick() {
-
         if(model.getState() == GameState.START){
+            int winWidth = 500;
+            int winHeight = 500;
+            model.getWindows().get(0).setWidth(winWidth);
+            model.getWindows().get(0).setHeight(winHeight);
+            model.getWindows().get(0).setPosition(new Vector((float) (view.getScreenWidth() /2-(winWidth/2)),(float)(view.getScreenHeight() /2-(winHeight/2))));
+
             model.startNewGame();
-            model.setState(GameState.PLAYING);
         }
         if(model.getState() == GameState.PLAYING){
             view.drawPlaying();
@@ -26,21 +33,30 @@ public class Controller implements IController {
             model.getPlayer().move();
             model.getPlayer().shoot();
 
+            for (Projectile projectile : model.getPlayer().getProjectiles()) {
+                if(projectile.isCollidingWithWindow()){
+                    switch (projectile.isCollidingWith()){
+                        case "LEFT" -> projectile.getWindow().setPosition(projectile.getWindow().getPosition().add(new Vector(-3,0)));
+                        case "RIGHT" -> projectile.getWindow().setPosition(projectile.getWindow().getPosition().add(new Vector(3,0)));
+                        case "UP" -> projectile.getWindow().setPosition(projectile.getWindow().getPosition().add(new Vector(0,-3)));
+                        case "DOWN" -> projectile.getWindow().setPosition(projectile.getWindow().getPosition().add(new Vector(0,3)));
+                    }
+                }
+            }
             model.getPlayer().getProjectiles().removeIf(Projectile::isCollidingWithWindow);
 
             for (Projectile projectile : model.getPlayer().getProjectiles()) {
                 projectile.move();
             }
-
-            System.out.println(model.getPlayer().getProjectiles().size());
             model.checkGameOver();
         }
-
+        if(model.getState() == GameState.GAME_OVER) {//model.drawGameOver()
+        }
     }
     public void handleKeyPressed(KeyEvent event) {
         Player player = model.getPlayer();
         switch (model.getState()) {
-            case START, GAME_OVER -> {
+            case START -> {
                 if (event.getKeyCode() == ' ') {
                     model.setState(GameState.PLAYING);
                     model.startNewGame();
@@ -61,18 +77,17 @@ public class Controller implements IController {
                     player.setKeyInputs(3,true);
                 }
             }
+            case GAME_OVER -> {
+                if (event.getKeyCode() == ' ') {
+                    model.setState(GameState.START);
+
+                }}
 
         }
     }
     public void handleKeyReleased(KeyEvent event) {
         Player player = model.getPlayer();
         switch (model.getState()) {
-            case START, GAME_OVER -> {
-                if (event.getKeyCode() == ' ') {
-                    model.setState(GameState.PLAYING);
-                    model.startNewGame();
-                }
-            }
             case PLAYING -> {
 
                 if (Character.toLowerCase(event.getKey()) == 'w') {
@@ -106,6 +121,7 @@ public class Controller implements IController {
     public Player getPlayer(){
         return model.getPlayer();
     }
+    public ArrayList<Window> getWindows(){return model.getWindows();}
     public void setModel(Model model) {this.model = model;}
     public void setView(IView view) {this.view = view;}
     public void setGameState(String state){
@@ -120,9 +136,9 @@ public class Controller implements IController {
         }
     }
     public void setWindow(int winWidth, int winHeight) {
-        model.getWindow().setWidth(winWidth);
-        model.getWindow().setHeight(winHeight);
-        model.getWindow().setPosition(new Vector(0,0));
+        model.getWindows().get(0).setWidth(winWidth);
+        model.getWindows().get(0).setHeight(winHeight);
+        model.getWindows().get(0).setPosition(new Vector((float) (view.getScreenWidth() /2-(winWidth/2)),(float)(view.getScreenHeight() /2-(winHeight/2))));
     }
 
 }

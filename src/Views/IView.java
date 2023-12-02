@@ -6,4 +6,8 @@ public interface IView {
     void drawPlaying();
 
     Vector getMousePosition();
+
+    int getScreenWidth();
+
+    int getScreenHeight();
 }

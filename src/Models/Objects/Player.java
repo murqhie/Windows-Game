@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 
 public class Player {
+    int color = 255;
     int radius;
     Window window;
     Vector velocity = new Vector(0,0);
@@ -22,7 +23,7 @@ public class Player {
     public Player(int radius, Window window) {
         this.radius = radius;
         this.window = window;
-        this.position = new Vector((float) this.window.getWidth() /2-radius, (float) this.window.getHeight() /2-radius);
+        this.position = new Vector((float) this.window.getWidth() /2-radius + this.window.getPosition().getX(), (float) this.window.getHeight() /2-radius+ this.window.getPosition().getY());
     }
     public void move(){
         this.setAcceleration();
@@ -56,6 +57,9 @@ public class Player {
     public void setKeyInputs(int index, boolean value) {
         this.keyInputs[index] = value;
     }
+
+    public int getColor() {return color;}
+
     public float getX(){return position.getX();}
     public float getY(){return position.getY();}
     public int getRadius() {return radius;}
