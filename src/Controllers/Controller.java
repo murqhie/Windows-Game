@@ -1,13 +1,11 @@
 package Controllers;
+import Models.DataStructures.Vector;
 import Models.Model;
 import Models.Objects.Player;
 import Views.IView;
 import Models.DataStructures.GameState;
-
 import processing.event.KeyEvent;
-
-import static processing.core.PApplet.max;
-import static processing.core.PApplet.min;
+import processing.event.MouseEvent;
 
 public class Controller implements IController {
     private Model model;
@@ -23,7 +21,9 @@ public class Controller implements IController {
         if(model.getState() == GameState.PLAYING){
             view.drawPlaying();
             model.getPlayer().move();
+            model.checkGameOver();
         }
+
     }
     public void handleKeyPressed(KeyEvent event) {
         Player player = model.getPlayer();
@@ -52,7 +52,6 @@ public class Controller implements IController {
 
         }
     }
-
     public void handleKeyReleased(KeyEvent event) {
         Player player = model.getPlayer();
         switch (model.getState()) {
@@ -81,8 +80,10 @@ public class Controller implements IController {
 
         }
     }
+    @Override
+    public void handleMouse(MouseEvent event) {
 
-
+    }
     public Player getPlayer(){
         return model.getPlayer();
     }
@@ -102,6 +103,7 @@ public class Controller implements IController {
     public void setWindow(int winWidth, int winHeight) {
         model.getWindow().setWidth(winWidth);
         model.getWindow().setHeight(winHeight);
+        model.getWindow().setPosition(new Vector(0,0));
     }
 
 }

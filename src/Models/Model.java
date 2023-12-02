@@ -10,8 +10,9 @@ public class Model {
     GameState state;
     Window window;
     public Model(){this.window = new Window();}
-    public void startNewGame(){
-        player = new Player(30,30,new Vector(window.getWidth()/2-15, window.getHeight()/2-15));
+    public void startNewGame(){player = new Player(30,this.window);}
+    public void checkGameOver(){
+        if(player.isCollidingWithWindow()){state = GameState.GAME_OVER;}
     }
     public Player getPlayer() {return player;}
     public GameState getState() {return state;}
