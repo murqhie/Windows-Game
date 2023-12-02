@@ -6,11 +6,20 @@ public class Projectile {
     Vector position;
     Vector velocity;
     int radius;
+    Window window;
 
-    public Projectile(Vector position, Vector velocity) {
+    public Projectile(Vector position, Vector velocity, Window window) {
         this.position = position;
         this.velocity = velocity;
+        this.window = window;
         this.radius = 4;
+    }
+    public boolean isCollidingWithWindow(){
+        if(this.position.getX()-radius <= window.getPosition().getX()){return true;}
+        if(this.position.getY()-radius <= window.getPosition().getY()){return true;}
+        if(this.position.getX()+radius >= window.getPosition().getX() + window.getWidth()){return true;}
+        if(this.position.getY()+radius >= window.getPosition().getY() + window.getHeight()){return true;}
+        return false;
     }
 
     public void move() {
