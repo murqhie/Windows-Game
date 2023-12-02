@@ -10,8 +10,9 @@ public class Player {
     Vector velocity;
     Vector acceleration;
     Vector position;
-    int jerk;
+    float jerk;
     float friction;
+    boolean[] keyInputs = new boolean[]{false,false,false,false}; // {w,a,s,d}
     public Player(int width, int height, Vector position) {
         this.width = width;
         this.height = height;
@@ -24,20 +25,27 @@ public class Player {
     }
 
     public void move(){
+        this.setAcceleration();
         this.velocity = this.velocity.add(this.acceleration);
         this.velocity = this.velocity.multiplicate(1-friction);
         this.position = this.position.add(this.velocity);
 
+
     }
-    public void setAcceleration(String direction) {
-        switch(direction){
-            case "UP" -> {this.acceleration.setY(-this.jerk);}
-            case "LEFT" -> {this.acceleration.setX(-this.jerk);}
-            case "DOWN" -> {this.acceleration.setY(this.jerk);}
-            case "RIGHT" -> {this.acceleration.setX(this.jerk);}
-            case "XZERO" -> {this.acceleration.setX(0);}
-            case "YZERO" -> {this.acceleration.setY(0);}
+    public void setAcceleration() {
+            if(keyInputs[0]){this.acceleration.setY(-this.jerk);}
+            if(keyInputs[1]){this.acceleration.setX(-this.jerk);}
+            if(keyInputs[2]){this.acceleration.setY(this.jerk);}
+            if(keyInputs[3]){this.acceleration.setX(this.jerk);}
+            if(!keyInputs[1] & !keyInputs[3]){this.acceleration.setX(0);}
+            if(!keyInputs[0] & !keyInputs[2]){this.acceleration.setY(0);}
+
+
         }
+
+
+    public void setKeyInputs(int index, boolean value) {
+        this.keyInputs[index] = value;
     }
 
     public Vector getPosition() {return position;}
@@ -45,6 +53,9 @@ public class Player {
     public float getY(){return position.getY();}
     public int getWidth() {return width;}
     public int getHeight() {return height;}
+
+
+
 
 
 }

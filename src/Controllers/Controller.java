@@ -36,17 +36,17 @@ public class Controller implements IController {
             }
             case PLAYING -> {
 
-                if (event.getKey() == 'w') {
-                    player.setAcceleration("UP");
+                if (Character.toLowerCase(event.getKey()) == 'w') {
+                    player.setKeyInputs(0,true);
                 }
-                if (event.getKey() == 'a') {
-                    player.setAcceleration("LEFT");
+                if (Character.toLowerCase(event.getKey()) == 'a') {
+                    player.setKeyInputs(1,true);
                 }
-                if (event.getKey() == 's') {
-                    player.setAcceleration("DOWN");;
+                if (Character.toLowerCase(event.getKey()) == 's') {
+                    player.setKeyInputs(2,true);
                 }
-                if (event.getKey() == 'd') {
-                    player.setAcceleration("RIGHT");;
+                if (Character.toLowerCase(event.getKey()) == 'd') {
+                    player.setKeyInputs(3,true);
                 }
             }
 
@@ -64,13 +64,20 @@ public class Controller implements IController {
             }
             case PLAYING -> {
 
-                if (event.getKey() == 'w' | event.getKey() == 's') {
-                    player.setAcceleration("YZERO");
+                if (Character.toLowerCase(event.getKey()) == 'w') {
+                    player.setKeyInputs(0,false);
                 }
-                if (event.getKey() == 'a' | event.getKey() == 'd') {
-                    player.setAcceleration("XZERO");
+                if (Character.toLowerCase(event.getKey()) == 'a') {
+                    player.setKeyInputs(1,false);
+                }
+                if (Character.toLowerCase(event.getKey()) == 's') {
+                    player.setKeyInputs(2,false);
+                }
+                if (Character.toLowerCase(event.getKey()) == 'd') {
+                    player.setKeyInputs(3,false);
                 }
             }
+
 
         }
     }
