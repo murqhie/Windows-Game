@@ -10,39 +10,34 @@ public class Player {
     Vector velocity;
     Vector acceleration;
     Vector position;
+    int jerk;
+    float friction;
     public Player(int width, int height, Vector position) {
         this.width = width;
         this.height = height;
         this.position = position;
-        this.velocity = new Vector(-10,5);
+        this.velocity = new Vector(0,0);
         this.acceleration = new Vector(0,0);
+        this.jerk = 1;
+        this.friction = 0.1f;
 
     }
 
     public void move(){
-        float t = 1f; // Zeitschritt
-        float c = 0.01f; // Luftwiderstandskonstante
-        this.position = this.position.add(this.velocity.multiplicate((float) ((0.5) * Math.pow(t,2)))); // s_t = 1/2 * v * t^2 + s_0
+        this.velocity = this.velocity.add(this.acceleration);
+        this.velocity = this.velocity.multiplicate(1-friction);
+        this.position = this.position.add(this.velocity);
 
-        // Add Beschleunigung
-        this.velocity = this.velocity.add(this.acceleration.multiplicate(t));
-        // Add Luftwiederstand
-        this.velocity = this.velocity.add(this.velocity.unit().multiplicate((float) (-c*Math.pow(this.velocity.norm(),2)))); // a_t = -c * v^2 + v_0 (Luftwiderstand)
-
-        if (this.velocity.norm() <= 1){
-            this.velocity.setX(0);
-            this.velocity.setY(0);
-        }
     }
-
     public void setAcceleration(String direction) {
         switch(direction){
-            case "UP" -> {}
-            case "LEFT" -> {}
-            case "DOWN" -> {}
-            case "RIGHT" -> {}
+            case "UP" -> {this.acceleration.setY(-this.jerk);}
+            case "LEFT" -> {this.acceleration.setX(-this.jerk);}
+            case "DOWN" -> {this.acceleration.setY(this.jerk);}
+            case "RIGHT" -> {this.acceleration.setX(this.jerk);}
+            case "XZERO" -> {this.acceleration.setX(0);}
+            case "YZERO" -> {this.acceleration.setY(0);}
         }
-
     }
 
     public Vector getPosition() {return position;}

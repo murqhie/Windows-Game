@@ -4,7 +4,7 @@ import Controllers.IController;
 import Models.Objects.Player;
 import processing.core.PApplet;
 
-import java.awt.event.KeyEvent;
+import processing.event.KeyEvent;
 
 public class DefaultView extends PApplet implements IView{
     IController controller;
@@ -39,7 +39,8 @@ public class DefaultView extends PApplet implements IView{
         rect(player.getX(),player.getY(),player.getHeight(),player.getWidth());
     }
 
-    public void keyPressed(KeyEvent event){controller.handleKeyboard(event);  }
+    public void keyPressed(KeyEvent event){controller.handleKeyPressed(event);  }
+    public void keyReleased(KeyEvent event){controller.handleKeyReleased(event);  }
 
     public void setController(IController controller) {
         this.controller = controller;

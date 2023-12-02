@@ -4,7 +4,7 @@ import Models.Objects.Player;
 import Views.IView;
 import Models.DataStructures.GameState;
 
-import java.awt.event.KeyEvent;
+import processing.event.KeyEvent;
 
 import static processing.core.PApplet.max;
 import static processing.core.PApplet.min;
@@ -25,32 +25,56 @@ public class Controller implements IController {
             model.getPlayer().move();
         }
     }
-    public void handleKeyboard(KeyEvent event) {
+    public void handleKeyPressed(KeyEvent event) {
         Player player = model.getPlayer();
         switch (model.getState()) {
             case START, GAME_OVER -> {
-                if (event.getKeyChar() == ' ') {
+                if (event.getKeyCode() == ' ') {
                     model.setState(GameState.PLAYING);
                     model.startNewGame();
                 }
             }
             case PLAYING -> {
-                if (event.getKeyChar() == 'w') {
+
+                if (event.getKey() == 'w') {
                     player.setAcceleration("UP");
                 }
-                if (event.getKeyChar() == 'a') {
+                if (event.getKey() == 'a') {
                     player.setAcceleration("LEFT");
                 }
-                if (event.getKeyChar() == 's') {
+                if (event.getKey() == 's') {
                     player.setAcceleration("DOWN");;
                 }
-                if (event.getKeyChar() == 'd') {
+                if (event.getKey() == 'd') {
                     player.setAcceleration("RIGHT");;
                 }
             }
 
         }
     }
+
+    public void handleKeyReleased(KeyEvent event) {
+        Player player = model.getPlayer();
+        switch (model.getState()) {
+            case START, GAME_OVER -> {
+                if (event.getKeyCode() == ' ') {
+                    model.setState(GameState.PLAYING);
+                    model.startNewGame();
+                }
+            }
+            case PLAYING -> {
+
+                if (event.getKey() == 'w' | event.getKey() == 's') {
+                    player.setAcceleration("YZERO");
+                }
+                if (event.getKey() == 'a' | event.getKey() == 'd') {
+                    player.setAcceleration("XZERO");
+                }
+            }
+
+        }
+    }
+
 
     public Player getPlayer(){
         return model.getPlayer();
