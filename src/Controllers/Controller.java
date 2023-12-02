@@ -35,12 +35,7 @@ public class Controller implements IController {
 
             for (Projectile projectile : model.getPlayer().getProjectiles()) {
                 if(projectile.isCollidingWithWindow()){
-                    switch (projectile.isCollidingWith()){
-                        case "LEFT" -> projectile.getWindow().setPosition(projectile.getWindow().getPosition().add(new Vector(-3,0)));
-                        case "RIGHT" -> projectile.getWindow().setPosition(projectile.getWindow().getPosition().add(new Vector(3,0)));
-                        case "UP" -> projectile.getWindow().setPosition(projectile.getWindow().getPosition().add(new Vector(0,-3)));
-                        case "DOWN" -> projectile.getWindow().setPosition(projectile.getWindow().getPosition().add(new Vector(0,3)));
-                    }
+                    projectile.getWindow().setPosition(projectile.getWindow().getPosition().add(projectile.getVelocity().unit().multiplicate(3)));
                 }
             }
             model.getPlayer().getProjectiles().removeIf(Projectile::isCollidingWithWindow);

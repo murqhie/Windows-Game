@@ -15,7 +15,7 @@ public class DefaultView extends PApplet implements IView{
     public DefaultView(){  }
     @Override
     public void settings() {
-        size(1000,1000);
+        fullScreen();
     }
     @Override
     public void setup() {
