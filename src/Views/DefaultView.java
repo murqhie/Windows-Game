@@ -2,6 +2,7 @@ package Views;
 
 import Controllers.IController;
 import Models.Objects.Player;
+import Models.Objects.Projectile;
 import processing.core.PApplet;
 
 import processing.event.KeyEvent;
@@ -27,16 +28,29 @@ public class DefaultView extends PApplet implements IView{
 
     }
     public void draw(){
-        controller.nextFrame();
+        controller.tick();
 
     }
     public void drawPlaying(){
         background(0);
         Player player = controller.getPlayer();
+        drawPlayer(player);
+        drawProjectiles(player);
+
+
+    }
+    private void drawProjectiles(Player player){
+        for (Projectile projectile : player.getProjectiles()) {
+            circle(projectile.getX(),projectile.getY(),projectile.getRadius()*2);
+        }
+    }
+    private void drawPlayer(Player player){
+
         circle(player.getX(),player.getY(),player.getRadius()*2);
     }
     public void keyPressed(KeyEvent event){controller.handleKeyPressed(event);}
     public void keyReleased(KeyEvent event){controller.handleKeyReleased(event);}
-    public void mousePressed(MouseEvent event){controller.handleMouse(event);}
+    public void mousePressed(MouseEvent event){controller.handleMousePressed(event);}
+    public void mouseReleased(MouseEvent event){controller.handleMouseReleased(event);}
     public void setController(IController controller) {this.controller = controller;}
 }

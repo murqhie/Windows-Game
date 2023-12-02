@@ -2,6 +2,7 @@ package Controllers;
 import Models.DataStructures.Vector;
 import Models.Model;
 import Models.Objects.Player;
+import Models.Objects.Projectile;
 import Views.IView;
 import Models.DataStructures.GameState;
 import processing.event.KeyEvent;
@@ -11,8 +12,9 @@ public class Controller implements IController {
     private Model model;
     private IView view;
 
+
     @Override
-    public void nextFrame() {
+    public void tick() {
 
         if(model.getState() == GameState.START){
             model.startNewGame();
@@ -21,6 +23,11 @@ public class Controller implements IController {
         if(model.getState() == GameState.PLAYING){
             view.drawPlaying();
             model.getPlayer().move();
+            model.getPlayer().shoot();
+
+            for (Projectile projectile : model.getPlayer().getProjectiles()) {
+                projectile.move();
+            }
             model.checkGameOver();
         }
 
@@ -81,8 +88,15 @@ public class Controller implements IController {
         }
     }
     @Override
-    public void handleMouse(MouseEvent event) {
-
+    public void handleMousePressed(MouseEvent event) {
+        if(event.getButton() ==37){
+            model.getPlayer().setMouseInput(true);
+        }
+    }
+    public void handleMouseReleased(MouseEvent event){
+        if(event.getButton() ==37){
+            model.getPlayer().setMouseInput(false);
+        }
     }
     public Player getPlayer(){
         return model.getPlayer();
