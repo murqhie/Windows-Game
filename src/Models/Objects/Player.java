@@ -23,7 +23,7 @@ public class Player {
     public Player(int radius, Window window) {
         this.radius = radius;
         this.window = window;
-        this.position = new Vector((float) this.window.getWidth() /2-radius + this.window.getPosition().getX(), (float) this.window.getHeight() /2-radius+ this.window.getPosition().getY());
+        this.position = new Vector((float) (this.window.getPosition().getX() + this.window.getWidth() /2) , (float) (this.window.getPosition().getY() + this.window.getHeight() /2)  );
     }
     public void move(){
         this.setAcceleration();

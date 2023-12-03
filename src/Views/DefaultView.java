@@ -15,7 +15,8 @@ public class DefaultView extends PApplet implements IView{
     public DefaultView(){  }
     @Override
     public void settings() {
-        fullScreen();
+        size(1000,1000);
+        // fullScreen();
     }
     @Override
     public void setup() {
@@ -34,8 +35,9 @@ public class DefaultView extends PApplet implements IView{
         }
         Player player = controller.getPlayer();
 
-        drawPlayer(player);
+
         drawProjectiles(player);
+        drawPlayer(player);
 
 
     }

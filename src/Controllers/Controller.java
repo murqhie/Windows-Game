@@ -21,8 +21,11 @@ public class Controller implements IController {
         if(model.getState() == GameState.START){
             int winWidth = 500;
             int winHeight = 500;
+
             model.getWindows().get(0).setWidth(winWidth);
             model.getWindows().get(0).setHeight(winHeight);
+            model.getWindows().get(0).setScreenHeight(view.getScreenHeight());
+            model.getWindows().get(0).setScreenWidth(view.getScreenWidth());
             model.getWindows().get(0).setPosition(new Vector((float) (view.getScreenWidth() /2-(winWidth/2)),(float)(view.getScreenHeight() /2-(winHeight/2))));
 
             model.startNewGame();
@@ -33,9 +36,12 @@ public class Controller implements IController {
             model.getPlayer().move();
             model.getPlayer().shoot();
 
+
+
             for (Projectile projectile : model.getPlayer().getProjectiles()) {
                 if(projectile.isCollidingWithWindow()){
-                    projectile.getWindow().setPosition(projectile.getWindow().getPosition().add(projectile.getVelocity().unit().multiplicate(3)));
+
+                    projectile.getWindow().setPosition(projectile.getWindow().getPosition().add(projectile.getVelocity().unit().multiplicate(projectile.getKnockBack())));
                 }
             }
             model.getPlayer().getProjectiles().removeIf(Projectile::isCollidingWithWindow);

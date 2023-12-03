@@ -5,14 +5,14 @@ import Models.DataStructures.Vector;
 public class Projectile {
     Vector position;
     Vector velocity;
-    int radius;
+    int radius = 4;
     Window window;
+    int knockBack = 10;
 
     public Projectile(Vector position, Vector velocity, Window window) {
         this.position = position;
         this.velocity = velocity;
         this.window = window;
-        this.radius = 4;
     }
     public boolean isCollidingWithWindow(){
         if(this.position.getX()-radius <= window.getPosition().getX()){return true;}
@@ -28,6 +28,6 @@ public class Projectile {
     public float getY(){return position.getY();}
     public int getRadius() {return radius;}
     public Window getWindow() {return window;}
-
     public Vector getVelocity() {return velocity;}
+    public int getKnockBack() {return this.knockBack;}
 }
