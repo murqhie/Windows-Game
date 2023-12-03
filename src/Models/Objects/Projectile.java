@@ -7,7 +7,7 @@ public class Projectile {
     Vector velocity;
     int radius = 4;
     Window window;
-    int knockBack = 10;
+    int knockBack = 2;
 
     public Projectile(Vector position, Vector velocity, Window window) {
         this.position = position;

@@ -15,8 +15,8 @@ public class DefaultView extends PApplet implements IView{
     public DefaultView(){  }
     @Override
     public void settings() {
-        size(1000,1000);
-        // fullScreen();
+//        size(1000,1000);
+       fullScreen();
     }
     @Override
     public void setup() {
@@ -35,11 +35,22 @@ public class DefaultView extends PApplet implements IView{
         }
         Player player = controller.getPlayer();
 
-
         drawProjectiles(player);
         drawPlayer(player);
+    }
+    public void drawGameOver(){
+        textAlign(CENTER,CENTER);
+        textSize(100);
+        fill(100,10,10);
+        text("GAME OVER", (float) width /2, (float) height /2);
 
-
+    }
+    public void drawStart(){
+        background(255);
+        textAlign(CENTER,CENTER);
+        textSize(100);
+        fill(150,50,50);
+        text("PRESS SPACE TO START", (float) width /2, (float) height /2);
     }
 
     @Override
@@ -49,6 +60,7 @@ public class DefaultView extends PApplet implements IView{
 
     private void drawProjectiles(Player player){
         for (Projectile projectile : player.getProjectiles()) {
+            fill(255);
             circle(projectile.getX(),projectile.getY(),projectile.getRadius()*2);
         }
     }

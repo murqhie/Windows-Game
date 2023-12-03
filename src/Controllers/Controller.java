@@ -19,6 +19,7 @@ public class Controller implements IController {
     @Override
     public void tick() {
         if(model.getState() == GameState.START){
+            view.drawStart();
             int winWidth = 500;
             int winHeight = 500;
 
@@ -30,18 +31,19 @@ public class Controller implements IController {
 
             model.startNewGame();
         }
+
         if(model.getState() == GameState.PLAYING){
             view.drawPlaying();
+
+            // Player
             getPlayer().setShootDirection(new Vector(view.getMousePosition().getX() - getPlayer().getX(), view.getMousePosition().getY() - getPlayer().getY()));
             model.getPlayer().move();
             model.getPlayer().shoot();
 
-
-
+            // Projectile
             for (Projectile projectile : model.getPlayer().getProjectiles()) {
                 if(projectile.isCollidingWithWindow()){
-
-                    projectile.getWindow().setPosition(projectile.getWindow().getPosition().add(projectile.getVelocity().unit().multiplicate(projectile.getKnockBack())));
+                    projectile.getWindow().setAcceleration(projectile.getVelocity().unit().multiplicate(projectile.getKnockBack()));
                 }
             }
             model.getPlayer().getProjectiles().removeIf(Projectile::isCollidingWithWindow);
@@ -49,9 +51,18 @@ public class Controller implements IController {
             for (Projectile projectile : model.getPlayer().getProjectiles()) {
                 projectile.move();
             }
+
+            // Window
+            for (Window window : model.getWindows()) {
+                window.move();
+
+
+            }
+
             model.checkGameOver();
         }
-        if(model.getState() == GameState.GAME_OVER) {//model.drawGameOver()
+        if(model.getState() == GameState.GAME_OVER) {
+            view.drawGameOver();
         }
     }
     public void handleKeyPressed(KeyEvent event) {

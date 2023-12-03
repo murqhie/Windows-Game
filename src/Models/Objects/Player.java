@@ -9,9 +9,9 @@ public class Player {
     int color = 255;
     int radius;
     Window window;
+    Vector position;
     Vector velocity = new Vector(0,0);
     Vector acceleration = new Vector(0,0);
-    Vector position;
     float jerk = 1;
     float friction  = 0.1f;
     boolean[] keyInputs = new boolean[]{false,false,false,false}; // {w,a,s,d}

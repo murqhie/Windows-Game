@@ -9,7 +9,9 @@ public class Window {
     private int screenHeight;
     private int color = 100;
     private Vector position;
-
+    Vector velocity = new Vector(0,0);
+    Vector acceleration = new Vector(0,0);
+    float friction  = 0.05f;
 
     public int getHeight() {return height;}
     public int getWidth() {return width;}
@@ -18,12 +20,18 @@ public class Window {
     public void setWidth(int width) {this.width = width;}
     public void setScreenWidth(int screenWidth) {this.screenWidth = screenWidth;}
     public void setScreenHeight(int screenHeight) {this.screenHeight = screenHeight;}
-    public void setPosition(Vector position) {
-        this.position = position;
+    public void move() {
+        this.velocity = this.velocity.add(this.acceleration);
+        this.velocity = this.velocity.multiplicate(1-friction);
+        this.position = this.position.add(this.velocity);
+        this.acceleration = new Vector(0,0);
+
         if(this.position.getX() < 0){this.position.setX(0);}
         if(this.position.getX() > screenWidth- width){this.position.setX(screenWidth-width);}
         if(this.position.getY() < 0){this.position.setY(0);}
         if(this.position.getY() > screenHeight-height){this.position.setY(screenHeight-height);}
     }
+    public void setAcceleration(Vector acceleration) {this.acceleration = acceleration;}
+    public void setPosition(Vector position) {this.position = position;}
     public int getColor() {return color;}
 }
