@@ -15,8 +15,9 @@ public class DefaultView extends PApplet implements IView{
     public DefaultView(){  }
     @Override
     public void settings() {
-//        size(1000,1000);
-       fullScreen();
+        size(2000,1000);
+
+//       fullScreen();
     }
     @Override
     public void setup() {
@@ -29,9 +30,9 @@ public class DefaultView extends PApplet implements IView{
     }
     public void drawPlaying(){
         background(0);
-        for (Window window : controller.getWindows()) {
-            fill(window.getColor());
-            rect(window.getPosition().getX(),window.getPosition().getY(),window.getWidth(), window.getHeight());
+        drawWindow(controller.getMainWindow());
+        for (Window window : controller.getEnemyWindows()) {
+            drawWindow(window);
         }
         Player player = controller.getPlayer();
 
@@ -68,7 +69,10 @@ public class DefaultView extends PApplet implements IView{
         fill(player.getColor());
         circle(player.getX(),player.getY(),player.getRadius()*2);
     }
-
+    private void drawWindow(Window window){
+        fill(window.getColor());
+        rect(window.getPosition().getX(),window.getPosition().getY(),window.getWidth(), window.getHeight());
+    }
     public void keyPressed(KeyEvent event){controller.handleKeyPressed(event);}
     public void keyReleased(KeyEvent event){controller.handleKeyReleased(event);}
     public void mousePressed(MouseEvent event){controller.handleMousePressed(event);}

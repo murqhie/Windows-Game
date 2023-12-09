@@ -13,6 +13,14 @@ public class Window {
     Vector acceleration = new Vector(0,0);
     float friction  = 0.05f;
 
+    public Window(int height, int width, int screenWidth, int screenHeight) {
+        this.height = height;
+        this.width = width;
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+        this.position = new Vector((float) (screenWidth /2-(width/2)),(float)(screenHeight /2-(height/2)));
+    }
+
     public int getHeight() {return height;}
     public int getWidth() {return width;}
     public Vector getPosition() {return position;}

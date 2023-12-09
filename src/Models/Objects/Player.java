@@ -51,8 +51,8 @@ public class Player {
             if(keyInputs[1]){this.acceleration.setX(-this.jerk);}
             if(keyInputs[2]){this.acceleration.setY(this.jerk);}
             if(keyInputs[3]){this.acceleration.setX(this.jerk);}
-            if(!keyInputs[1] & !keyInputs[3]){this.acceleration.setX(0);}
-            if(!keyInputs[0] & !keyInputs[2]){this.acceleration.setY(0);}
+            if((keyInputs[1] & keyInputs[3]) | (!keyInputs[1] & !keyInputs[3])){this.acceleration.setX(0);}
+            if((keyInputs[0] & keyInputs[2]) | (!keyInputs[0] & !keyInputs[2])){this.acceleration.setY(0);}
         }
     public void setKeyInputs(int index, boolean value) {
         this.keyInputs[index] = value;

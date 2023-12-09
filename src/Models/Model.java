@@ -1,7 +1,6 @@
 package Models;
 
 import Models.DataStructures.GameState;
-import Models.DataStructures.Vector;
 import Models.Objects.Player;
 import Models.Objects.Window;
 
@@ -10,15 +9,18 @@ import java.util.ArrayList;
 public class Model {
     Player player;
     GameState state;
-    ArrayList<Window> windows = new ArrayList<>();
-    public Model(){this.windows.add(new Window());}
-    public void startNewGame(){
-        player = new Player(30,this.windows.get(0));}
+    Window mainWindow;
+    ArrayList<Window> enemyWindows = new ArrayList<>();
+    public void startNewGame(int screenWidth, int screenHeight){
+        mainWindow  = new Window(800, 1200,screenWidth,screenHeight);
+        player = new Player(30,mainWindow);}
+
     public void checkGameOver(){
         if(player.isCollidingWithWindow()){state = GameState.GAME_OVER;}
     }
     public Player getPlayer() {return player;}
     public GameState getState() {return state;}
     public void setState(GameState state) {this.state = state;}
-    public ArrayList<Window> getWindows(){return windows;}
+    public ArrayList<Window> getEnemyWindows(){return enemyWindows;}
+    public Window getMainWindow() {return mainWindow;}
 }

@@ -10,6 +10,7 @@ import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Controller implements IController {
     private Model model;
@@ -20,16 +21,7 @@ public class Controller implements IController {
     public void tick() {
         if(model.getState() == GameState.START){
             view.drawStart();
-            int winWidth = 500;
-            int winHeight = 500;
-
-            model.getWindows().get(0).setWidth(winWidth);
-            model.getWindows().get(0).setHeight(winHeight);
-            model.getWindows().get(0).setScreenHeight(view.getScreenHeight());
-            model.getWindows().get(0).setScreenWidth(view.getScreenWidth());
-            model.getWindows().get(0).setPosition(new Vector((float) (view.getScreenWidth() /2-(winWidth/2)),(float)(view.getScreenHeight() /2-(winHeight/2))));
-
-            model.startNewGame();
+            model.startNewGame(view.getScreenWidth(),view.getScreenHeight());
         }
 
         if(model.getState() == GameState.PLAYING){
@@ -53,7 +45,8 @@ public class Controller implements IController {
             }
 
             // Window
-            for (Window window : model.getWindows()) {
+            model.getMainWindow().move();
+            for (Window window : model.getEnemyWindows()) {
                 window.move();
 
 
@@ -71,7 +64,7 @@ public class Controller implements IController {
             case START -> {
                 if (event.getKeyCode() == ' ') {
                     model.setState(GameState.PLAYING);
-                    model.startNewGame();
+                    model.startNewGame(view.getScreenWidth(),view.getScreenHeight());
                 }
             }
             case PLAYING -> {
@@ -99,24 +92,19 @@ public class Controller implements IController {
     }
     public void handleKeyReleased(KeyEvent event) {
         Player player = model.getPlayer();
-        switch (model.getState()) {
-            case PLAYING -> {
-
-                if (Character.toLowerCase(event.getKey()) == 'w') {
-                    player.setKeyInputs(0,false);
-                }
-                if (Character.toLowerCase(event.getKey()) == 'a') {
-                    player.setKeyInputs(1,false);
-                }
-                if (Character.toLowerCase(event.getKey()) == 's') {
-                    player.setKeyInputs(2,false);
-                }
-                if (Character.toLowerCase(event.getKey()) == 'd') {
-                    player.setKeyInputs(3,false);
-                }
+        if (model.getState() == GameState.PLAYING) {
+            if (Character.toLowerCase(event.getKey()) == 'w') {
+                player.setKeyInputs(0, false);
             }
-
-
+            if (Character.toLowerCase(event.getKey()) == 'a') {
+                player.setKeyInputs(1, false);
+            }
+            if (Character.toLowerCase(event.getKey()) == 's') {
+                player.setKeyInputs(2, false);
+            }
+            if (Character.toLowerCase(event.getKey()) == 'd') {
+                player.setKeyInputs(3, false);
+            }
         }
     }
     @Override
@@ -133,7 +121,8 @@ public class Controller implements IController {
     public Player getPlayer(){
         return model.getPlayer();
     }
-    public ArrayList<Window> getWindows(){return model.getWindows();}
+    public ArrayList<Window> getEnemyWindows(){return model.getEnemyWindows();}
+    public Window getMainWindow(){return model.getMainWindow();}
     public void setModel(Model model) {this.model = model;}
     public void setView(IView view) {this.view = view;}
     public void setGameState(String state){
@@ -147,10 +136,6 @@ public class Controller implements IController {
             model.setState(GameState.GAME_OVER);
         }
     }
-    public void setWindow(int winWidth, int winHeight) {
-        model.getWindows().get(0).setWidth(winWidth);
-        model.getWindows().get(0).setHeight(winHeight);
-        model.getWindows().get(0).setPosition(new Vector((float) (view.getScreenWidth() /2-(winWidth/2)),(float)(view.getScreenHeight() /2-(winHeight/2))));
-    }
+
 
 }
