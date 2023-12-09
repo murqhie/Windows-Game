@@ -16,9 +16,9 @@ public class DefaultView extends PApplet implements IView{
     public DefaultView(){  }
     @Override
     public void settings() {
-        size(2000,1000);
+//        size(2000,1000);
 
-//       fullScreen();
+      fullScreen();
     }
     @Override
     public void setup() {
@@ -72,7 +72,12 @@ public class DefaultView extends PApplet implements IView{
         }
     }
     private void drawCharacter(ICharacter player){
-        fill(player.getColor());
+        if ((player.getX() < controller.getMainWindow().getPosition().getX() + controller.getMainWindow().getWidth() & player.getX() > controller.getMainWindow().getPosition().getX()) &
+                (player.getY() < controller.getMainWindow().getPosition().getY() + controller.getMainWindow().getHeight() & player.getY() > controller.getMainWindow().getPosition().getY())) {
+            fill(player.getColor());
+        }
+        else{
+        fill(80);}
         circle(player.getX(),player.getY(),player.getRadius()*2);
     }
     private void drawWindow(Window window){

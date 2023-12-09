@@ -15,8 +15,8 @@ public class Kamikaze implements ICharacter{
     private int explosionRadius = radius * 12;
     private int explosionSpeed = 3;
     private boolean dead = false;
-    public Kamikaze(int radius, Player player) {
-        this.position = new Vector(new Random().nextInt(1000),new Random().nextInt(1000));
+    public Kamikaze(int radius, Player player, Vector position) {
+        this.position = position;
         this.radius = radius;
         this.player = player;
     }
@@ -37,6 +37,7 @@ public class Kamikaze implements ICharacter{
         }
         attackTimer.tick();
     }
+
     public void getsHit() {
 
     }

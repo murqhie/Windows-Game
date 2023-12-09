@@ -40,7 +40,6 @@ public class Controller implements IController {
                 }
             }
             model.getPlayer().getProjectiles().removeIf(Projectile::isCollidingWithWindow);
-
             for (Projectile projectile : model.getPlayer().getProjectiles()) {
                 projectile.move();
             }
@@ -57,6 +56,7 @@ public class Controller implements IController {
                 enemy.move();
                 enemy.attack();
             }
+            model.addEnemy();
 
 
             model.checkGameOver();
