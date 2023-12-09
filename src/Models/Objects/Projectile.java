@@ -3,11 +3,12 @@ package Models.Objects;
 import Models.DataStructures.Vector;
 
 public class Projectile {
-    Vector position;
-    Vector velocity;
-    int radius = 4;
-    Window window;
-    int knockBack = 2;
+    private Vector position;
+    private Vector velocity;
+    private int radius = 4;
+    private Window window;
+    private int knockBack = 2;
+
 
     public Projectile(Vector position, Vector velocity, Window window) {
         this.position = position;

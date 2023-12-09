@@ -1,4 +1,5 @@
 package Controllers;
+import Models.Objects.ICharacter;
 import Models.Objects.Player;
 import Models.Objects.Window;
 import processing.event.KeyEvent;
@@ -16,4 +17,5 @@ public interface IController {
     void handleMouseReleased(MouseEvent event);
     ArrayList<Window> getEnemyWindows();
     Window getMainWindow();
+    ArrayList<ICharacter> getEnemies();
 }

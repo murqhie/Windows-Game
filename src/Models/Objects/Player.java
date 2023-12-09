@@ -1,25 +1,27 @@
 package Models.Objects;
 
+import Models.DataStructures.Timer;
 import Models.DataStructures.Vector;
 
 import java.util.ArrayList;
 
 
-public class Player {
-    int color = 255;
-    int radius;
-    Window window;
-    Vector position;
-    Vector velocity = new Vector(0,0);
-    Vector acceleration = new Vector(0,0);
-    float jerk = 1;
-    float friction  = 0.1f;
-    boolean[] keyInputs = new boolean[]{false,false,false,false}; // {w,a,s,d}
-    boolean mouseInput = false;
-    ArrayList<Projectile> projectiles = new ArrayList<>();
-    Vector shootTimer = new Vector(10, 0); // (Delay, Timer)
-    int shootingSpeed = 15;
-    Vector shootDirection;
+public class Player implements ICharacter {
+    private int color = 255;
+    private int radius;
+    private Window window;
+    private Vector position;
+    private Vector velocity = new Vector(0,0);
+    private Vector acceleration = new Vector(0,0);
+    private float jerk = 1;
+    private float friction  = 0.1f;
+    private boolean[] keyInputs = new boolean[]{false,false,false,false}; // {w,a,s,d}
+    private boolean mouseInput = false;
+    private ArrayList<Projectile> projectiles = new ArrayList<>();
+    private Timer shootTimer = new Timer(10, 0); // (Delay, Timer)
+    private int shootingSpeed = 15;
+    private Vector shootDirection;
+    private boolean dead = false;
     public Player(int radius, Window window) {
         this.radius = radius;
         this.window = window;
@@ -31,12 +33,19 @@ public class Player {
         this.velocity = this.velocity.multiplicate(1-friction);
         this.position = this.position.add(this.velocity);
     }
-    public void shoot(){
-        if(shootTimer.getY() <= 0 & mouseInput){
+    public void attack(){
+        if(shootTimer.isUp() & mouseInput){
         projectiles.add(new Projectile(this.position,shootDirection.unit().multiplicate(shootingSpeed),this.window));
-        shootTimer.setY(shootTimer.getX());
+        shootTimer.reset();
         }
-        shootTimer.setY(shootTimer.getY()-1);
+        shootTimer.tick();
+    }
+
+    @Override
+    public void getsHit() {
+        if (isCollidingWithWindow()){this.dead = true;}
+
+
     }
 
     public boolean isCollidingWithWindow(){
@@ -57,14 +66,13 @@ public class Player {
     public void setKeyInputs(int index, boolean value) {
         this.keyInputs[index] = value;
     }
-
     public int getColor() {return color;}
-
     public float getX(){return position.getX();}
     public float getY(){return position.getY();}
+    public Vector getPosition() {return position;}
     public int getRadius() {return radius;}
+    public boolean isDead() {return dead;}
     public ArrayList<Projectile> getProjectiles() {return projectiles;}
     public void setMouseInput(boolean mouseInput) {this.mouseInput = mouseInput;}
-
     public void setShootDirection(Vector shootDirection) {this.shootDirection = shootDirection;}
 }

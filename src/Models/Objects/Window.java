@@ -9,9 +9,9 @@ public class Window {
     private int screenHeight;
     private int color = 100;
     private Vector position;
-    Vector velocity = new Vector(0,0);
-    Vector acceleration = new Vector(0,0);
-    float friction  = 0.05f;
+    private Vector velocity = new Vector(0,0);
+    private Vector acceleration = new Vector(0,0);
+    private float friction  = 0.05f;
 
     public Window(int height, int width, int screenWidth, int screenHeight) {
         this.height = height;

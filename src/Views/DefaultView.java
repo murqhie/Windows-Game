@@ -2,6 +2,7 @@ package Views;
 
 import Controllers.IController;
 import Models.DataStructures.Vector;
+import Models.Objects.ICharacter;
 import Models.Objects.Player;
 import Models.Objects.Projectile;
 import Models.Objects.Window;
@@ -34,10 +35,15 @@ public class DefaultView extends PApplet implements IView{
         for (Window window : controller.getEnemyWindows()) {
             drawWindow(window);
         }
+
         Player player = controller.getPlayer();
 
         drawProjectiles(player);
-        drawPlayer(player);
+        drawCharacter(player);
+        for (ICharacter enemy : controller.getEnemies()) {
+            drawCharacter(enemy);
+        }
+
     }
     public void drawGameOver(){
         textAlign(CENTER,CENTER);
@@ -65,7 +71,7 @@ public class DefaultView extends PApplet implements IView{
             circle(projectile.getX(),projectile.getY(),projectile.getRadius()*2);
         }
     }
-    private void drawPlayer(Player player){
+    private void drawCharacter(ICharacter player){
         fill(player.getColor());
         circle(player.getX(),player.getY(),player.getRadius()*2);
     }
@@ -73,6 +79,7 @@ public class DefaultView extends PApplet implements IView{
         fill(window.getColor());
         rect(window.getPosition().getX(),window.getPosition().getY(),window.getWidth(), window.getHeight());
     }
+
     public void keyPressed(KeyEvent event){controller.handleKeyPressed(event);}
     public void keyReleased(KeyEvent event){controller.handleKeyReleased(event);}
     public void mousePressed(MouseEvent event){controller.handleMousePressed(event);}

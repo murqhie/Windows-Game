@@ -1,6 +1,7 @@
 package Controllers;
 import Models.DataStructures.Vector;
 import Models.Model;
+import Models.Objects.ICharacter;
 import Models.Objects.Player;
 import Models.Objects.Projectile;
 import Models.Objects.Window;
@@ -10,7 +11,6 @@ import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Controller implements IController {
     private Model model;
@@ -30,7 +30,8 @@ public class Controller implements IController {
             // Player
             getPlayer().setShootDirection(new Vector(view.getMousePosition().getX() - getPlayer().getX(), view.getMousePosition().getY() - getPlayer().getY()));
             model.getPlayer().move();
-            model.getPlayer().shoot();
+            model.getPlayer().attack();
+            model.getPlayer().getsHit();
 
             // Projectile
             for (Projectile projectile : model.getPlayer().getProjectiles()) {
@@ -48,9 +49,15 @@ public class Controller implements IController {
             model.getMainWindow().move();
             for (Window window : model.getEnemyWindows()) {
                 window.move();
-
-
             }
+
+            //Enemies
+            model.getEnemies().removeIf(ICharacter::isDead);
+            for (ICharacter enemy : model.getEnemies()) {
+                enemy.move();
+                enemy.attack();
+            }
+
 
             model.checkGameOver();
         }
@@ -121,6 +128,7 @@ public class Controller implements IController {
     public Player getPlayer(){
         return model.getPlayer();
     }
+    public ArrayList<ICharacter> getEnemies() {return model.getEnemies();}
     public ArrayList<Window> getEnemyWindows(){return model.getEnemyWindows();}
     public Window getMainWindow(){return model.getMainWindow();}
     public void setModel(Model model) {this.model = model;}
