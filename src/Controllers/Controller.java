@@ -1,10 +1,7 @@
 package Controllers;
 import Models.DataStructures.Vector;
 import Models.Model;
-import Models.Objects.ICharacter;
-import Models.Objects.Player;
-import Models.Objects.Projectile;
-import Models.Objects.Window;
+import Models.Objects.*;
 import Views.IView;
 import Models.DataStructures.GameState;
 import processing.event.KeyEvent;
@@ -64,8 +61,7 @@ public class Controller implements IController {
             }
 
             model.addEnemy();
-
-
+            model.detectCollision();
             model.checkGameOver();
         }
         if(model.getState() == GameState.GAME_OVER) {
@@ -135,7 +131,7 @@ public class Controller implements IController {
     public Player getPlayer(){
         return model.getPlayer();
     }
-    public ArrayList<ICharacter> getEnemies() {return model.getEnemies();}
+    public ArrayList<Enemy> getEnemies() {return model.getEnemies();}
     public ArrayList<Window> getEnemyWindows(){return model.getEnemyWindows();}
     public Window getMainWindow(){return model.getMainWindow();}
     public void setModel(Model model) {this.model = model;}

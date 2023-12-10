@@ -30,10 +30,11 @@ public abstract class Enemy implements ICharacter{
         this.position = this.position.add(this.velocity);
     }
     public void getsHit() {
-
+        this.dead = true;
 
     }
     public int getColor() {return this.Color;}
+    public Vector getPosition() {return position;}
     public float getX() {return this.position.getX();}
     public float getY() {return this.position.getY();}
     public int getRadius() {return this.radius;}
@@ -44,6 +45,7 @@ public abstract class Enemy implements ICharacter{
                 &
                 (position.getY() < window.getPosition().getY() + window.getHeight()
                         & position.getY() > window.getPosition().getY());
-        }
+    }
+
 
 }

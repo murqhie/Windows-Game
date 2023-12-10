@@ -28,12 +28,8 @@ public class Vector {
         if(this.norm() == 0){return new Vector(0,0);}
         return this.multiplicate(1/this.norm());
      }
-
-
-
     public float getX() {return x;}
     public void setX(float x) {this.x = x;}
     public float getY() {return y;}
     public void setY(float y) {this.y = y;}
-
 }

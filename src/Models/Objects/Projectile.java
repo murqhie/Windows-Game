@@ -2,6 +2,8 @@ package Models.Objects;
 
 import Models.DataStructures.Vector;
 
+import java.util.ArrayList;
+
 public class Projectile {
     private Vector position;
     private Vector velocity;
@@ -23,6 +25,16 @@ public class Projectile {
         if(this.position.getY()+radius >= window.getPosition().getY() + window.getHeight()){return true;}
         return false;
     }
+
+    public void isCollidingWithEnemy(ArrayList<Enemy> enemies){
+        for (Enemy enemy : enemies) {
+            float distance = enemy.getPosition().add(this.position.multiplicate(-1)).norm();
+            if (distance < (enemy.getRadius() + this.radius)){
+                enemy.getsHit();}
+        }
+    }
+
+
     public void move() {
         this.position = this.position.add(this.velocity);
     }
@@ -32,6 +44,5 @@ public class Projectile {
     public Window getWindow() {return window;}
     public Vector getVelocity() {return velocity;}
     public int getKnockBack() {return this.knockBack;}
-
     public boolean isPlayerProjectile() {return playerProjectile;}
 }

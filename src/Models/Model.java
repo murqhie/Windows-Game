@@ -15,7 +15,7 @@ public class Model {
     private int screenWidth;
     private int screenHeight;
     private ArrayList<Window> enemyWindows = new ArrayList<>();
-    private ArrayList<ICharacter> enemies;
+    private ArrayList<Enemy> enemies;
     private Timer addEnemyTimer = new Timer(0 , 0);
 
     public void startNewGame(int screenWidth, int screenHeight){
@@ -34,6 +34,7 @@ public class Model {
         }
         addEnemyTimer.tick();
     }
+
     private Vector calcSpawnPosition(){
         int x = new Random().nextInt(-50,screenWidth+50);
         int y = new Random().nextInt(-50,screenHeight+50);
@@ -43,8 +44,12 @@ public class Model {
             return calcSpawnPosition();
         }
         return new Vector(x,y);
+    }
+    public void detectCollision(){
+        for (Projectile projectile : player.getProjectiles()) {
+            projectile.isCollidingWithEnemy(enemies);
         }
-
+    }
 
     public void checkGameOver(){
         if(player.isDead()){state = GameState.GAME_OVER;}
@@ -54,5 +59,5 @@ public class Model {
     public void setState(GameState state) {this.state = state;}
     public ArrayList<Window> getEnemyWindows(){return enemyWindows;}
     public Window getMainWindow() {return mainWindow;}
-    public ArrayList<ICharacter> getEnemies() {return enemies;}
+    public ArrayList<Enemy> getEnemies() {return enemies;}
 }
