@@ -31,12 +31,9 @@ public class Controller implements IController {
             model.getPlayer().getsHit();
 
             // Projectile
-            for (Projectile projectile : model.getPlayer().getProjectiles()) {
-                if(projectile.isCollidingWithWindow()){
-                    projectile.getWindow().setAcceleration(projectile.getVelocity().unit().multiplicate(projectile.getKnockBack()));
-                }
-            }
-            model.getPlayer().getProjectiles().removeIf(Projectile::isCollidingWithWindow);
+
+            model.getPlayer().getProjectiles().removeIf(Projectile::isCollided);
+
             for (Projectile projectile : model.getPlayer().getProjectiles()) {
                 projectile.move();
             }
@@ -54,8 +51,9 @@ public class Controller implements IController {
                 enemy.attack();
 
                 if(enemy.getProjectiles() != null){
-                enemy.getProjectiles().removeIf(Projectile::isCollidingWithWindow);
+                enemy.getProjectiles().removeIf(Projectile::isCollided);
                 for (Projectile projectile : enemy.getProjectiles()) {
+                    projectile.isCollidingWithWindow();
                     projectile.move();
                 }}
             }

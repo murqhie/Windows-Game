@@ -8,11 +8,11 @@ import java.util.Random;
 
 public class Kamikaze extends Enemy{
     private Timer attackTimer = new Timer(100,100);
-    private int explosionRadius = radius * 12;
+    private int explosionRadius = radius * 6;
     private int explosionSpeed = 3;
 
     public Kamikaze( Vector position, Player player, Window window) {
-        super(position,5,8,player, window);
+        super(position,10,8,player, window);
     }
     public void attack() {
         if (attackTimer.isUp()){

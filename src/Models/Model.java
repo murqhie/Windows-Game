@@ -29,7 +29,7 @@ public class Model {
         if(addEnemyTimer.isUp()){
         enemies.add(new Kamikaze(calcSpawnPosition(), player, mainWindow));
         enemies.add(new Stalker(calcSpawnPosition(), player, mainWindow));
-        addEnemyTimer.setRate(new Random().nextInt(200,500) );
+        addEnemyTimer.setRate(new Random().nextInt(50,100) );
         addEnemyTimer.reset();
         }
         addEnemyTimer.tick();
@@ -48,6 +48,7 @@ public class Model {
     public void detectCollision(){
         for (Projectile projectile : player.getProjectiles()) {
             projectile.isCollidingWithEnemy(enemies);
+            projectile.isCollidingWithWindow();
         }
     }
 

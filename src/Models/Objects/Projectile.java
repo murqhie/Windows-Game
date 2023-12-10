@@ -11,6 +11,7 @@ public class Projectile {
     private Window window;
     private int knockBack = 2;
     private boolean playerProjectile;
+    private boolean collided = false;
 
     public Projectile(Vector position, Vector velocity, Window window, Boolean playerProjectile) {
         this.position = position;
@@ -18,19 +19,26 @@ public class Projectile {
         this.window = window;
         this.playerProjectile = playerProjectile;
     }
-    public boolean isCollidingWithWindow(){
-        if(this.position.getX()-radius <= window.getPosition().getX()){return true;}
-        if(this.position.getY()-radius <= window.getPosition().getY()){return true;}
-        if(this.position.getX()+radius >= window.getPosition().getX() + window.getWidth()){return true;}
-        if(this.position.getY()+radius >= window.getPosition().getY() + window.getHeight()){return true;}
-        return false;
+    public void isCollidingWithWindow(){
+        if(     this.position.getX()-radius <= window.getPosition().getX() |
+                this.position.getY()-radius <= window.getPosition().getY() |
+                this.position.getX()+radius >= window.getPosition().getX() + window.getWidth() |
+                this.position.getY()+radius >= window.getPosition().getY() + window.getHeight()
+        ){
+            if(playerProjectile){
+                window.setAcceleration(velocity.unit().multiplicate(knockBack));}
+            this.collided = true;
+        }
+
     }
 
     public void isCollidingWithEnemy(ArrayList<Enemy> enemies){
         for (Enemy enemy : enemies) {
             float distance = enemy.getPosition().add(this.position.multiplicate(-1)).norm();
             if (distance < (enemy.getRadius() + this.radius)){
-                enemy.getsHit();}
+                enemy.getsHit();
+                this.collided = true;
+            }
         }
     }
 
@@ -45,4 +53,6 @@ public class Projectile {
     public Vector getVelocity() {return velocity;}
     public int getKnockBack() {return this.knockBack;}
     public boolean isPlayerProjectile() {return playerProjectile;}
+
+    public boolean isCollided() {return collided;}
 }
