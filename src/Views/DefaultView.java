@@ -7,7 +7,6 @@ import Models.Objects.Player;
 import Models.Objects.Projectile;
 import Models.Objects.Window;
 import processing.core.PApplet;
-
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
@@ -16,9 +15,9 @@ public class DefaultView extends PApplet implements IView{
     public DefaultView(){  }
     @Override
     public void settings() {
-//        size(2000,1000);
+        size(2000,1000);
 
-      fullScreen();
+      //fullScreen();
     }
     @Override
     public void setup() {
@@ -38,10 +37,10 @@ public class DefaultView extends PApplet implements IView{
 
         Player player = controller.getPlayer();
 
-        drawProjectiles(player);
         drawCharacter(player);
         for (ICharacter enemy : controller.getEnemies()) {
             drawCharacter(enemy);
+
         }
 
     }
@@ -65,20 +64,22 @@ public class DefaultView extends PApplet implements IView{
         return new Vector(mouseX, mouseY);
     }
 
-    private void drawProjectiles(Player player){
-        for (Projectile projectile : player.getProjectiles()) {
+    private void drawProjectiles(ICharacter character){
+        for (Projectile projectile : character.getProjectiles()) {
             fill(255);
             circle(projectile.getX(),projectile.getY(),projectile.getRadius()*2);
         }
     }
-    private void drawCharacter(ICharacter player){
-        if ((player.getX() < controller.getMainWindow().getPosition().getX() + controller.getMainWindow().getWidth() & player.getX() > controller.getMainWindow().getPosition().getX()) &
-                (player.getY() < controller.getMainWindow().getPosition().getY() + controller.getMainWindow().getHeight() & player.getY() > controller.getMainWindow().getPosition().getY())) {
-            fill(player.getColor());
+    private void drawCharacter(ICharacter character){
+        if ((character.getX() < controller.getMainWindow().getPosition().getX() + controller.getMainWindow().getWidth() & character.getX() > controller.getMainWindow().getPosition().getX()) &
+                (character.getY() < controller.getMainWindow().getPosition().getY() + controller.getMainWindow().getHeight() & character.getY() > controller.getMainWindow().getPosition().getY())) {
+            fill(character.getColor());
         }
         else{
         fill(80);}
-        circle(player.getX(),player.getY(),player.getRadius()*2);
+        circle(character.getX(),character.getY(),character.getRadius()*2);
+        if(character.getProjectiles() != null){
+            drawProjectiles(character);}
     }
     private void drawWindow(Window window){
         fill(window.getColor());

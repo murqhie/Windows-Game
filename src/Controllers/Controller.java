@@ -55,7 +55,14 @@ public class Controller implements IController {
             for (ICharacter enemy : model.getEnemies()) {
                 enemy.move();
                 enemy.attack();
+
+                if(enemy.getProjectiles() != null){
+                enemy.getProjectiles().removeIf(Projectile::isCollidingWithWindow);
+                for (Projectile projectile : enemy.getProjectiles()) {
+                    projectile.move();
+                }}
             }
+
             model.addEnemy();
 
 

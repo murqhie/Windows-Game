@@ -1,5 +1,7 @@
 package Models.Objects;
 
+import java.util.Collection;
+
 public interface ICharacter {
     void move();
     void attack();
@@ -9,5 +11,5 @@ public interface ICharacter {
     float getY();
     int getRadius();
     boolean isDead();
-
+    Collection<Projectile> getProjectiles();
 }

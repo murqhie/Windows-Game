@@ -3,14 +3,9 @@ package Models;
 import Models.DataStructures.GameState;
 import Models.DataStructures.Timer;
 import Models.DataStructures.Vector;
-import Models.Objects.ICharacter;
-import Models.Objects.Player;
-import Models.Objects.Kamikaze;
-import Models.Objects.Window;
+import Models.Objects.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 public class Model {
@@ -33,7 +28,8 @@ public class Model {
     public void addEnemy(){
         if(addEnemyTimer.isUp()){
         enemies.add(new Kamikaze(10, player, calcSpawnPosition()));
-        addEnemyTimer.setRate(new Random().nextInt(50,200) );
+        enemies.add(new Stalker(30, player, calcSpawnPosition(), mainWindow));
+        addEnemyTimer.setRate(new Random().nextInt(200,500) );
         addEnemyTimer.reset();
         }
         addEnemyTimer.tick();

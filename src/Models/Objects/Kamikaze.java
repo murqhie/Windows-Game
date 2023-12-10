@@ -2,6 +2,8 @@ package Models.Objects;
 
 import Models.DataStructures.Vector;
 import Models.DataStructures.Timer;
+
+import java.util.Collection;
 import java.util.Random;
 
 public class Kamikaze implements ICharacter{
@@ -46,5 +48,6 @@ public class Kamikaze implements ICharacter{
     public float getY() {return this.position.getY();}
     public int getRadius() {return this.radius;}
     public boolean isDead() {return dead;}
+    public Collection<Projectile> getProjectiles() {return null;}
 
 }
