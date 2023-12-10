@@ -8,12 +8,13 @@ public class Projectile {
     private int radius = 4;
     private Window window;
     private int knockBack = 2;
+    private boolean playerProjectile;
 
-
-    public Projectile(Vector position, Vector velocity, Window window) {
+    public Projectile(Vector position, Vector velocity, Window window, Boolean playerProjectile) {
         this.position = position;
         this.velocity = velocity;
         this.window = window;
+        this.playerProjectile = playerProjectile;
     }
     public boolean isCollidingWithWindow(){
         if(this.position.getX()-radius <= window.getPosition().getX()){return true;}
@@ -31,4 +32,6 @@ public class Projectile {
     public Window getWindow() {return window;}
     public Vector getVelocity() {return velocity;}
     public int getKnockBack() {return this.knockBack;}
+
+    public boolean isPlayerProjectile() {return playerProjectile;}
 }

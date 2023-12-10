@@ -65,14 +65,16 @@ public class DefaultView extends PApplet implements IView{
     }
 
     private void drawProjectiles(ICharacter character){
+
+
         for (Projectile projectile : character.getProjectiles()) {
-            fill(255);
+            fill(100,0,0);
+            if(projectile.isPlayerProjectile()){fill(255);}
             circle(projectile.getX(),projectile.getY(),projectile.getRadius()*2);
         }
     }
     private void drawCharacter(ICharacter character){
-        if ((character.getX() < controller.getMainWindow().getPosition().getX() + controller.getMainWindow().getWidth() & character.getX() > controller.getMainWindow().getPosition().getX()) &
-                (character.getY() < controller.getMainWindow().getPosition().getY() + controller.getMainWindow().getHeight() & character.getY() > controller.getMainWindow().getPosition().getY())) {
+        if (character.isInWindow()) {
             fill(character.getColor());
         }
         else{

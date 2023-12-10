@@ -27,8 +27,8 @@ public class Model {
     }
     public void addEnemy(){
         if(addEnemyTimer.isUp()){
-        enemies.add(new Kamikaze(10, player, calcSpawnPosition()));
-        enemies.add(new Stalker(30, player, calcSpawnPosition(), mainWindow));
+        enemies.add(new Kamikaze(calcSpawnPosition(), player, mainWindow));
+        enemies.add(new Stalker(calcSpawnPosition(), player, mainWindow));
         addEnemyTimer.setRate(new Random().nextInt(200,500) );
         addEnemyTimer.reset();
         }

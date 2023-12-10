@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Player implements ICharacter {
     private int color = 255;
     private int radius;
+    private int life = 500;
     private Window window;
     private Vector position;
     private Vector velocity = new Vector(0,0);
@@ -35,13 +36,11 @@ public class Player implements ICharacter {
     }
     public void attack(){
         if(shootTimer.isUp() & mouseInput){
-        projectiles.add(new Projectile(this.position,shootDirection.unit().multiplicate(shootingSpeed),this.window));
+        projectiles.add(new Projectile(this.position,shootDirection.unit().multiplicate(shootingSpeed),this.window, true));
         shootTimer.reset();
         }
         shootTimer.tick();
     }
-
-    @Override
     public void getsHit() {
         if (isCollidingWithWindow()){this.dead = true;}
 
@@ -75,4 +74,5 @@ public class Player implements ICharacter {
     public ArrayList<Projectile> getProjectiles() {return projectiles;}
     public void setMouseInput(boolean mouseInput) {this.mouseInput = mouseInput;}
     public void setShootDirection(Vector shootDirection) {this.shootDirection = shootDirection;}
+    public boolean isInWindow() {return true;}
 }
