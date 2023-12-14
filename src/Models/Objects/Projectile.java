@@ -19,17 +19,24 @@ public class Projectile {
         this.window = window;
         this.playerProjectile = playerProjectile;
     }
-    public void isCollidingWithWindow(){
-        if(     this.position.getX()-radius <= window.getPosition().getX() |
-                this.position.getY()-radius <= window.getPosition().getY() |
-                this.position.getX()+radius >= window.getPosition().getX() + window.getWidth() |
-                this.position.getY()+radius >= window.getPosition().getY() + window.getHeight()
-        ){
-            if(playerProjectile){
-                window.setAcceleration(velocity.unit().multiplicate(knockBack));}
-            this.collided = true;
-        }
+    public void collidesWithWindow( Window mainWindow, ArrayList<Window> enemyWindows){
+        boolean hitsMainWindow =
+                this.position.getX() - radius <= mainWindow.getPosition().getX() |
+                this.position.getY() - radius <= mainWindow.getPosition().getY() |
+                this.position.getX() + radius >= mainWindow.getPosition().getX() + mainWindow.getWidth() |
+                this.position.getY() + radius >= mainWindow.getPosition().getY() + mainWindow.getHeight();
 
+        for (Window enemyWindow : enemyWindows) {
+
+        boolean hitsEnemyWindow =
+                this.position.getX() - radius <= enemyWindow.getPosition().getX() |
+                this.position.getY() - radius <= enemyWindow.getPosition().getY() |
+                this.position.getX() + radius >= enemyWindow.getPosition().getX() + enemyWindow.getWidth() |
+                this.position.getY() + radius >= enemyWindow.getPosition().getY() + enemyWindow.getHeight();
+
+            if (hitsMainWindow & hitsEnemyWindow) {this.collided = true;}
+            if (hitsMainWindow &playerProjectile) {this.window.setAcceleration(velocity.unit().multiplicate(knockBack));}
+        }
     }
 
     public void collidesWithEnemy(ArrayList<Enemy> enemies){

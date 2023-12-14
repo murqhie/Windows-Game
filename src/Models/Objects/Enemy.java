@@ -12,10 +12,10 @@ public abstract class Enemy implements ICharacter{
     protected boolean dead = false;
     protected Vector distance;
 
-    public Enemy(Vector position, int radius,int movingspeed, Player player, Window window) {
+    public Enemy(Vector position, int radius,int movingSpeed, Player player, Window window) {
         this.position = position;
         this.radius = radius;
-        this.movingSpeed = movingspeed;
+        this.movingSpeed = movingSpeed;
         this.player = player;
         this.window = window;
     }
@@ -29,7 +29,6 @@ public abstract class Enemy implements ICharacter{
     }
     public void getsHit() {
         this.dead = true;
-
     }
     public void collidesWithPlayer(Player player){
         float distance = player.getPosition().add(this.position.multiplicate(-1)).norm();

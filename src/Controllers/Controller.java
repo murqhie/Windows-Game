@@ -41,7 +41,7 @@ public class Controller implements IController {
 
             // Window
             model.getMainWindow().move();
-            for (Window window : model.getEnemyWindows()) {
+            for (Window window : model.getWindows()) {
                 window.move();
             }
 
@@ -54,7 +54,7 @@ public class Controller implements IController {
                 if(enemy.getProjectiles() != null){
                 enemy.getProjectiles().removeIf(Projectile::isCollided);
                 for (Projectile projectile : enemy.getProjectiles()) {
-                    projectile.isCollidingWithWindow();
+                    projectile.collidesWithWindow(getMainWindow(),getEnemyWindows());
                     projectile.move();
                 }}
             }
@@ -131,7 +131,7 @@ public class Controller implements IController {
         return model.getPlayer();
     }
     public ArrayList<Enemy> getEnemies() {return model.getEnemies();}
-    public ArrayList<Window> getEnemyWindows(){return model.getEnemyWindows();}
+    public ArrayList<Window> getEnemyWindows(){return model.getWindows();}
     public Window getMainWindow(){return model.getMainWindow();}
     public void setModel(Model model) {this.model = model;}
     public void setView(IView view) {this.view = view;}

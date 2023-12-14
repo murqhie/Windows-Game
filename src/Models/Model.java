@@ -14,7 +14,7 @@ public class Model {
     private Window mainWindow;
     private int screenWidth;
     private int screenHeight;
-    private ArrayList<Window> enemyWindows = new ArrayList<>();
+    private ArrayList<Window> windows = new ArrayList<>();
     private ArrayList<Enemy> enemies;
     private Timer addEnemyTimer = new Timer(0 , 0);
 
@@ -27,12 +27,18 @@ public class Model {
     }
     public void addEnemy(){
         if(addEnemyTimer.isUp()){
-        enemies.add(new Kamikaze(calcSpawnPosition(), player, mainWindow));
-        enemies.add(new Stalker(calcSpawnPosition(), player, mainWindow));
+
+        //enemies.add(new Kamikaze(calcSpawnPosition(), player, mainWindow));
+        //enemies.add(new Stalker(calcSpawnPosition(), player, mainWindow));
+        Tower tempTower = new Tower(new Vector(350,350), player, mainWindow);
+        windows.add(tempTower.getWindow());
+        enemies.add(tempTower);
+
         addEnemyTimer.setRate(new Random().nextInt(80,100) );
         addEnemyTimer.reset();
         }
         addEnemyTimer.tick();
+
     }
 
     private Vector calcSpawnPosition(){
@@ -48,14 +54,13 @@ public class Model {
     public void detectCollision(){
         for (Projectile projectile : player.getProjectiles()) {
             projectile.collidesWithEnemy(enemies);
-            projectile.isCollidingWithWindow();
+            projectile.collidesWithWindow(mainWindow, windows);
         }
         for (Enemy enemy : enemies) {
             if(enemy.getProjectiles() != null){
             for (Projectile projectile : enemy.getProjectiles()) {
                 projectile.collidesWithPlayer(player);
                 }
-
             }
             enemy.collidesWithPlayer(player);
         }
@@ -67,7 +72,7 @@ public class Model {
     public Player getPlayer() {return player;}
     public GameState getState() {return state;}
     public void setState(GameState state) {this.state = state;}
-    public ArrayList<Window> getEnemyWindows(){return enemyWindows;}
+    public ArrayList<Window> getWindows(){return windows;}
     public Window getMainWindow() {return mainWindow;}
     public ArrayList<Enemy> getEnemies() {return enemies;}
 }
