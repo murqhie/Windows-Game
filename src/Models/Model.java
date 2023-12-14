@@ -29,7 +29,7 @@ public class Model {
         if(addEnemyTimer.isUp()){
         enemies.add(new Kamikaze(calcSpawnPosition(), player, mainWindow));
         enemies.add(new Stalker(calcSpawnPosition(), player, mainWindow));
-        addEnemyTimer.setRate(new Random().nextInt(50,100) );
+        addEnemyTimer.setRate(new Random().nextInt(80,100) );
         addEnemyTimer.reset();
         }
         addEnemyTimer.tick();
@@ -47,8 +47,17 @@ public class Model {
     }
     public void detectCollision(){
         for (Projectile projectile : player.getProjectiles()) {
-            projectile.isCollidingWithEnemy(enemies);
+            projectile.collidesWithEnemy(enemies);
             projectile.isCollidingWithWindow();
+        }
+        for (Enemy enemy : enemies) {
+            if(enemy.getProjectiles() != null){
+            for (Projectile projectile : enemy.getProjectiles()) {
+                projectile.collidesWithPlayer(player);
+                }
+
+            }
+            enemy.collidesWithPlayer(player);
         }
     }
 

@@ -10,9 +10,9 @@ import processing.core.PApplet;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
-public class DefaultView extends PApplet implements IView{
+public class View extends PApplet implements IView{
     IController controller;
-    public DefaultView(){  }
+    public View(){  }
     @Override
     public void settings() {
         size(2000,1000);

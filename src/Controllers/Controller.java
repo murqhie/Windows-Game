@@ -28,7 +28,8 @@ public class Controller implements IController {
             getPlayer().setShootDirection(new Vector(view.getMousePosition().getX() - getPlayer().getX(), view.getMousePosition().getY() - getPlayer().getY()));
             model.getPlayer().move();
             model.getPlayer().attack();
-            model.getPlayer().getsHit();
+            if (model.getPlayer().isCollidingWithWindow()){
+            model.getPlayer().getsHit();}
 
             // Projectile
 

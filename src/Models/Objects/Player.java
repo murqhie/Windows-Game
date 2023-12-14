@@ -42,9 +42,7 @@ public class Player implements ICharacter {
         shootTimer.tick();
     }
     public void getsHit() {
-        if (isCollidingWithWindow()){this.dead = true;}
-
-
+        this.dead = true;
     }
 
     public boolean isCollidingWithWindow(){

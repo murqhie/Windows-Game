@@ -32,13 +32,21 @@ public class Projectile {
 
     }
 
-    public void isCollidingWithEnemy(ArrayList<Enemy> enemies){
+    public void collidesWithEnemy(ArrayList<Enemy> enemies){
         for (Enemy enemy : enemies) {
             float distance = enemy.getPosition().add(this.position.multiplicate(-1)).norm();
             if (distance < (enemy.getRadius() + this.radius)){
                 enemy.getsHit();
                 this.collided = true;
             }
+        }
+    }
+
+    public void collidesWithPlayer(Player player){
+            float distance = player.getPosition().add(this.position.multiplicate(-1)).norm();
+            if (distance < (player.getRadius() + this.radius)){
+                player.getsHit();
+                this.collided = true;
         }
     }
 

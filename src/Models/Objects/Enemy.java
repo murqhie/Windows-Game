@@ -1,8 +1,6 @@
 package Models.Objects;
 import Models.DataStructures.Vector;
 
-import java.util.ArrayList;
-
 public abstract class Enemy implements ICharacter{
     protected Vector position;
     protected Vector velocity;
@@ -33,6 +31,13 @@ public abstract class Enemy implements ICharacter{
         this.dead = true;
 
     }
+    public void collidesWithPlayer(Player player){
+        float distance = player.getPosition().add(this.position.multiplicate(-1)).norm();
+        if (distance < (player.getRadius() + this.radius)){
+            player.getsHit();
+        }
+    }
+
     public int getColor() {return this.Color;}
     public Vector getPosition() {return position;}
     public float getX() {return this.position.getX();}

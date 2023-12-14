@@ -1,14 +1,14 @@
 import processing.core.PApplet;
 import Models.Model;
 import Controllers.Controller;
-import Views.DefaultView;
+import Views.View;
 
 public final class Main {
     public static void main(String[] args) {
 
         var model = new Model();
         var controller = new Controller();
-        var view = new DefaultView();
+        var view = new View();
 
         // Connect M, V and C
         controller.setModel(model);
