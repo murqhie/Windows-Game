@@ -19,7 +19,7 @@ public class Projectile {
         this.window = window;
         this.playerProjectile = playerProjectile;
     }
-    public void collidesWithWindow( Window mainWindow, ArrayList<Window> enemyWindows){
+    public void collidesWithWindow( Window mainWindow, ArrayList<Window> enemyWindows){ // kann man vlt besser machen
         boolean hitsMainWindow =
                 this.position.getX() - radius <= mainWindow.getPosition().getX() |
                 this.position.getY() - radius <= mainWindow.getPosition().getY() |
