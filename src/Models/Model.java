@@ -54,7 +54,7 @@ public class Model {
     public void detectCollision(){
         for (Projectile projectile : player.getProjectiles()) {
             projectile.collidesWithEnemy(enemies);
-            projectile.collidesWithWindow(mainWindow, windows);
+            projectile.getsOutOfWindow(mainWindow, windows);
         }
         for (Enemy enemy : enemies) {
             if(enemy.getProjectiles() != null){

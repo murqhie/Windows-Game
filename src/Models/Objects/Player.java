@@ -36,7 +36,7 @@ public class Player implements ICharacter {
     }
     public void attack(){
         if(shootTimer.isUp() & mouseInput){
-        projectiles.add(new Projectile(this.position,shootDirection.unit().multiplicate(shootingSpeed),this.window, true));
+        projectiles.add(new Projectile(this.position,shootDirection.unit().multiplicate(shootingSpeed), true));
         shootTimer.reset();
         }
         shootTimer.tick();

@@ -54,7 +54,7 @@ public class Controller implements IController {
                 if(enemy.getProjectiles() != null){
                 enemy.getProjectiles().removeIf(Projectile::isCollided);
                 for (Projectile projectile : enemy.getProjectiles()) {
-                    projectile.collidesWithWindow(getMainWindow(),getEnemyWindows());
+                    projectile.getsOutOfWindow(getMainWindow(),getEnemyWindows());
                     projectile.move();
                 }}
             }
