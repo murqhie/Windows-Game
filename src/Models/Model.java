@@ -37,7 +37,7 @@ public class Model {
         windows.add(tempTower.getWindow());
         enemies.add(tempTower);
 
-        addEnemyTimer.setRate(new Random().nextInt(500,501) );
+        addEnemyTimer.setRate(new Random().nextInt(200,501) );
         addEnemyTimer.reset();
         }
         addEnemyTimer.tick();

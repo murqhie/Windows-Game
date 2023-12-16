@@ -22,6 +22,8 @@ public class Controller implements IController {
         }
 
         if(model.getState() == GameState.PLAYING) {
+            model.addEnemy();
+            model.detectCollision();
 
 
             // Player
@@ -47,16 +49,16 @@ public class Controller implements IController {
 //            }
 
             //Enemies
-            model.getEnemies().removeIf(ICharacter::isDead);
-            for (ICharacter enemy : model.getEnemies()) {
+            for (Enemy enemy : model.getEnemies()) {
                 enemy.move();
                 enemy.attack(model.getProjectiles());
-
+                if(enemy.isDead()){
+                    model.getWindows().remove(enemy.getWindow());}
             }
+            model.getEnemies().removeIf(Enemy::isDead);
 
 
-            model.addEnemy();
-            model.detectCollision();
+
             model.checkGameOver();
             view.drawPlaying();
         }

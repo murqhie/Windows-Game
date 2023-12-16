@@ -43,6 +43,9 @@ public abstract class Enemy implements ICharacter{
     public float getY() {return this.position.getY();}
     public int getRadius() {return this.radius;}
     public boolean isDead() {return dead;}
+
+    public Window getWindow() {return window;}
+
     public boolean isInWindow(){
         return  (position.getX() < window.getPosition().getX() + window.getWidth()
                         & position.getX() > window.getPosition().getX())
