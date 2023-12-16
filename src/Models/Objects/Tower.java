@@ -13,7 +13,7 @@ public class Tower extends Enemy{
     private int shootingSpeed = 5;
     public Tower(Vector position, Player player, Window mainWindow) {
         super(position, 50, 0, player, mainWindow);
-        window = new Window(500,500, mainWindow.getScreenWidth(), mainWindow.getScreenHeight(), new Vector(this.position.getX()-500,this.position.getY()-500));
+        window = new Window(500,500, mainWindow.getScreenWidth(), mainWindow.getScreenHeight(), new Vector(250,this.position.getY()-500));
     }
     public void attack() {
         if(shootTimer.isUp()){

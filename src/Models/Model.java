@@ -60,6 +60,7 @@ public class Model {
             if(enemy.getProjectiles() != null){
             for (Projectile projectile : enemy.getProjectiles()) {
                 projectile.collidesWithPlayer(player);
+                projectile.getsOutOfWindow(mainWindow, windows);
                 }
             }
             enemy.collidesWithPlayer(player);
