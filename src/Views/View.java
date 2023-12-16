@@ -10,6 +10,8 @@ import processing.core.PApplet;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
+import java.util.ArrayList;
+
 public class View extends PApplet implements IView{
     IController controller;
     public View(){  }
@@ -40,8 +42,8 @@ public class View extends PApplet implements IView{
         drawCharacter(player);
         for (ICharacter enemy : controller.getEnemies()) {
             drawCharacter(enemy);
-
         }
+        drawProjectiles(controller.getProjectiles());
 
     }
     public void drawGameOver(){
@@ -64,10 +66,8 @@ public class View extends PApplet implements IView{
         return new Vector(mouseX, mouseY);
     }
 
-    private void drawProjectiles(ICharacter character){
-
-
-        for (Projectile projectile : character.getProjectiles()) {
+    private void drawProjectiles(ArrayList<Projectile> projectiles){
+        for (Projectile projectile : projectiles) {
             fill(100,0,0);
             if(projectile.isPlayerProjectile()){fill(255);}
             circle(projectile.getX(),projectile.getY(),projectile.getRadius()*2);
@@ -80,8 +80,6 @@ public class View extends PApplet implements IView{
         else{
         fill(80);}
         circle(character.getX(),character.getY(),character.getRadius()*2);
-        if(character.getProjectiles() != null){
-            drawProjectiles(character);}
     }
     private void drawWindow(Window window){
         fill(window.getColor());

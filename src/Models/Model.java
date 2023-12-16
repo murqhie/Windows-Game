@@ -16,6 +16,7 @@ public class Model {
     private int screenHeight;
     private ArrayList<Window> windows = new ArrayList<>();
     private ArrayList<Enemy> enemies;
+    private ArrayList<Projectile> projectiles = new ArrayList<>();
     private Timer addEnemyTimer = new Timer(0 , 0);
 
     public void startNewGame(int screenWidth, int screenHeight){
@@ -24,17 +25,19 @@ public class Model {
         mainWindow  = new Window(800, 1200,screenWidth,screenHeight);
         player = new Player(30,mainWindow);
         enemies = new ArrayList<>();
+        projectiles = new ArrayList<>();
+        windows = new ArrayList<>();
     }
     public void addEnemy(){
         if(addEnemyTimer.isUp()){
 
         //enemies.add(new Kamikaze(calcSpawnPosition(), player, mainWindow));
         //enemies.add(new Stalker(calcSpawnPosition(), player, mainWindow));
-        Tower tempTower = new Tower(new Vector(350,350), player, mainWindow);
+        Tower tempTower = new Tower(new Vector(new Random().nextInt(screenWidth),new Random().nextInt(screenHeight)), player);
         windows.add(tempTower.getWindow());
         enemies.add(tempTower);
 
-        addEnemyTimer.setRate(new Random().nextInt(80,100) );
+        addEnemyTimer.setRate(new Random().nextInt(500,501) );
         addEnemyTimer.reset();
         }
         addEnemyTimer.tick();
@@ -52,17 +55,15 @@ public class Model {
         return new Vector(x,y);
     }
     public void detectCollision(){
-        for (Projectile projectile : player.getProjectiles()) {
+        for (Projectile projectile : projectiles) {
+            if(projectile.isPlayerProjectile()){
             projectile.collidesWithEnemy(enemies);
+            }else{
+                projectile.collidesWithPlayer(player);
+            }
             projectile.getsOutOfWindow(mainWindow, windows);
         }
         for (Enemy enemy : enemies) {
-            if(enemy.getProjectiles() != null){
-            for (Projectile projectile : enemy.getProjectiles()) {
-                projectile.collidesWithPlayer(player);
-                projectile.getsOutOfWindow(mainWindow, windows);
-                }
-            }
             enemy.collidesWithPlayer(player);
         }
     }
@@ -76,4 +77,5 @@ public class Model {
     public ArrayList<Window> getWindows(){return windows;}
     public Window getMainWindow() {return mainWindow;}
     public ArrayList<Enemy> getEnemies() {return enemies;}
+    public ArrayList<Projectile> getProjectiles() {return projectiles; }
 }

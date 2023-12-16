@@ -1,8 +1,5 @@
 package Controllers;
-import Models.Objects.Enemy;
-import Models.Objects.ICharacter;
-import Models.Objects.Player;
-import Models.Objects.Window;
+import Models.Objects.*;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
@@ -19,4 +16,5 @@ public interface IController {
     ArrayList<Window> getEnemyWindows();
     Window getMainWindow();
     ArrayList<Enemy> getEnemies();
+    ArrayList<Projectile> getProjectiles();
 }

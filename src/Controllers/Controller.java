@@ -21,50 +21,49 @@ public class Controller implements IController {
             model.startNewGame(view.getScreenWidth(),view.getScreenHeight());
         }
 
-        if(model.getState() == GameState.PLAYING){
-            view.drawPlaying();
+        if(model.getState() == GameState.PLAYING) {
+
 
             // Player
             getPlayer().setShootDirection(new Vector(view.getMousePosition().getX() - getPlayer().getX(), view.getMousePosition().getY() - getPlayer().getY()));
             model.getPlayer().move();
-            model.getPlayer().attack();
-            if (model.getPlayer().isCollidingWithWindow()){
-            model.getPlayer().getsHit();}
+            model.getPlayer().attack(model.getProjectiles());
+            if (model.getPlayer().isCollidingWithWindow()) {
+                model.getPlayer().getsHit();
+            }
 
             // Projectile
 
-            model.getPlayer().getProjectiles().removeIf(Projectile::isCollided);
+            model.getProjectiles().removeIf(Projectile::isCollided);
 
-            for (Projectile projectile : model.getPlayer().getProjectiles()) {
+            for (Projectile projectile : model.getProjectiles()) {
                 projectile.move();
             }
 
             // Window
             model.getMainWindow().move();
-            for (Window window : model.getWindows()) {
-                window.move();
-            }
+//            for (Window window : model.getWindows()) {
+//                window.move();
+//            }
 
             //Enemies
             model.getEnemies().removeIf(ICharacter::isDead);
             for (ICharacter enemy : model.getEnemies()) {
                 enemy.move();
-                enemy.attack();
+                enemy.attack(model.getProjectiles());
 
-                if(enemy.getProjectiles() != null){
-                enemy.getProjectiles().removeIf(Projectile::isCollided);
-                for (Projectile projectile : enemy.getProjectiles()) {
-                    projectile.move();
-                }}
             }
+
 
             model.addEnemy();
             model.detectCollision();
             model.checkGameOver();
+            view.drawPlaying();
         }
         if(model.getState() == GameState.GAME_OVER) {
             view.drawGameOver();
         }
+
     }
     public void handleKeyPressed(KeyEvent event) {
         Player player = model.getPlayer();
@@ -131,6 +130,7 @@ public class Controller implements IController {
     }
     public ArrayList<Enemy> getEnemies() {return model.getEnemies();}
     public ArrayList<Window> getEnemyWindows(){return model.getWindows();}
+    public ArrayList<Projectile> getProjectiles(){return model.getProjectiles();}
     public Window getMainWindow(){return model.getMainWindow();}
     public void setModel(Model model) {this.model = model;}
     public void setView(IView view) {this.view = view;}

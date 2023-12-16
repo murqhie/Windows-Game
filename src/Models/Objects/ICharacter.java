@@ -1,10 +1,10 @@
 package Models.Objects;
 
-import java.util.Collection;
+import java.util.ArrayList;
 
 public interface ICharacter {
     void move();
-    void attack();
+    void attack(ArrayList<Projectile> projectiles);
     void getsHit();
     int getColor();
     float getX();
@@ -12,5 +12,4 @@ public interface ICharacter {
     int getRadius();
     boolean isDead();
     boolean isInWindow();
-    Collection<Projectile> getProjectiles();
 }

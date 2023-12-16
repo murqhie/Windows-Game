@@ -20,11 +20,9 @@ public class Window {
         this.screenHeight = screenHeight;
         this.position = new Vector((float) (screenWidth /2-(width/2)),(float)(screenHeight /2-(height/2)));
     }
-    public Window(int height, int width, int screenWidth, int screenHeight, Vector position) {
+    public Window(int height, int width, Vector position) {
         this.height = height;
         this.width = width;
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
         this.position = position;
     }
 

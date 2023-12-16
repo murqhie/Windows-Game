@@ -3,6 +3,7 @@ package Models.Objects;
 import Models.DataStructures.Vector;
 import Models.DataStructures.Timer;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
@@ -14,7 +15,7 @@ public class Kamikaze extends Enemy{
     public Kamikaze( Vector position, Player player, Window window) {
         super(position,10,8,player, window);
     }
-    public void attack() {
+    public void attack(ArrayList<Projectile> projectiles) {
         if (attackTimer.isUp()){
             if (this.radius <= explosionRadius) {
                this.radius += explosionSpeed; }
@@ -23,6 +24,5 @@ public class Kamikaze extends Enemy{
         }
         attackTimer.tick();
     }
-    public Collection<Projectile> getProjectiles() {return null;}
 
 }

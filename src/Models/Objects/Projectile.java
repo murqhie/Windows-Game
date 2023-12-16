@@ -18,12 +18,17 @@ public class Projectile {
         this.playerProjectile = playerProjectile;
     }
     public void getsOutOfWindow(Window mainWindow, ArrayList<Window> enemyWindows){
+        if (isInWindow(mainWindow, false)){return;}
+
         for (Window enemyWindow : enemyWindows) {
-            if(!isInWindow(mainWindow, false)& !isInWindow(enemyWindow, false)){
-                this.collided = true;
-                if (playerProjectile & isInWindow(mainWindow, true)) {mainWindow.setAcceleration(velocity.unit().multiplicate(knockBack));}
-            }
+            if(isInWindow(enemyWindow, false)){
+                this.collided = false;
+                return;}
+
+            this.collided = true;
         }
+        if (playerProjectile & isInWindow(mainWindow, true)) {mainWindow.setAcceleration(velocity.unit().multiplicate(knockBack));}
+
     }
 
     private boolean isInWindow(Window window, Boolean before){

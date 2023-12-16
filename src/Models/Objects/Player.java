@@ -18,7 +18,6 @@ public class Player implements ICharacter {
     private float friction  = 0.1f;
     private boolean[] keyInputs = new boolean[]{false,false,false,false}; // {w,a,s,d}
     private boolean mouseInput = false;
-    private ArrayList<Projectile> projectiles = new ArrayList<>();
     private Timer shootTimer = new Timer(10, 0); // (Delay, Timer)
     private int shootingSpeed = 15;
     private Vector shootDirection;
@@ -34,7 +33,7 @@ public class Player implements ICharacter {
         this.velocity = this.velocity.multiplicate(1-friction);
         this.position = this.position.add(this.velocity);
     }
-    public void attack(){
+    public void attack(ArrayList<Projectile> projectiles){
         if(shootTimer.isUp() & mouseInput){
         projectiles.add(new Projectile(this.position,shootDirection.unit().multiplicate(shootingSpeed), true));
         shootTimer.reset();
@@ -42,7 +41,7 @@ public class Player implements ICharacter {
         shootTimer.tick();
     }
     public void getsHit() {
-        this.dead = true;
+        this.dead = false;
     }
 
     public boolean isCollidingWithWindow(){
@@ -69,7 +68,6 @@ public class Player implements ICharacter {
     public Vector getPosition() {return position;}
     public int getRadius() {return radius;}
     public boolean isDead() {return dead;}
-    public ArrayList<Projectile> getProjectiles() {return projectiles;}
     public void setMouseInput(boolean mouseInput) {this.mouseInput = mouseInput;}
     public void setShootDirection(Vector shootDirection) {this.shootDirection = shootDirection;}
     public boolean isInWindow() {return true;}

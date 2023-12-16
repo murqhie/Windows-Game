@@ -4,24 +4,23 @@ import Models.DataStructures.Timer;
 import Models.DataStructures.Vector;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class Tower extends Enemy{
-    private Window window;
-    private ArrayList<Projectile> projectiles = new ArrayList<>();
     private Timer shootTimer = new Timer(50, 0); // (Delay, Timer)
     private int shootingSpeed = 5;
-    public Tower(Vector position, Player player, Window mainWindow) {
-        super(position, 50, 0, player, mainWindow);
-        window = new Window(500,500, mainWindow.getScreenWidth(), mainWindow.getScreenHeight(), new Vector(250,this.position.getY()-500));
+    public Tower(Vector position, Player player) {
+        super(position, 50, 0, player, new Window(200,200, new Vector(position.getX()-100,position.getY()-100)));
     }
-    public void attack() {
+    public void attack(ArrayList<Projectile> projectiles) {
         if(shootTimer.isUp()){
-            //projectiles.add(new Projectile(this.position,distance.unit().multiplicate(shootingSpeed), false));
+            projectiles.add(new Projectile(this.position,distance.unit().multiplicate(shootingSpeed), false));
             shootTimer.reset();
         }
         shootTimer.tick();
     }
-    public ArrayList<Projectile> getProjectiles() {return projectiles;}
+    @Override
+    public void getsHit() {
+        this.dead = true;
+    }
     public Window getWindow() {return window;}
 }
