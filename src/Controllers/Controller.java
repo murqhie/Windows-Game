@@ -6,7 +6,6 @@ import Views.IView;
 import Models.DataStructures.GameState;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-
 import java.util.ArrayList;
 
 public class Controller implements IController {
@@ -54,8 +53,6 @@ public class Controller implements IController {
             }
             model.getEnemies().removeIf(Enemy::isDead);
 
-
-
             model.checkGameOver();
             view.drawPlaying();
         }
@@ -91,9 +88,8 @@ public class Controller implements IController {
             case GAME_OVER -> {
                 if (event.getKeyCode() == ' ') {
                     model.setState(GameState.START);
-
-                }}
-
+                }
+            }
         }
     }
     public void handleKeyReleased(KeyEvent event) {
@@ -144,6 +140,4 @@ public class Controller implements IController {
             model.setState(GameState.GAME_OVER);
         }
     }
-
-
 }

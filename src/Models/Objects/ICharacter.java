@@ -11,5 +11,4 @@ public interface ICharacter {
     float getY();
     int getRadius();
     boolean isDead();
-    boolean isInWindow();
-}
+    boolean isInWindow();}

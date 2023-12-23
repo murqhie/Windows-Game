@@ -1,7 +1,3 @@
 package Models.DataStructures;
 
-public enum GameState {
-    START,
-    PLAYING,
-    GAME_OVER
-};
+public enum GameState {START, PLAYING, GAME_OVER};
