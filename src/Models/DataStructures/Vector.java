@@ -13,11 +13,9 @@ public class Vector {
     public Vector add(float number){
         return new Vector(this.x+number, this.y+number);
     }
-
     public Vector multiplicate(float number){
         return new Vector(this.x*number, this.y*number);
     }
-
     public Vector pow(float number){
         return new Vector((float) Math.pow(this.x,number), (float) Math.pow(this.y,number));
     }

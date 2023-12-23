@@ -24,5 +24,4 @@ public class Kamikaze extends Enemy{
         }
         attackTimer.tick();
     }
-
 }

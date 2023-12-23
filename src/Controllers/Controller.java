@@ -44,9 +44,6 @@ public class Controller implements IController {
 
             // Window
             model.getMainWindow().move();
-//            for (Window window : model.getWindows()) {
-//                window.move();
-//            }
 
             //Enemies
             for (Enemy enemy : model.getEnemies()) {

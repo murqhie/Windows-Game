@@ -22,8 +22,8 @@ public class Model {
     public void startNewGame(int screenWidth, int screenHeight){
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        mainWindow  = new Window(800, 1200,screenWidth,screenHeight);
-        player = new Player(30,mainWindow);
+        mainWindow  = new Window(400, 600,screenWidth,screenHeight);
+        player = new Player(10,mainWindow);
         enemies = new ArrayList<>();
         projectiles = new ArrayList<>();
         windows = new ArrayList<>();
@@ -31,19 +31,18 @@ public class Model {
     public void addEnemy(){
         if(addEnemyTimer.isUp()){
 
-        //enemies.add(new Kamikaze(calcSpawnPosition(), player, mainWindow));
-        //enemies.add(new Stalker(calcSpawnPosition(), player, mainWindow));
-        Tower tempTower = new Tower(new Vector(new Random().nextInt(screenWidth),new Random().nextInt(screenHeight)), player);
-        windows.add(tempTower.getWindow());
-        enemies.add(tempTower);
+        enemies.add(new Kamikaze(calcSpawnPosition(), player, mainWindow));
+        enemies.add(new Stalker(calcSpawnPosition(), player, mainWindow));
+        Virus tempVirus = new Virus(new Vector(new Random().nextInt(screenWidth),new Random().nextInt(screenHeight)), player);
+        windows.add(tempVirus.getWindow());
+        enemies.add(tempVirus);
 
-        addEnemyTimer.setRate(new Random().nextInt(200,501) );
+        addEnemyTimer.setRate(new Random().nextInt(150,300) );
         addEnemyTimer.reset();
         }
         addEnemyTimer.tick();
 
     }
-
     private Vector calcSpawnPosition(){
         int x = new Random().nextInt(-50,screenWidth+50);
         int y = new Random().nextInt(-50,screenHeight+50);

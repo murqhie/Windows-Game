@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Player implements ICharacter {
     private int color = 255;
     private int radius;
-    private int life = 500;
+    private int lp = 500;
     private Window window;
     private Vector position;
     private Vector velocity = new Vector(0,0);
@@ -41,7 +41,7 @@ public class Player implements ICharacter {
         shootTimer.tick();
     }
     public void getsHit() {
-        this.dead = false;
+       this.dead = true;
     }
 
     public boolean isCollidingWithWindow(){
