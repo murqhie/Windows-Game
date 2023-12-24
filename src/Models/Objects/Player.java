@@ -28,13 +28,13 @@ public class Player implements ICharacter {
         projectiles.add(new Projectile(this.position,shootDirection.unit().multiply(shootingSpeed), true));
         shootTimer.reset();}
         shootTimer.tick();}
-    public void getsHit() {this.dead = true; }
+    public void getsHit() {this.dead = true;}
     public boolean isCollidingWithWindow(){return this.position.getX() - radius <= window.getPosition().getX() || this.position.getY() - radius <= window.getPosition().getY() || this.position.getX() + radius >= window.getPosition().getX() + window.getWidth() || this.position.getY() + radius >= window.getPosition().getY() + window.getHeight();}
     public void setAcceleration() {
         if(keyInputs[0] || keyInputs[2]){this.acceleration.setY(keyInputs[0] ? -this.jerk : this.jerk);}
         if(keyInputs[1] || keyInputs[3]){this.acceleration.setX(keyInputs[1] ? -this.jerk : this.jerk);}
-            if((keyInputs[1] && keyInputs[3]) || (!keyInputs[1] && !keyInputs[3])){this.acceleration.setX(0);}
-            if((keyInputs[0] && keyInputs[2]) || (!keyInputs[0] && !keyInputs[2])){this.acceleration.setY(0);}}
+        if((keyInputs[1] && keyInputs[3]) || (!keyInputs[1] && !keyInputs[3])){this.acceleration.setX(0);}
+        if((keyInputs[0] && keyInputs[2]) || (!keyInputs[0] && !keyInputs[2])){this.acceleration.setY(0);}}
     public void setKeyInputs(int index, boolean value) {this.keyInputs[index] = value;}
     public int getColor() {return color;}
     public float getX(){return position.getX();}

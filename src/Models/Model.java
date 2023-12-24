@@ -33,7 +33,9 @@ public class Model {
     public void addEnemy(){
         if(addEnemyTimer.isUp()){
             int rand = new Random().nextInt(4);
-            if(rand == 0){ Virus tempVirus = new Virus(new Vector(new Random().nextInt(screenWidth),new Random().nextInt(screenHeight)), player);
+            if(rand == 0){
+                Vector virusPosition = new Vector(new Random().nextInt(screenWidth),new Random().nextInt(screenHeight));
+                Virus tempVirus = new Virus(virusPosition, player, new Window((int) (screenHeight * 0.3), (int) (screenWidth * 0.2), new Vector((float) (virusPosition.getX()-(screenWidth * 0.2)/2), (float) (virusPosition.getY()-(screenHeight * 0.3) /2))));
                 windows.add(tempVirus.getWindow());
                 enemies.add(tempVirus);}
             if(rand == 1){enemies.add(new Kamikaze(calcSpawnPosition(), player, mainWindow));}

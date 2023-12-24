@@ -17,9 +17,9 @@ public class View extends PApplet implements IView{
     public View(){  }
     @Override
     public void settings() {
-        //size(2000,1000);
+        size(1920,1080);
 
-      fullScreen();
+      //fullScreen();
     }
     @Override
     public void setup() {
