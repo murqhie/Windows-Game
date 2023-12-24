@@ -43,11 +43,14 @@ public class Projectile {
         if(collisionR(this.window)){this.position.setX(window.getPosition().getX() + window.getWidth() - radius);}
         if(collisionO(this.window)){this.position.setY(window.getPosition().getY() + window.getHeight() + radius);}
         if(collisionU(this.window)){this.position.setY(window.getPosition().getY() - radius);}}
-    public void collidesWithEnemy(ArrayList<Enemy> enemies){
+    public boolean collidesWithEnemy(ArrayList<Enemy> enemies){
         for (Enemy enemy : enemies) {
             if (enemy.getPosition().add(this.position.multiply(-1)).norm() < (enemy.getRadius() + this.radius)){
                 enemy.getsHit();
-                this.collided = true;}}}
+                this.collided = true;
+                return true;}}
+        return false;
+    }
     public void collidesWithPlayer(Player player){
             if (player.getPosition().add(this.position.multiply(-1)).norm() < (player.getRadius() + this.radius)){
                 player.getsHit();

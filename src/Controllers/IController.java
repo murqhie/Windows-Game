@@ -13,8 +13,11 @@ public interface IController {
     void handleKeyReleased(KeyEvent event);
     void handleMousePressed(MouseEvent event);
     void handleMouseReleased(MouseEvent event);
+    int getScore();
+    int getHighScore();
     ArrayList<Window> getEnemyWindows();
     Window getMainWindow();
     ArrayList<Enemy> getEnemies();
     ArrayList<Projectile> getProjectiles();
+
 }

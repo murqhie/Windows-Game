@@ -7,6 +7,7 @@ import Models.Objects.Player;
 import Models.Objects.Projectile;
 import Models.Objects.Window;
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 
 public class View extends PApplet implements IView{
     IController controller;
+    PImage desktopImage;
     public View(){  }
     @Override
     public void settings() {
@@ -24,14 +26,16 @@ public class View extends PApplet implements IView{
     @Override
     public void setup() {
         controller.setGameState("START");
+        desktopImage = loadImage("Desktop.png");
+        desktopImage.resize(width,height);
 
     }
     public void draw(){
         controller.tick();
-
     }
     public void drawPlaying(){
-        background(0);
+
+        background(desktopImage);
         drawWindow(controller.getMainWindow());
         for (Window window : controller.getEnemyWindows()) {
             drawWindow(window);
@@ -43,6 +47,10 @@ public class View extends PApplet implements IView{
         for (ICharacter enemy : controller.getEnemies()) {
             drawCharacter(enemy);
         }
+        textAlign(LEFT,TOP);
+        textSize(40);
+        fill(100,180,180);
+        text("Points: " + controller.getScore()/10 + " HighScore:  " + controller.getHighScore()/10,controller.getMainWindow().getPosition().getX()+2,controller.getMainWindow().getPosition().getY() +2);
 
 
     }

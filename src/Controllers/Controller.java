@@ -15,12 +15,14 @@ public class Controller implements IController {
 
     @Override
     public void tick() {
+
         if(model.getState() == GameState.START){
             view.drawStart();
             model.startNewGame(view.getScreenWidth(),view.getScreenHeight());
         }
 
         if(model.getState() == GameState.PLAYING) {
+            model.setScore(getScore()+1);
             model.addEnemy();
             model.detectCollision();
 
@@ -34,7 +36,6 @@ public class Controller implements IController {
             }
 
             // Projectile
-
             model.getProjectiles().removeIf(Projectile::isCollided);
 
             for (Projectile projectile : model.getProjectiles()) {
@@ -127,6 +128,8 @@ public class Controller implements IController {
     public ArrayList<Window> getEnemyWindows(){return model.getWindows();}
     public ArrayList<Projectile> getProjectiles(){return model.getProjectiles();}
     public Window getMainWindow(){return model.getMainWindow();}
+    public int getScore(){return model.getScore();}
+    public int getHighScore(){return model.getHighScore();}
     public void setModel(Model model) {this.model = model;}
     public void setView(IView view) {this.view = view;}
     public void setGameState(String state){
@@ -140,4 +143,5 @@ public class Controller implements IController {
             model.setState(GameState.GAME_OVER);
         }
     }
+
 }
