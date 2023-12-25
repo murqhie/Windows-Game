@@ -38,24 +38,24 @@ public class Model {
         if(addEnemyTimer.isUp()){
             int rand = new Random().nextInt(4);
             if(rand == 0){
-                Vector virusPosition = calcSpawnPosition(mainWindow.getWidth(),mainWindow.getHeight(), mainWindow.getPosition(), 400);
-                Virus tempVirus = new Virus(virusPosition, player, new Window(402, 600, new Vector((float) (virusPosition.getX()- 300), (float) (virusPosition.getY()-201))));
+                Vector virusPosition = calcSpawnPosition(new Vector(0,0),new Vector(this.screenWidth, this.screenHeight), mainWindow.getPosition(), new Vector(mainWindow.getPosition().getX()+ mainWindow.getWidth(),mainWindow.getPosition().getY()+ mainWindow.getHeight() ));
+                Virus tempVirus = new Virus(virusPosition, player, new Window(402, 600, new Vector( (virusPosition.getX()- 300), (virusPosition.getY()-201))));
                 windows.add(tempVirus.getWindow());
                 enemies.add(tempVirus);}
-            if(rand == 1){enemies.add(new Kamikaze(calcSpawnPosition(screenWidth,screenHeight,new Vector(0,0),50), player, mainWindow));}
-            else{enemies.add(new Stalker(calcSpawnPosition(screenWidth,screenHeight, new Vector(0,0),50), player, mainWindow));}
+            if(rand == 1){enemies.add(new Kamikaze(calcSpawnPosition(new Vector(-50,-50), new Vector(this.screenWidth +50, this.screenHeight+50), new Vector(0,0), new Vector(this.screenWidth, this.screenHeight)), player, mainWindow));}
+            else{enemies.add(new Stalker(calcSpawnPosition(new Vector(-50,-50), new Vector(this.screenWidth +50, this.screenHeight+50), new Vector(0,0), new Vector(this.screenWidth, this.screenHeight)), player, mainWindow));}
 
             spawnRate = spawnRate > 50 ? spawnRate - 5 : spawnRate;
 
             addEnemyTimer.setRate(spawnRate);
             addEnemyTimer.reset();}
         addEnemyTimer.tick();}
-    private Vector calcSpawnPosition(int width,int height, Vector position, int range){
+    private Vector calcSpawnPosition(Vector outerMin, Vector outerMax, Vector innerMin, Vector innerMax){
 
-        int x = new Random().nextInt((int) (position.getX()-range), (int) (width+position.getX()+range));
-        int y = new Random().nextInt((int) (position.getY()-range), (int) (height+position.getY()+range));
+        int x = new Random().nextInt((int) outerMin.getX() , (int) outerMax.getX());
+        int y = new Random().nextInt((int) outerMin.getY() , (int) outerMax.getY());
 
-        if ((x < position.getX()+width & x > position.getX()) & (y < position.getY()+height & y > position.getY())) {return calcSpawnPosition(width,height,position,range);}
+        if ((x > innerMin.getX() && x < innerMax.getX()) && (y > innerMin.getY() && y < innerMax.getY())) {return calcSpawnPosition(outerMin,outerMax,innerMin,innerMax);}
         return new Vector(x,y);}
     public void detectCollision(){
         for (Projectile projectile : projectiles) {

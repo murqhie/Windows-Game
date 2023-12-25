@@ -33,16 +33,16 @@ public class Projectile {
 
         if (playerProjectile & this.window== mainWindow) {mainWindow.setAcceleration(velocity.unit().multiply(knockBack));}}
     private boolean isInWindow(Window window){return  !collisionL( window) &  !collisionU( window) &  !collisionR( window) &  !collisionO( window);}
-    private boolean collisionL( Window window){return this.position.getX() - radius <= window.getPosition().getX();}
-    private boolean collisionU( Window window){return this.position.getY() - radius <= window.getPosition().getY();}
-    private boolean collisionR( Window window){return this.position.getX() + radius >= window.getPosition().getX() + window.getWidth();}
-    private boolean collisionO( Window window){return this.position.getY() + radius >= window.getPosition().getY() + window.getHeight();}
+    private boolean collisionL( Window window){return this.position.getX() - radius <= window.getPosition().getX() + 10;}
+    private boolean collisionO( Window window){return this.position.getY() - radius <= window.getPosition().getY() + 25;}
+    private boolean collisionR( Window window){return this.position.getX() + radius >= window.getPosition().getX() + window.getWidth() - 10;}
+    private boolean collisionU( Window window){return this.position.getY() + radius >= window.getPosition().getY() + window.getHeight() - 10;}
     private void collisionResolution(){
         if(this.window == null){return;}
         if(collisionL(this.window)){this.position.setX(window.getPosition().getX() + radius);}
         if(collisionR(this.window)){this.position.setX(window.getPosition().getX() + window.getWidth() - radius);}
-        if(collisionO(this.window)){this.position.setY(window.getPosition().getY() + window.getHeight() + radius);}
-        if(collisionU(this.window)){this.position.setY(window.getPosition().getY() - radius);}}
+        if(collisionU(this.window)){this.position.setY(window.getPosition().getY() + window.getHeight() - radius);}
+        if(collisionO(this.window)){this.position.setY(window.getPosition().getY() + radius);}}
     public boolean collidesWithEnemy(ArrayList<Enemy> enemies){
         for (Enemy enemy : enemies) {
             if (enemy.getPosition().add(this.position.multiply(-1)).norm() < (enemy.getRadius() + this.radius)){
