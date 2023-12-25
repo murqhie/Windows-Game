@@ -40,6 +40,6 @@ public class SpriteLoader extends PApplet implements Runnable {
 
         image.resize(pixelWidth *scaleFactor, pixelHeight *scaleFactor);
         sprites.put(name, image);
-        System.out.println("df");
+        System.out.println(name + " sprite successfully loaded");
     }
 }

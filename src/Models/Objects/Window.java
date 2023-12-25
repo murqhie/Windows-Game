@@ -34,6 +34,6 @@ public class Window {
         if(this.position.getX() < 0){this.position.setX(0);}
         if(this.position.getX() > screenWidth- width){this.position.setX(screenWidth-width);}
         if(this.position.getY() < 0){this.position.setY(0);}
-        if(this.position.getY() > screenHeight-height){this.position.setY(screenHeight-height);}}
+        if(this.position.getY() > screenHeight-height - 54){this.position.setY(screenHeight-height -54);}}
     public void setAcceleration(Vector acceleration) {this.acceleration = acceleration;}
     public int getColor() {return color;}}

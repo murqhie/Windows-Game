@@ -23,8 +23,8 @@ public class Model {
     public void startNewGame(int screenWidth, int screenHeight){
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        mainWindow  = new Window(400, 600,screenWidth,screenHeight);
-        player = new Player(10,mainWindow);
+        mainWindow  = new Window(402, 600,screenWidth,screenHeight);
+        player = new Player(20,mainWindow);
         enemies = new ArrayList<>();
         projectiles = new ArrayList<>();
         windows = new ArrayList<>();
@@ -39,7 +39,7 @@ public class Model {
             int rand = new Random().nextInt(4);
             if(rand == 0){
                 Vector virusPosition = calcSpawnPosition(mainWindow.getWidth(),mainWindow.getHeight(), mainWindow.getPosition(), 400);
-                Virus tempVirus = new Virus(virusPosition, player, new Window((int) (screenHeight * 0.3), (int) (screenWidth * 0.2), new Vector((float) (virusPosition.getX()-(screenWidth * 0.2)/2), (float) (virusPosition.getY()-(screenHeight * 0.3) /2))));
+                Virus tempVirus = new Virus(virusPosition, player, new Window(402, 600, new Vector((float) (virusPosition.getX()- 300), (float) (virusPosition.getY()-201))));
                 windows.add(tempVirus.getWindow());
                 enemies.add(tempVirus);}
             if(rand == 1){enemies.add(new Kamikaze(calcSpawnPosition(screenWidth,screenHeight,new Vector(0,0),50), player, mainWindow));}

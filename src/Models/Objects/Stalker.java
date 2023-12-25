@@ -14,4 +14,6 @@ public class Stalker extends Enemy {
         if(shootTimer.isUp()){
             projectiles.add(new Projectile(this.position,distance.unit().multiply(shootingSpeed), false));
             shootTimer.reset();}
-        shootTimer.tick();}}
+        shootTimer.tick();}
+    public Vector getDistance(){return distance;}
+}
