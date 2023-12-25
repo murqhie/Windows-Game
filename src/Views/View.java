@@ -103,20 +103,18 @@ public class View extends PApplet implements IView{
         fill(80);}
         if (character.getClass().equals(Virus.class)) {
             image(sprites.getSprite("Virus"), character.getX(), character.getY());
-        } else if (character.getClass().equals(Stalker.class)) {
-            circle(character.getX(), character.getY(), character.getRadius() * 2);
+        } else if (character.getClass().equals(Bug.class)) {
             pushMatrix();
             translate(character.getX(), character.getY());
-            float angle = (float) (Math.acos((1*((Stalker) character).getDistance().getX())/(((Stalker) character).getDistance().norm())) + radians(45));
+            float angle = (float) (Math.acos((1*((Bug) character).getDistance().getX())/(((Bug) character).getDistance().norm())) + radians(45));
             if (character.getY()>=controller.getPlayer().getY())
                 angle=-radians(270)-angle;
             rotate(angle);
             image(sprites.getSprite("Bug"),  0, 0);
             popMatrix();
-        } else if (character.getClass().equals(Kamikaze.class)) {
-            image(sprites.getSprite("Virus"), character.getX(), character.getY());
+        } else if (character.getClass().equals(AntiCursor.class)) {
+            image(sprites.getSprite("AntiCursor"), character.getX(), character.getY());
         } else if (character.getClass().equals(Player.class)) {
-            circle(character.getX(), character.getY(), character.getRadius() * 2);
             image(sprites.getSprite("Cursor"), character.getX() + 4, character.getY());
         }
 

@@ -42,8 +42,8 @@ public class Model {
                 Virus tempVirus = new Virus(virusPosition, player, new Window(402, 600, new Vector( (virusPosition.getX()- 300), (virusPosition.getY()-201))));
                 windows.add(tempVirus.getWindow());
                 enemies.add(tempVirus);}
-            if(rand == 1){enemies.add(new Kamikaze(calcSpawnPosition(new Vector(-50,-50), new Vector(this.screenWidth +50, this.screenHeight+50), new Vector(0,0), new Vector(this.screenWidth, this.screenHeight)), player, mainWindow));}
-            else{enemies.add(new Stalker(calcSpawnPosition(new Vector(-50,-50), new Vector(this.screenWidth +50, this.screenHeight+50), new Vector(0,0), new Vector(this.screenWidth, this.screenHeight)), player, mainWindow));}
+            if(rand == 1){enemies.add(new AntiCursor(calcSpawnPosition(new Vector(-50,-50), new Vector(this.screenWidth +50, this.screenHeight+50), new Vector(0,0), new Vector(this.screenWidth, this.screenHeight)), player, mainWindow));}
+            else{enemies.add(new Bug(calcSpawnPosition(new Vector(-50,-50), new Vector(this.screenWidth +50, this.screenHeight+50), new Vector(0,0), new Vector(this.screenWidth, this.screenHeight)), player, mainWindow));}
 
             spawnRate = spawnRate > 50 ? spawnRate - 5 : spawnRate;
 
