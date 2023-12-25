@@ -55,10 +55,13 @@ public class View extends PApplet implements IView{
 
     }
     public void drawGameOver(){
-        textAlign(CENTER,CENTER);
-        textSize(100);
-        fill(100,10,10);
-        text("GAME OVER",controller.getMainWindow().getPosition().getX() + (float) controller.getMainWindow().getWidth() / 2, (float) controller.getMainWindow().getPosition().getY() + controller.getMainWindow().getHeight() / 2);
+        background(30,130,220);
+        textAlign(LEFT,TOP);
+        textSize(150);
+        fill(255);
+        text(":(", 100, (float) (height * 0.3));
+        textSize(50);
+        text(String.format("Game Over! Press Enter to restart.\nYour score was %d and the highscore was %d.", controller.getScore()/10, controller.getHighScore()/10), 100, (float) (height * 0.45));
 
     }
     public void drawStart(){
