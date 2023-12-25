@@ -92,15 +92,13 @@ public class View extends PApplet implements IView{
         for (Projectile projectile : projectiles) {
             fill(100,0,0);
             if(projectile.isPlayerProjectile()){fill(255);}
-            circle(projectile.getX(),projectile.getY(),projectile.getRadius()*2);
+
+            image(sprites.getSprite("Projectile"), projectile.getX(), projectile.getY());
+            //circle(projectile.getX(),projectile.getY(),projectile.getRadius()*2);
+            ;
         }
     }
     private void drawCharacter(ICharacter character){
-        if (character.isInWindow()) {
-            fill(character.getColor());
-        }
-        else{
-        fill(80);}
         if (character.getClass().equals(Virus.class)) {
             image(sprites.getSprite("Virus"), character.getX(), character.getY());
         } else if (character.getClass().equals(Bug.class)) {
@@ -113,7 +111,7 @@ public class View extends PApplet implements IView{
             image(sprites.getSprite("Bug"),  0, 0);
             popMatrix();
         } else if (character.getClass().equals(AntiCursor.class)) {
-            image(sprites.getSprite("AntiCursor"), character.getX(), character.getY());
+            image(sprites.getSprite("AntiCursor"), character.getX()+ 4, character.getY());
         } else if (character.getClass().equals(Player.class)) {
             image(sprites.getSprite("Cursor"), character.getX() + 4, character.getY());
         }
@@ -122,7 +120,6 @@ public class View extends PApplet implements IView{
     private void drawWindow(Window window){
         String name = "VirusWindow";
         if(window == controller.getMainWindow()){name = "MainWindow";}
-        fill(window.getColor());
         rect(window.getPosition().getX(),window.getPosition().getY(),window.getWidth(), window.getHeight());
         image(sprites.getSprite(name),window.getPosition().getX()+window.getWidth()/2,window.getPosition().getY()+window.getHeight()/2);
     }

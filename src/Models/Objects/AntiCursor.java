@@ -3,14 +3,17 @@ import Models.DataStructures.Vector;
 import Models.DataStructures.Timer;
 import java.util.ArrayList;
 public class AntiCursor extends Enemy{
-    private Timer attackTimer = new Timer(100,100);
-    private int explosionRadius = radius * 6;
-    private int explosionSpeed = 3;
+    private Timer attackTimer = new Timer(200,200);
+    private boolean hasTrashBin;
     public AntiCursor(Vector position, Player player, Window window) {
-        super(position,10,8,player, window);
+        super(position,20,8,player, window);
     }
-    public void attack(ArrayList<Projectile> projectiles) {
-        if (attackTimer.isUp()){
-            if (this.radius <= explosionRadius) {this.radius += explosionSpeed;}
-            else{dead = true;}}
-        attackTimer.tick();}}
+    public void attack(ArrayList<Projectile> projectiles) {if (attackTimer.isUp()){dead = true;} if (hasTrashBin){attackTimer.tick();}}
+    public void move(){
+        distance = new Vector(50,100).add(this.position.multiply(-1));
+        if (hasTrashBin){distance = player.getPosition().add(this.position.multiply(-1));}
+        if (distance.norm() <= 10){hasTrashBin = true;}
+        this.velocity = distance.unit().multiply(movingSpeed);
+        this.position = this.position.add(this.velocity);}
+    public boolean hasTrashBin() {return hasTrashBin;}
+}

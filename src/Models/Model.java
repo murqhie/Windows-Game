@@ -1,8 +1,6 @@
 package Models;
 
-import Models.DataStructures.GameState;
-import Models.DataStructures.Timer;
-import Models.DataStructures.Vector;
+import Models.DataStructures.*;
 import Models.Objects.*;
 
 import java.util.ArrayList;
@@ -18,8 +16,6 @@ public class Model {
     private ArrayList<Projectile> projectiles = new ArrayList<>();
     private Timer addEnemyTimer = new Timer(0 , 0);
 
-
-
     public void startNewGame(int screenWidth, int screenHeight){
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -30,9 +26,7 @@ public class Model {
         windows = new ArrayList<>();
         spawnRate = 150;
         if(score >highScore){highScore = score;}
-        score = 0;
-
-    }
+        score = 0;}
 
     public void addEnemy(){
         if(addEnemyTimer.isUp()){
@@ -44,9 +38,7 @@ public class Model {
                 enemies.add(tempVirus);}
             if(rand == 1){enemies.add(new AntiCursor(calcSpawnPosition(new Vector(-50,-50), new Vector(this.screenWidth +50, this.screenHeight+50), new Vector(0,0), new Vector(this.screenWidth, this.screenHeight)), player, mainWindow));}
             else{enemies.add(new Bug(calcSpawnPosition(new Vector(-50,-50), new Vector(this.screenWidth +50, this.screenHeight+50), new Vector(0,0), new Vector(this.screenWidth, this.screenHeight)), player, mainWindow));}
-
             spawnRate = spawnRate > 50 ? spawnRate - 5 : spawnRate;
-
             addEnemyTimer.setRate(spawnRate);
             addEnemyTimer.reset();}
         addEnemyTimer.tick();}
@@ -61,13 +53,12 @@ public class Model {
         for (Projectile projectile : projectiles) {
 
             if(projectile.isPlayerProjectile()){
-            if(projectile.collidesWithEnemy(enemies)){
-                score += 1000;}
-            }else{projectile.collidesWithPlayer(player);}
+            if(projectile.collidesWithEnemy(enemies)){score += 1000;}}else{projectile.collidesWithPlayer(player);}
             projectile.getsOutOfWindow(mainWindow, windows);}
 
         for (Enemy enemy : enemies) {
-            enemy.collidesWithPlayer(player);}}
+            if(enemy.getClass() == AntiCursor.class){
+                if(((AntiCursor) enemy).hasTrashBin()){enemy.collidesWithPlayer(player);}}else{enemy.collidesWithPlayer(player);}}}
 
     public void checkGameOver(){if(player.isDead()){state = GameState.GAME_OVER;}}
     public Player getPlayer() {return player;}
