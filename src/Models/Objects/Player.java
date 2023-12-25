@@ -28,7 +28,7 @@ public class Player implements ICharacter {
         projectiles.add(new Projectile(this.position,shootDirection.unit().multiply(shootingSpeed), true));
         shootTimer.reset();}
         shootTimer.tick();}
-    public void getsHit() {this.dead = false;}
+    public void getsHit() {this.dead = true;}
     public boolean isCollidingWithWindow(){return this.position.getX() - radius <= window.getPosition().getX() || this.position.getY() - radius <= window.getPosition().getY() || this.position.getX() + radius >= window.getPosition().getX() + window.getWidth() || this.position.getY() + radius >= window.getPosition().getY() + window.getHeight();}
     public void setAcceleration() {
         if(keyInputs[0] || keyInputs[2]){this.acceleration.setY(keyInputs[0] ? -this.jerk : this.jerk);}
