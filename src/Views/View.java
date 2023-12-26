@@ -15,6 +15,7 @@ public class View extends PApplet implements IView{
     int angle =1;
     int animationFrame = 0;
     int animationSpeed = 40;
+    int shift;
 
     @Override
     public void settings() {
@@ -97,8 +98,33 @@ public class View extends PApplet implements IView{
                 circle(projectile.getX(),projectile.getY(),projectile.getRadius()*2);
                 //image(sprites.getSprite("PlayerProjectile"), projectile.getX(), projectile.getY());
             }else{
-                image(sprites.getSprite("HoleShadow",0), projectile.getX(), projectile.getY());
-                image(sprites.getSprite("Desktop",0).get((int)projectile.getX(),(int) projectile.getY(),projectile.getRadius()*2,projectile.getRadius()*2), projectile.getX(), projectile.getY());
+                image(sprites.getSprite("Desktop",0).get(
+                                (int) projectile.getX(),
+                                (int) projectile.getY() + projectile.getRadius()*2 /3,
+                                projectile.getRadius()*2,
+                                projectile.getRadius()*2 /3),
+                        projectile.getX(),
+                        projectile.getY() + (float) (projectile.getRadius() * 2) /3 );
+
+                image(sprites.getSprite("Desktop",0).get(
+                                (int) projectile.getX(),
+                                (int) projectile.getY() - projectile.getRadius()*2 /3,
+                                projectile.getRadius()*2,
+                                projectile.getRadius()*2 /3),
+                        projectile.getX(),
+                        projectile.getY() - (float) (projectile.getRadius() * 2) /3 );
+
+                shift = animationFrame == 0 ? 10 :0;
+                image(sprites.getSprite("Desktop",0).get(
+                                (int) projectile.getX(),
+                                (int) projectile.getY(),
+                                projectile.getRadius()*2,
+                                projectile.getRadius()*2 /3 +2),
+                        projectile.getX() + shift,
+                        projectile.getY());
+
+
+                image(sprites.getSprite("HoleGlitch",animationFrame), projectile.getX(), projectile.getY());
 
                 //image(sprites.getSprite("Projectile",animationFrame), projectile.getX(), projectile.getY());
             }
