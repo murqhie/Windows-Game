@@ -11,8 +11,10 @@ import java.util.ArrayList;
 
 public class View extends PApplet implements IView{
     IController controller;
-    SpriteLoader sprites;
+    SpriteAnimLoader sprites;
     int angle =1;
+    int animationFrame = 0;
+    int animationSpeed = 40;
 
     @Override
     public void settings() {
@@ -22,7 +24,7 @@ public class View extends PApplet implements IView{
     @Override
     public void setup() {
         imageMode(CENTER);
-        sprites = new SpriteLoader(width,height);
+        sprites = new SpriteAnimLoader(width,height);
         Thread thread = new Thread(sprites);
         thread.start();
 
@@ -35,14 +37,14 @@ public class View extends PApplet implements IView{
     }
     public void draw(){
         controller.tick();
+
+        animationFrame = frameCount%animationSpeed > animationSpeed/2 ? 1 :  0 ;
     }
     public void drawPlaying(){
 
-        background(sprites.getSprite("Desktop"));
+        background(sprites.getSprite("Desktop", 0));
 
-        for (Window window : controller.getEnemyWindows()) {
-            drawWindow(window);
-        }
+        for (Window window : controller.getEnemyWindows()) drawWindow(window);
         drawWindow(controller.getMainWindow());
 
         Player player = controller.getPlayer();
@@ -71,12 +73,12 @@ public class View extends PApplet implements IView{
 
                 Press [SPACE] to initiate system reboot.
                 Your score was %d and the highscore was %d.""", controller.getScore()/10, controller.getHighScore()/10), 200, (float) (height * 0.35));
-        image(sprites.getSprite("QR"), 296, (float) (height * 0.65) +96);
+        image(sprites.getSprite("QR",0), 296, (float) (height * 0.65) +96);
 
 
     }
     public void drawStart(){
-        background(sprites.getSprite("Desktop"));
+        background(sprites.getSprite("Desktop",0));
         textAlign(CENTER,CENTER);
         textSize(100);
         fill(150,50,50);
@@ -91,16 +93,18 @@ public class View extends PApplet implements IView{
     private void drawProjectiles(ArrayList<Projectile> projectiles){
         for (Projectile projectile : projectiles) {
             fill(100,0,0);
-            if(projectile.isPlayerProjectile()){fill(255);}
-
-            image(sprites.getSprite("Projectile"), projectile.getX(), projectile.getY());
+            if(projectile.isPlayerProjectile()){
+                circle(projectile.getX(),projectile.getY(),projectile.getRadius()*2);
+                //image(sprites.getSprite("PlayerProjectile"), projectile.getX(), projectile.getY());
+            }else{
+            image(sprites.getSprite("Projectile",animationFrame), projectile.getX(), projectile.getY());}
             //circle(projectile.getX(),projectile.getY(),projectile.getRadius()*2);
             ;
         }
     }
     private void drawCharacter(ICharacter character){
         if (character.getClass().equals(Virus.class)) {
-            image(sprites.getSprite("Virus"), character.getX(), character.getY());
+            image(sprites.getSprite("Virus",0), character.getX(), character.getY());
         } else if (character.getClass().equals(Bug.class)) {
             pushMatrix();
             translate(character.getX(), character.getY());
@@ -108,12 +112,16 @@ public class View extends PApplet implements IView{
             if (character.getY()>=controller.getPlayer().getY())
                 angle=-radians(270)-angle;
             rotate(angle);
-            image(sprites.getSprite("Bug"),  0, 0);
+
+            image(sprites.getSprite("Bug",animationFrame),  0, 0);
             popMatrix();
         } else if (character.getClass().equals(AntiCursor.class)) {
-            image(sprites.getSprite("AntiCursor"), character.getX()+ 4, character.getY());
+            if(((AntiCursor) character).hasTrashBin()){
+                image(sprites.getSprite("AntiCursor",1), character.getX()+ 4, character.getY());
+            }else{
+                image(sprites.getSprite("AntiCursor",0), character.getX()+ 4, character.getY());}
         } else if (character.getClass().equals(Player.class)) {
-            image(sprites.getSprite("Cursor"), character.getX() + 4, character.getY());
+            image(sprites.getSprite("Cursor",0), character.getX() + 4, character.getY());
         }
 
     }
@@ -121,7 +129,7 @@ public class View extends PApplet implements IView{
         String name = "VirusWindow";
         if(window == controller.getMainWindow()){name = "MainWindow";}
         rect(window.getPosition().getX(),window.getPosition().getY(),window.getWidth(), window.getHeight());
-        image(sprites.getSprite(name),window.getPosition().getX()+window.getWidth()/2,window.getPosition().getY()+window.getHeight()/2);
+        image(sprites.getSprite(name,0),window.getPosition().getX()+window.getWidth()/2,window.getPosition().getY()+window.getHeight()/2);
     }
 
     public void keyPressed(KeyEvent event){controller.handleKeyPressed(event);}

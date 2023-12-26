@@ -2,7 +2,6 @@ package Models;
 
 import Models.DataStructures.*;
 import Models.Objects.*;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -17,8 +16,7 @@ public class Model {
     private Timer addEnemyTimer = new Timer(0 , 0);
 
     public void startNewGame(int screenWidth, int screenHeight){
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
+        this.screenWidth = screenWidth; this.screenHeight = screenHeight;
         mainWindow  = new Window(402, 600,screenWidth,screenHeight);
         player = new Player(20,mainWindow);
         enemies = new ArrayList<>();
@@ -29,14 +27,15 @@ public class Model {
         score = 0;}
 
     public void addEnemy(){
+        boolean canSpawn = true;
         if(addEnemyTimer.isUp()){
             int rand = new Random().nextInt(4);
-            if(rand == 0){
-                Vector virusPosition = calcSpawnPosition(new Vector(0,0),new Vector(this.screenWidth, this.screenHeight), mainWindow.getPosition(), new Vector(mainWindow.getPosition().getX()+ mainWindow.getWidth(),mainWindow.getPosition().getY()+ mainWindow.getHeight() ));
+            if(rand == 0){Vector virusPosition = calcSpawnPosition(new Vector(0,0),new Vector(this.screenWidth, this.screenHeight), mainWindow.getPosition(), new Vector(mainWindow.getPosition().getX()+ mainWindow.getWidth(),mainWindow.getPosition().getY()+ mainWindow.getHeight() ));
                 Virus tempVirus = new Virus(virusPosition, player, new Window(402, 600, new Vector( (virusPosition.getX()- 300), (virusPosition.getY()-201))));
                 windows.add(tempVirus.getWindow());
                 enemies.add(tempVirus);}
-            if(rand == 1){enemies.add(new AntiCursor(calcSpawnPosition(new Vector(-50,-50), new Vector(this.screenWidth +50, this.screenHeight+50), new Vector(0,0), new Vector(this.screenWidth, this.screenHeight)), player, mainWindow));}
+            if(rand == 1){ for(Object enemy : enemies) {if(enemy instanceof AntiCursor){ canSpawn = false;} }
+                if(canSpawn){enemies.add(new AntiCursor(calcSpawnPosition(new Vector(-50,-50), new Vector(this.screenWidth +50, this.screenHeight+50), new Vector(0,0), new Vector(this.screenWidth, this.screenHeight)), player, mainWindow));}}
             else{enemies.add(new Bug(calcSpawnPosition(new Vector(-50,-50), new Vector(this.screenWidth +50, this.screenHeight+50), new Vector(0,0), new Vector(this.screenWidth, this.screenHeight)), player, mainWindow));}
             spawnRate = spawnRate > 50 ? spawnRate - 5 : spawnRate;
             addEnemyTimer.setRate(spawnRate);
@@ -56,9 +55,7 @@ public class Model {
             if(projectile.collidesWithEnemy(enemies)){score += 1000;}}else{projectile.collidesWithPlayer(player);}
             projectile.getsOutOfWindow(mainWindow, windows);}
 
-        for (Enemy enemy : enemies) {
-            if(enemy.getClass() == AntiCursor.class){
-                if(((AntiCursor) enemy).hasTrashBin()){enemy.collidesWithPlayer(player);}}else{enemy.collidesWithPlayer(player);}}}
+        for (Enemy enemy : enemies) {if(enemy.getClass() == AntiCursor.class){if(((AntiCursor) enemy).hasTrashBin()){enemy.collidesWithPlayer(player);}}else{enemy.collidesWithPlayer(player);}}}
 
     public void checkGameOver(){if(player.isDead()){state = GameState.GAME_OVER;}}
     public Player getPlayer() {return player;}

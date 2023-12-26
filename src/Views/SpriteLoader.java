@@ -11,12 +11,12 @@ public class SpriteLoader extends PApplet implements Runnable {
     private File dir;
     int screenHeight;
     int screenWidth;
-    int scaleFactor;
+    float scaleFactor;
 
     public SpriteLoader(int screenWidth,int screenHeight) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        this.scaleFactor = screenHeight/360;
+        this.scaleFactor = screenHeight/360f;
         this.dir = new File("images");
     }
 
@@ -24,6 +24,9 @@ public class SpriteLoader extends PApplet implements Runnable {
     public void run() {
 
         for (File file : dir.listFiles()) {
+            if(file.getName().endsWith("json")){
+                continue;
+            }
             loadSprite(file);
         }
     }
@@ -35,11 +38,13 @@ public class SpriteLoader extends PApplet implements Runnable {
     private void loadSprite(File file) {
         String name = file.getName().split("\\.")[0];
         int pixelWidth = parseInt(file.getName().split("\\.")[1]);
-        int pixelHeight = parseInt(file.getName().split("\\.")[2]);;
+        int pixelHeight = parseInt(file.getName().split("\\.")[2]);
         PImage image = loadImage(sketchPath() + "/images/" + file.getName());
 
-        image.resize(pixelWidth *scaleFactor, pixelHeight *scaleFactor);
+        image.resize((int) (pixelWidth *scaleFactor), (int) (pixelHeight *scaleFactor));
         sprites.put(name, image);
         System.out.println(name + " sprite successfully loaded");
     }
+
+
 }
