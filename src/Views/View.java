@@ -46,7 +46,6 @@ public class View extends PApplet implements IView{
     }
     public void draw(){
         controller.tick();
-
         animationFrame = frameCount%animationSpeed > animationSpeed/2 ? 1 :  0 ;
     }
     public void drawPlaying(){
