@@ -26,7 +26,7 @@ public class SpriteAnimLoader extends PApplet implements Runnable {
     @Override
     public void run() {
         for (File file : dir.listFiles()) {
-                loadSprite(file);
+            if(file.getName().endsWith("png")){loadSprite(file);}
         }
     }
     public PImage getSprite(String name, int frame) {

@@ -4,6 +4,7 @@ import Controllers.IController;
 import Models.DataStructures.Vector;
 import Models.Objects.*;
 import processing.core.PApplet;
+import processing.core.PFont;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
@@ -16,6 +17,9 @@ public class View extends PApplet implements IView{
     int animationFrame = 0;
     int animationSpeed = 40;
     int shift;
+    PFont dogica;
+    PFont defaultFont;
+
 
     @Override
     public void settings() {
@@ -24,6 +28,10 @@ public class View extends PApplet implements IView{
     }
     @Override
     public void setup() {
+     
+        dogica = createFont("dogica.ttf", 128);
+        defaultFont = createFont("default.ttf", 128);
+
         imageMode(CENTER);
         sprites = new SpriteAnimLoader(width,height);
         Thread thread = new Thread(sprites);
@@ -45,6 +53,15 @@ public class View extends PApplet implements IView{
 
         background(sprites.getSprite("Desktop", 0));
 
+        textSize(10);
+        fill(255);
+
+        image(sprites.getSprite("TrashBin",0), (float) (width / 30), (float) (height / 8) - 55 );
+        text("CLICKME.EXE", (float) (width / 30), (float) (height / 8) );
+
+        image(sprites.getSprite("TrashBin", 0), (float) (width / 30), (float) (height / 8 * 2) - 55);
+        text("Trash Bin", (float) (width / 30), (float) (height / 8 * 2));
+
         for (Window window : controller.getEnemyWindows()) drawWindow(window);
         drawWindow(controller.getMainWindow());
 
@@ -55,7 +72,7 @@ public class View extends PApplet implements IView{
             drawCharacter(enemy);
         }
         textAlign(LEFT,TOP);
-        textSize(30);
+        textSize(20);
         fill(20);
         text("Points: " + controller.getScore()/10 + " HighScore:  " + controller.getHighScore()/10,controller.getMainWindow().getPosition().getX()+30,controller.getMainWindow().getPosition().getY() +40);
 
@@ -64,13 +81,14 @@ public class View extends PApplet implements IView{
     public void drawGameOver(){
         background(30,130,220);
         textAlign(LEFT,TOP);
+
+        textFont(defaultFont);
         textSize(150);
         fill(255);
         text(":(", 200, (float) (height * 0.2));
         textSize(50);
         text(String.format("""
-                Your PC ran into a Problem\s
-                ERROR: Game Over.
+                Your PC ran into a problem and needs to restart.\s
 
                 Press [SPACE] to initiate system reboot.
                 Your score was %d and the highscore was %d.""", controller.getScore()/10, controller.getHighScore()/10), 200, (float) (height * 0.35));
@@ -80,8 +98,19 @@ public class View extends PApplet implements IView{
     }
     public void drawStart(){
         background(sprites.getSprite("Desktop",0));
+        textFont(dogica);
+        textSize(10);
+        fill(255);
+
+
+        image(sprites.getSprite("TrashBin",0), (float) (width / 30), (float) (height / 8) - 55 );
+        text("CLICKME.EXE", (float) (width / 30), (float) (height / 8) );
+
+        image(sprites.getSprite("TrashBin",0), (float) (width / 30), (float) (height / 8*2) - 55 );
+        text("Trash Bin", (float) (width / 30), (float) (height / 8*2) );
+
         textAlign(CENTER,CENTER);
-        textSize(100);
+        textSize(50);
         fill(150,50,50);
         text("PRESS SPACE TO START", (float) width /2, (float) height /2);
     }
