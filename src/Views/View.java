@@ -97,14 +97,17 @@ public class View extends PApplet implements IView{
                 circle(projectile.getX(),projectile.getY(),projectile.getRadius()*2);
                 //image(sprites.getSprite("PlayerProjectile"), projectile.getX(), projectile.getY());
             }else{
-            image(sprites.getSprite("Projectile",animationFrame), projectile.getX(), projectile.getY());}
-            //circle(projectile.getX(),projectile.getY(),projectile.getRadius()*2);
-            ;
+                image(sprites.getSprite("HoleShadow",0), projectile.getX(), projectile.getY());
+                image(sprites.getSprite("Desktop",0).get((int)projectile.getX(),(int) projectile.getY(),projectile.getRadius()*2,projectile.getRadius()*2), projectile.getX(), projectile.getY());
+
+                //image(sprites.getSprite("Projectile",animationFrame), projectile.getX(), projectile.getY());
+            }
+
         }
     }
     private void drawCharacter(ICharacter character){
         if (character.getClass().equals(Virus.class)) {
-            image(sprites.getSprite("Virus",0), character.getX(), character.getY());
+            image(sprites.getSprite("Virus",animationFrame), character.getX(), character.getY());
         } else if (character.getClass().equals(Bug.class)) {
             pushMatrix();
             translate(character.getX(), character.getY());

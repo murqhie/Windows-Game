@@ -16,6 +16,13 @@ public class Projectile {
         this.position = position;
         this.velocity = velocity;
         this.playerProjectile = playerProjectile;}
+
+    public Projectile(Vector position, Vector velocity, Boolean playerProjectile, int radius) {
+        this.position = position;
+        this.velocity = velocity;
+        this.playerProjectile = playerProjectile;
+        this.radius = radius;
+    }
     public void getsOutOfWindow(Window mainWindow, ArrayList<Window> enemyWindows){
 
         if (isInWindow(mainWindow)){

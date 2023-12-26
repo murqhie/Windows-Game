@@ -29,7 +29,7 @@ public class Model {
     public void addEnemy(){
         boolean canSpawn = true;
         if(addEnemyTimer.isUp()){
-            int rand = new Random().nextInt(4);
+            int rand = 5; //new Random().nextInt(4);
             if(rand == 0){Vector virusPosition = calcSpawnPosition(new Vector(0,0),new Vector(this.screenWidth, this.screenHeight), mainWindow.getPosition(), new Vector(mainWindow.getPosition().getX()+ mainWindow.getWidth(),mainWindow.getPosition().getY()+ mainWindow.getHeight() ));
                 Virus tempVirus = new Virus(virusPosition, player, new Window(402, 600, new Vector( (virusPosition.getX()- 300), (virusPosition.getY()-201))));
                 windows.add(tempVirus.getWindow());
