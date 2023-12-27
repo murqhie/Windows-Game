@@ -49,6 +49,22 @@ public class View extends PApplet implements IView{
         controller.tick();
         animationFrame = frameCount%animationSpeed > animationSpeed/2 ? 1 :  0 ;
     }
+    public void drawStart(){
+
+        textAlign(CENTER,CENTER);
+        background(sprites.getSprite("Desktop",0));
+        textFont(dogica);
+        textSize(10);
+        fill(255);
+
+
+        image(sprites.getSprite("TrashBin",0), (float) (width / 30), (float) (height / 8) - 55 );
+        text("CLICKME.EXE", (float) (width / 30), (float) (height / 8) );
+
+        image(sprites.getSprite("TrashBin",0), (float) (width / 30), (float) (height / 8*2) - 55 );
+        text("Trash Bin", (float) (width / 30), (float) (height / 8*2) );
+
+    }
     public void drawPlaying(){
 
         background(sprites.getSprite("Desktop", 0));
@@ -59,7 +75,17 @@ public class View extends PApplet implements IView{
         image(sprites.getSprite("TrashBin",0), (float) (width / 30), (float) (height / 8) - 55 );
         text("CLICKME.EXE", (float) (width / 30), (float) (height / 8) );
 
-        image(sprites.getSprite("TrashBin", 0), (float) (width / 30), (float) (height / 8 * 2) - 55);
+        boolean drawTrashBin = true;
+
+        for (ICharacter enemy : controller.getEnemies()) {
+            if(enemy.getClass().equals(AntiCursor.class) && ((AntiCursor) enemy).hasTrashBin()){
+                drawTrashBin = false;
+            };
+        }
+        if(drawTrashBin){
+            image(sprites.getSprite("TrashBin", 0), (float) (width / 30), (float) (height / 8 * 2) - 55);
+        }
+
         text("Trash Bin", (float) (width / 30), (float) (height / 8 * 2));
 
         for (Window window : controller.getEnemyWindows()) drawWindow(window);
@@ -94,27 +120,8 @@ public class View extends PApplet implements IView{
                 Your score was %d and the highscore was %d.""", controller.getScore()/10, controller.getHighScore()/10), 200, (float) (height * 0.35));
         image(sprites.getSprite("QR",0), 296, (float) (height * 0.65) +96);
 
-
     }
-    public void drawStart(){
-        textAlign(CENTER,CENTER);
-        background(sprites.getSprite("Desktop",0));
-        textFont(dogica);
-        textSize(10);
-        fill(255);
 
-
-        image(sprites.getSprite("TrashBin",0), (float) (width / 30), (float) (height / 8) - 55 );
-        text("CLICKME.EXE", (float) (width / 30), (float) (height / 8) );
-
-        image(sprites.getSprite("TrashBin",0), (float) (width / 30), (float) (height / 8*2) - 55 );
-        text("Trash Bin", (float) (width / 30), (float) (height / 8*2) );
-
-
-        textSize(50);
-        fill(150,50,50);
-        text("PRESS SPACE TO START", (float) width /2, (float) height /2);
-    }
 
     @Override
     public Vector getMousePosition() {
