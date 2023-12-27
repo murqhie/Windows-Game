@@ -3,26 +3,21 @@ package Models.Objects;
 import Models.DataStructures.Vector;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Projectile {
     private Vector position;
     private Vector velocity;
     private int radius = 4;
     private int knockBack = 2;
-    private boolean playerProjectile;
+    private String parent;
     private boolean collided = false;
     private Window window;
-    public Projectile(Vector position, Vector velocity, Boolean playerProjectile) {
+    public Projectile(Vector position, Vector velocity, String parent, int radius) {
         this.position = position;
         this.velocity = velocity;
-        this.playerProjectile = playerProjectile;}
-
-    public Projectile(Vector position, Vector velocity, Boolean playerProjectile, int radius) {
-        this.position = position;
-        this.velocity = velocity;
-        this.playerProjectile = playerProjectile;
-        this.radius = radius;
-    }
+        this.parent = parent;
+        this.radius = radius;}
     public void getsOutOfWindow(Window mainWindow, ArrayList<Window> enemyWindows){
 
         if (isInWindow(mainWindow)){
@@ -38,12 +33,12 @@ public class Projectile {
 
         collisionResolution();
 
-        if (playerProjectile & this.window== mainWindow) {mainWindow.setAcceleration(velocity.unit().multiply(knockBack));}}
+        if (Objects.equals(parent, "player") & this.window== mainWindow) {mainWindow.setAcceleration(velocity.unit().multiply(knockBack));}}
     private boolean isInWindow(Window window){return  !collisionL( window) &  !collisionU( window) &  !collisionR( window) &  !collisionO( window);}
-    private boolean collisionL( Window window){return this.position.getX() - radius <= window.getPosition().getX() + 10;}
-    private boolean collisionO( Window window){return this.position.getY() - radius <= window.getPosition().getY() + 25;}
-    private boolean collisionR( Window window){return this.position.getX() + radius >= window.getPosition().getX() + window.getWidth() - 10;}
-    private boolean collisionU( Window window){return this.position.getY() + radius >= window.getPosition().getY() + window.getHeight() - 10;}
+    private boolean collisionL( Window window){return this.position.getX() + radius <= window.getPosition().getX() + 10;}
+    private boolean collisionO( Window window){return this.position.getY() + radius <= window.getPosition().getY() + 25;}
+    private boolean collisionR( Window window){return this.position.getX() - radius >= window.getPosition().getX() + window.getWidth() - 10;}
+    private boolean collisionU( Window window){return this.position.getY() - radius >= window.getPosition().getY() + window.getHeight() - 10;}
     private void collisionResolution(){
         if(this.window == null){return;}
         if(collisionL(this.window)){this.position.setX(window.getPosition().getX() + radius);}
@@ -66,6 +61,6 @@ public class Projectile {
     public float getX(){return position.getX();}
     public float getY(){return position.getY();}
     public int getRadius() {return radius;}
-    public boolean isPlayerProjectile() {return playerProjectile;}
+    public String getParent() {return parent;}
     public boolean isCollided() {return collided;}
 }

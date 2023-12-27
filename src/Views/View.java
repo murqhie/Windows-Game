@@ -9,6 +9,7 @@ import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class View extends PApplet implements IView{
     IController controller;
@@ -28,7 +29,7 @@ public class View extends PApplet implements IView{
     }
     @Override
     public void setup() {
-     
+        background(0);
         dogica = createFont("dogica.ttf", 128);
         defaultFont = createFont("default.ttf", 128);
 
@@ -54,7 +55,7 @@ public class View extends PApplet implements IView{
 
         textSize(10);
         fill(255);
-
+        textAlign(CENTER,CENTER);
         image(sprites.getSprite("TrashBin",0), (float) (width / 30), (float) (height / 8) - 55 );
         text("CLICKME.EXE", (float) (width / 30), (float) (height / 8) );
 
@@ -96,6 +97,7 @@ public class View extends PApplet implements IView{
 
     }
     public void drawStart(){
+        textAlign(CENTER,CENTER);
         background(sprites.getSprite("Desktop",0));
         textFont(dogica);
         textSize(10);
@@ -108,7 +110,7 @@ public class View extends PApplet implements IView{
         image(sprites.getSprite("TrashBin",0), (float) (width / 30), (float) (height / 8*2) - 55 );
         text("Trash Bin", (float) (width / 30), (float) (height / 8*2) );
 
-        textAlign(CENTER,CENTER);
+
         textSize(50);
         fill(150,50,50);
         text("PRESS SPACE TO START", (float) width /2, (float) height /2);
@@ -122,41 +124,12 @@ public class View extends PApplet implements IView{
     private void drawProjectiles(ArrayList<Projectile> projectiles){
         for (Projectile projectile : projectiles) {
             fill(100,0,0);
-            if(projectile.isPlayerProjectile()){
+            if(Objects.equals(projectile.getParent(), "player")){
                 circle(projectile.getX(),projectile.getY(),projectile.getRadius()*2);
                 //image(sprites.getSprite("PlayerProjectile"), projectile.getX(), projectile.getY());
-            }else{
-                image(sprites.getSprite("Desktop",0).get(
-                                (int) projectile.getX(),
-                                (int) projectile.getY() + projectile.getRadius()*2 /3,
-                                projectile.getRadius()*2,
-                                projectile.getRadius()*2 /3),
-                        projectile.getX(),
-                        projectile.getY() + (float) (projectile.getRadius() * 2) /3 );
-
-                image(sprites.getSprite("Desktop",0).get(
-                                (int) projectile.getX(),
-                                (int) projectile.getY() - projectile.getRadius()*2 /3,
-                                projectile.getRadius()*2,
-                                projectile.getRadius()*2 /3),
-                        projectile.getX(),
-                        projectile.getY() - (float) (projectile.getRadius() * 2) /3 );
-
-                shift = animationFrame == 0 ? 10 :0;
-                image(sprites.getSprite("Desktop",0).get(
-                                (int) projectile.getX(),
-                                (int) projectile.getY(),
-                                projectile.getRadius()*2,
-                                projectile.getRadius()*2 /3 +2),
-                        projectile.getX() + shift,
-                        projectile.getY());
-
-
-                image(sprites.getSprite("HoleGlitch",animationFrame), projectile.getX(), projectile.getY());
-
-                //image(sprites.getSprite("Projectile",animationFrame), projectile.getX(), projectile.getY());
-            }
-
+            }else if(Objects.equals(projectile.getParent(), "bug")){
+               drawBugProjectile(projectile);
+            }else if(Objects.equals(projectile.getParent(), "virus")){ image(sprites.getSprite("Projectile",animationFrame), projectile.getX(), projectile.getY());}
         }
     }
     private void drawCharacter(ICharacter character){
@@ -178,9 +151,7 @@ public class View extends PApplet implements IView{
             }else{
                 image(sprites.getSprite("AntiCursor",0), character.getX()+ 4, character.getY());}
         } else if (character.getClass().equals(Player.class)) {
-            image(sprites.getSprite("Cursor",0), character.getX() + 4, character.getY());
-        }
-
+            image(sprites.getSprite("Cursor",0), character.getX() + 4, character.getY());}
     }
     private void drawWindow(Window window){
         String name = "VirusWindow";
@@ -188,6 +159,34 @@ public class View extends PApplet implements IView{
         rect(window.getPosition().getX(),window.getPosition().getY(),window.getWidth(), window.getHeight());
         image(sprites.getSprite(name,0),window.getPosition().getX()+window.getWidth()/2,window.getPosition().getY()+window.getHeight()/2);
     }
+
+    private void drawBugProjectile(Projectile projectile){ image(sprites.getSprite("Desktop",0).get(
+                    (int) projectile.getX(),
+                    (int) projectile.getY() + projectile.getRadius()*2 /3,
+                    projectile.getRadius()*2,
+                    projectile.getRadius()*2 /3),
+            projectile.getX(),
+            projectile.getY() + (float) (projectile.getRadius() * 2) /3 );
+
+        image(sprites.getSprite("Desktop",0).get(
+                        (int) projectile.getX(),
+                        (int) projectile.getY() - projectile.getRadius()*2 /3,
+                        projectile.getRadius()*2,
+                        projectile.getRadius()*2 /3),
+                projectile.getX(),
+                projectile.getY() - (float) (projectile.getRadius() * 2) /3 );
+
+        shift = animationFrame == 0 ? 10 :0;
+        image(sprites.getSprite("Desktop",0).get(
+                        (int) projectile.getX(),
+                        (int) projectile.getY(),
+                        projectile.getRadius()*2,
+                        projectile.getRadius()*2 /3 +2),
+                projectile.getX() + shift,
+                projectile.getY());
+
+
+        image(sprites.getSprite("HoleGlitch",animationFrame), projectile.getX(), projectile.getY());}
 
     public void keyPressed(KeyEvent event){controller.handleKeyPressed(event);}
     public void keyReleased(KeyEvent event){controller.handleKeyReleased(event);}

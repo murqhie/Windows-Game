@@ -13,7 +13,7 @@ public class Virus extends Enemy{
     public void attack(ArrayList<Projectile> projectiles) {
         if(shootTimer.isUp()){
             shootingDirection = shootingDirection.rotate(10);
-            projectiles.add(new Projectile(this.position,shootingDirection.unit().multiply(shootingSpeed), false));
+            projectiles.add(new Projectile(this.position,shootingDirection.unit().multiply(shootingSpeed), "virus", 4));
             shootTimer.reset();}
         shootTimer.tick();}
     @Override
