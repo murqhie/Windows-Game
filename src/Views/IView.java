@@ -13,4 +13,5 @@ public interface IView {
 
     int getScreenHeight();
     void showStartButton();
+    SoundLoader getSounds();
 }

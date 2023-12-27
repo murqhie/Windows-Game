@@ -70,6 +70,7 @@ public class Controller implements IController {
             case START -> {
                 if (event.getKeyCode() == ' ') {
                     model.setState(GameState.PLAYING);
+
                     model.startNewGame(view.getScreenWidth(),view.getScreenHeight());
                 }
             }

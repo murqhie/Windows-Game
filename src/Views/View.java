@@ -9,6 +9,7 @@ import processing.core.PFont;
 import processing.core.PImage;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
+import processing.sound.SoundFile;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -19,6 +20,7 @@ import static controlP5.ControlP5Constants.ACTION_RELEASE;
 public class View extends PApplet implements IView{
     IController controller;
     SpriteAnimLoader sprites;
+    SoundLoader soundLoader;
     Button startButton;
     int animationFrame = 0;
     int animationSpeed = 40;
@@ -40,7 +42,7 @@ public class View extends PApplet implements IView{
         background(loadingImage);
 
         sprites = SpriteAnimLoader.initialize(width,height);
-
+        soundLoader = SoundLoader.initialize();
         dogica = createFont("font/dogica.ttf", 128);
         defaultFont = createFont("font/default.ttf", 128);
         cell1 = new Vector((float) (width / 30),(float) (height / 8) - 55 );
@@ -67,6 +69,7 @@ public class View extends PApplet implements IView{
         drawBin();
     }
     public void drawPlaying(){
+        soundLoader.playTitleMusic();
 
         background(sprites.getSprite("Desktop", 0));
 
@@ -89,6 +92,8 @@ public class View extends PApplet implements IView{
         }
     }
     public void drawGameOver(){
+        soundLoader.playEndMusic();
+
         background(37, 150, 190);
         textAlign(LEFT,TOP);
 
@@ -236,5 +241,5 @@ public class View extends PApplet implements IView{
     public void showStartButton() {startButton.show();}
     public int getScreenWidth(){return width;}
     public Vector getMousePosition() {return new Vector(mouseX, mouseY);}
-
+    public SoundLoader getSounds(){return soundLoader;}
 }
