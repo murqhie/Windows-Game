@@ -7,6 +7,7 @@ import Models.DataStructures.Vector;
 import Models.Objects.*;
 import processing.core.PApplet;
 import processing.core.PFont;
+import processing.core.PImage;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
@@ -19,9 +20,7 @@ import static controlP5.ControlP5Constants.ACTION_RELEASE;
 public class View extends PApplet implements IView{
     IController controller;
     SpriteAnimLoader sprites;
-    private ControlP5 cp5;
     Button startButton;
-    int angle =1;
     int animationFrame = 0;
     int animationSpeed = 40;
     int shift;
@@ -29,51 +28,28 @@ public class View extends PApplet implements IView{
     PFont defaultFont;
     Vector cell1;
     Vector cell2;
-
-
+    PImage loadingImage;
     @Override
     public void settings() {
-      size(1920,1080);
-    //fullScreen();
+        size(1920,1080);
+        loadingImage = loadImage("Loading.640.360.png");
+        loadingImage.resize(width,height);
+        //fullScreen();
     }
     @Override
     public void setup() {
+        background(loadingImage);
 
+        sprites = SpriteAnimLoader.initialize(width,height);
+
+        dogica = createFont("dogica.ttf", 128);
+        defaultFont = createFont("default.ttf", 128);
         cell1 = new Vector((float) (width / 30),(float) (height / 8) - 55 );
         cell2 = new Vector( (float) (width / 30), (float) (height / 8*2) - 55);
 
-        cp5 = new ControlP5(this);
-        startButton = cp5.addButton("");
-        startButton.setColorBackground( color( 255,255,255,1 ) );
-        startButton.setColorForeground(color( 255,255,255,10 ) );
-        startButton.setColorActive(color(0,0,0,10 ));
-        startButton.setPosition((float) (cell1.getX() - width *0.05/2 - 10), (float) (cell1.getY() - height * 0.08 /2 - (height * 0.01)));
-        startButton.setSize((int) (width *0.05) + 10, (int) ( (height * 0.08) + (height * 0.03)));
-        startButton.addListenerFor(ACTION_RELEASE, new CallbackListener() {
-                    @Override
-                    public void controlEvent(CallbackEvent callbackEvent) {
-                      controller.setGameState("PLAYING");
-                      System.out.println("FASKBHJL");
-                        startButton.hide();
-                    }
-                });
-
-
-
-        background(0);
-        dogica = createFont("dogica.ttf", 128);
-        defaultFont = createFont("default.ttf", 128);
-
         imageMode(CENTER);
-        sprites = new SpriteAnimLoader(width,height);
-        Thread thread = new Thread(sprites);
-        thread.start();
+        createButton();
 
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         controller.setGameState("START");
     }
     public void draw(){
@@ -88,13 +64,9 @@ public class View extends PApplet implements IView{
         textSize(10);
         fill(255);
 
-
-
         drawExplorer();
         drawBin();
-
     }
-
     public void drawPlaying(){
 
         background(sprites.getSprite("Desktop", 0));
@@ -106,7 +78,6 @@ public class View extends PApplet implements IView{
         drawExplorer();
         drawBin();
 
-
         for (Window window : controller.getEnemyWindows()) drawWindow(window);
         drawWindow(controller.getMainWindow());
         drawScore();
@@ -117,11 +88,9 @@ public class View extends PApplet implements IView{
         for (ICharacter enemy : controller.getEnemies()) {
             drawCharacter(enemy);
         }
-
-
     }
     public void drawGameOver(){
-        background(30,130,220);
+        background(37, 150, 190);
         textAlign(LEFT,TOP);
 
         textFont(defaultFont);
@@ -137,50 +106,53 @@ public class View extends PApplet implements IView{
         image(sprites.getSprite("QR",0), 296, (float) (height * 0.65) +96);
 
     }
-
-
-    @Override
-    public Vector getMousePosition() {
-        return new Vector(mouseX, mouseY);
-    }
-
-    private void drawProjectiles(ArrayList<Projectile> projectiles){
-        for (Projectile projectile : projectiles) {
-            fill(200,200,200);
-            if(Objects.equals(projectile.getParent(), "player")){
-                circle(projectile.getX(),projectile.getY(),projectile.getRadius()*2);
-                //image(sprites.getSprite("PlayerProjectile"), projectile.getX(), projectile.getY());
-            }else if(Objects.equals(projectile.getParent(), "bug")){
-               drawBugProjectile(projectile);
-            }else if(Objects.equals(projectile.getParent(), "virus")){ image(sprites.getSprite("Projectile",new Random().nextInt(2)), projectile.getX(), projectile.getY());}
-        }
-    }
     private void drawCharacter(ICharacter character){
         if (character.getClass().equals(Virus.class)) {
-            image(sprites.getSprite("Virus",animationFrame), character.getX(), character.getY());
+            drawVirus((Virus) character);
         } else if (character.getClass().equals(Bug.class)) {
-            pushMatrix();
-            translate(character.getX(), character.getY());
-            float angle = (float) (Math.acos((1*((Bug) character).getDistance().getX())/(((Bug) character).getDistance().norm())) + radians(45));
-            if (character.getY()>=controller.getPlayer().getY())
-                angle=-radians(270)-angle;
-            rotate(angle);
-
-            image(sprites.getSprite("Bug",animationFrame),  0, 0);
-            popMatrix();
+            drawBug((Bug) character);
         } else if (character.getClass().equals(AntiCursor.class)) {
-            if(((AntiCursor) character).hasTrashBin()){
-                image(sprites.getSprite("AntiCursor",1), character.getX()+ 4, character.getY());
-            }else{
-                image(sprites.getSprite("AntiCursor",0), character.getX()+ 4, character.getY());}
+            drawAntiCursor((AntiCursor) character);
         } else if (character.getClass().equals(Player.class)) {
-            image(sprites.getSprite("Cursor",0), character.getX() + 4, character.getY());}
+            drawPlayer((Player) character);
+        }
     }
-    private void drawWindow(Window window){
-        String name = "VirusWindow";
-        if(window == controller.getMainWindow()){name = "MainWindow";}
-        rect(window.getPosition().getX(),window.getPosition().getY(),window.getWidth(), window.getHeight());
-        image(sprites.getSprite(name,0),window.getPosition().getX()+window.getWidth()/2,window.getPosition().getY()+window.getHeight()/2);
+    private void drawPlayer(Player player){
+        image(sprites.getSprite("Cursor",0), player.getX() + 4, player.getY());
+    }
+    private void drawVirus(Virus virus){
+        image(sprites.getSprite("Virus",animationFrame), virus.getX(), virus.getY());
+    }
+    private void drawBug(Bug bug){pushMatrix();
+        translate(bug.getX(), bug.getY());
+        float angle = (float) (Math.acos((bug.getDistance().getX())/(bug.getDistance().norm())) + radians(45));
+        if (bug.getY()>=controller.getPlayer().getY())
+            angle=-radians(270)-angle;
+        rotate(angle);
+        image(sprites.getSprite("Bug",animationFrame),  0, 0);
+        popMatrix();
+    }
+    private void drawAntiCursor(AntiCursor antiCursor){
+        if(antiCursor.hasTrashBin()){
+            image(sprites.getSprite("AntiCursor",1), antiCursor.getX()+ 4, antiCursor.getY());
+        }else{
+            image(sprites.getSprite("AntiCursor",0), antiCursor.getX()+ 4, antiCursor.getY());}
+    }
+    private void drawProjectiles(ArrayList<Projectile> projectiles){
+        for (Projectile projectile : projectiles) {
+            if(Objects.equals(projectile.getParent(), "player")){
+                drawPlayerProjectile(projectile);
+            }else if(Objects.equals(projectile.getParent(), "bug")){
+               drawBugProjectile(projectile);
+            }else if(Objects.equals(projectile.getParent(), "virus")){
+                drawVirusProjectile(projectile);
+            }
+        }
+    }
+    private void drawPlayerProjectile(Projectile projectile) {
+        fill(200, 200, 200);
+        circle(projectile.getX(), projectile.getY(), projectile.getRadius() * 2);
+        //image(sprites.getSprite("PlayerProjectile"), projectile.getX(), projectile.getY());
     }
     private void drawBugProjectile(Projectile projectile){ image(sprites.getSprite("Desktop",0).get(
                     (int) projectile.getX(),
@@ -209,6 +181,14 @@ public class View extends PApplet implements IView{
 
 
         image(sprites.getSprite("HoleGlitch",animationFrame), projectile.getX(), projectile.getY());}
+    private void drawVirusProjectile(Projectile projectile){
+        image(sprites.getSprite("Projectile",new Random().nextInt(2)), projectile.getX(), projectile.getY());}
+    private void drawWindow(Window window){
+        String name = "VirusWindow";
+        if(window == controller.getMainWindow()){name = "MainWindow";}
+        rect(window.getPosition().getX(),window.getPosition().getY(),window.getWidth(), window.getHeight());
+        image(sprites.getSprite(name,0),window.getPosition().getX()+window.getWidth()/2,window.getPosition().getY()+window.getHeight()/2);
+    }
     public void drawExplorer(){
         image(sprites.getSprite("txt",0),cell1.getX(), cell1.getY());
         text("Internet\nExplorer", cell1.getX(), cell1.getY() + (float) sprites.getSprite("TrashBin", 0).height /2 + 10 );
@@ -232,7 +212,22 @@ public class View extends PApplet implements IView{
         textSize(18);
         fill(50);
         text("Points: " + controller.getScore()/10 + "\nHighScore: " + controller.getHighScore()/10,controller.getMainWindow().getPosition().getX()+20,controller.getMainWindow().getPosition().getY() +100);}
-
+    public void createButton(){
+        ControlP5 cp5 = new ControlP5(this);
+        startButton = cp5.addButton("");
+        startButton.setColorBackground( color( 255,255,255,1 ) );
+        startButton.setColorForeground(color( 255,255,255,10 ) );
+        startButton.setColorActive(color(0,0,0,10 ));
+        startButton.setPosition((float) (cell1.getX() - width *0.05/2 - 10), (float) (cell1.getY() - height * 0.08 /2 - (height * 0.01)));
+        startButton.setSize((int) (width *0.05) + 10, (int) ( (height * 0.08) + (height * 0.03)));
+        startButton.addListenerFor(ACTION_RELEASE, new CallbackListener() {
+            @Override
+            public void controlEvent(CallbackEvent callbackEvent) {
+                controller.setGameState("PLAYING");
+                System.out.println("FASKBHJL");
+                startButton.hide();
+            }
+        });}
     public void keyPressed(KeyEvent event){controller.handleKeyPressed(event);}
     public void keyReleased(KeyEvent event){controller.handleKeyReleased(event);}
     public void mousePressed(MouseEvent event){controller.handleMousePressed(event);}
@@ -241,5 +236,6 @@ public class View extends PApplet implements IView{
     public int getScreenHeight(){return height;}
     public void showStartButton() {startButton.show();}
     public int getScreenWidth(){return width;}
+    public Vector getMousePosition() {return new Vector(mouseX, mouseY);}
 
 }
