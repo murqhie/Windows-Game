@@ -1,5 +1,7 @@
 package Views;
 
+import Models.DataStructures.GameState;
+import controlP5.*;
 import Controllers.IController;
 import Models.DataStructures.Vector;
 import Models.Objects.*;
@@ -10,16 +12,23 @@ import processing.event.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
+
+import static controlP5.ControlP5Constants.ACTION_RELEASE;
 
 public class View extends PApplet implements IView{
     IController controller;
     SpriteAnimLoader sprites;
+    private ControlP5 cp5;
+    Button startButton;
     int angle =1;
     int animationFrame = 0;
     int animationSpeed = 40;
     int shift;
     PFont dogica;
     PFont defaultFont;
+    Vector cell1;
+    Vector cell2;
 
 
     @Override
@@ -29,6 +38,28 @@ public class View extends PApplet implements IView{
     }
     @Override
     public void setup() {
+
+        cell1 = new Vector((float) (width / 30),(float) (height / 8) - 55 );
+        cell2 = new Vector( (float) (width / 30), (float) (height / 8*2) - 55);
+
+        cp5 = new ControlP5(this);
+        startButton = cp5.addButton("");
+        startButton.setColorBackground( color( 255,255,255,1 ) );
+        startButton.setColorForeground(color( 255,255,255,10 ) );
+        startButton.setColorActive(color(0,0,0,10 ));
+        startButton.setPosition((float) (cell1.getX() - width *0.05/2 - 10), (float) (cell1.getY() - height * 0.08 /2 - (height * 0.01)));
+        startButton.setSize((int) (width *0.05) + 10, (int) ( (height * 0.08) + (height * 0.03)));
+        startButton.addListenerFor(ACTION_RELEASE, new CallbackListener() {
+                    @Override
+                    public void controlEvent(CallbackEvent callbackEvent) {
+                      controller.setGameState("PLAYING");
+                      System.out.println("FASKBHJL");
+                        startButton.hide();
+                    }
+                });
+
+
+
         background(0);
         dogica = createFont("dogica.ttf", 128);
         defaultFont = createFont("default.ttf", 128);
@@ -58,13 +89,12 @@ public class View extends PApplet implements IView{
         fill(255);
 
 
-        image(sprites.getSprite("TrashBin",0), (float) (width / 30), (float) (height / 8) - 55 );
-        text("CLICKME.EXE", (float) (width / 30), (float) (height / 8) );
 
-        image(sprites.getSprite("TrashBin",0), (float) (width / 30), (float) (height / 8*2) - 55 );
-        text("Trash Bin", (float) (width / 30), (float) (height / 8*2) );
+        drawExplorer();
+        drawBin();
 
     }
+
     public void drawPlaying(){
 
         background(sprites.getSprite("Desktop", 0));
@@ -72,24 +102,14 @@ public class View extends PApplet implements IView{
         textSize(10);
         fill(255);
         textAlign(CENTER,CENTER);
-        image(sprites.getSprite("TrashBin",0), (float) (width / 30), (float) (height / 8) - 55 );
-        text("CLICKME.EXE", (float) (width / 30), (float) (height / 8) );
 
-        boolean drawTrashBin = true;
+        drawExplorer();
+        drawBin();
 
-        for (ICharacter enemy : controller.getEnemies()) {
-            if(enemy.getClass().equals(AntiCursor.class) && ((AntiCursor) enemy).hasTrashBin()){
-                drawTrashBin = false;
-            };
-        }
-        if(drawTrashBin){
-            image(sprites.getSprite("TrashBin", 0), (float) (width / 30), (float) (height / 8 * 2) - 55);
-        }
-
-        text("Trash Bin", (float) (width / 30), (float) (height / 8 * 2));
 
         for (Window window : controller.getEnemyWindows()) drawWindow(window);
         drawWindow(controller.getMainWindow());
+        drawScore();
 
         Player player = controller.getPlayer();
         drawProjectiles(controller.getProjectiles());
@@ -97,10 +117,6 @@ public class View extends PApplet implements IView{
         for (ICharacter enemy : controller.getEnemies()) {
             drawCharacter(enemy);
         }
-        textAlign(LEFT,TOP);
-        textSize(20);
-        fill(20);
-        text("Points: " + controller.getScore()/10 + " HighScore:  " + controller.getHighScore()/10,controller.getMainWindow().getPosition().getX()+30,controller.getMainWindow().getPosition().getY() +40);
 
 
     }
@@ -130,13 +146,13 @@ public class View extends PApplet implements IView{
 
     private void drawProjectiles(ArrayList<Projectile> projectiles){
         for (Projectile projectile : projectiles) {
-            fill(100,0,0);
+            fill(200,200,200);
             if(Objects.equals(projectile.getParent(), "player")){
                 circle(projectile.getX(),projectile.getY(),projectile.getRadius()*2);
                 //image(sprites.getSprite("PlayerProjectile"), projectile.getX(), projectile.getY());
             }else if(Objects.equals(projectile.getParent(), "bug")){
                drawBugProjectile(projectile);
-            }else if(Objects.equals(projectile.getParent(), "virus")){ image(sprites.getSprite("Projectile",animationFrame), projectile.getX(), projectile.getY());}
+            }else if(Objects.equals(projectile.getParent(), "virus")){ image(sprites.getSprite("Projectile",new Random().nextInt(2)), projectile.getX(), projectile.getY());}
         }
     }
     private void drawCharacter(ICharacter character){
@@ -166,7 +182,6 @@ public class View extends PApplet implements IView{
         rect(window.getPosition().getX(),window.getPosition().getY(),window.getWidth(), window.getHeight());
         image(sprites.getSprite(name,0),window.getPosition().getX()+window.getWidth()/2,window.getPosition().getY()+window.getHeight()/2);
     }
-
     private void drawBugProjectile(Projectile projectile){ image(sprites.getSprite("Desktop",0).get(
                     (int) projectile.getX(),
                     (int) projectile.getY() + projectile.getRadius()*2 /3,
@@ -194,6 +209,29 @@ public class View extends PApplet implements IView{
 
 
         image(sprites.getSprite("HoleGlitch",animationFrame), projectile.getX(), projectile.getY());}
+    public void drawExplorer(){
+        image(sprites.getSprite("txt",0),cell1.getX(), cell1.getY());
+        text("Internet\nExplorer", cell1.getX(), cell1.getY() + (float) sprites.getSprite("TrashBin", 0).height /2 + 10 );
+    }
+    public void drawBin(){
+        boolean drawTrashBin = true;
+
+        for (ICharacter enemy : controller.getEnemies()) {
+            if(enemy.getClass().equals(AntiCursor.class) && ((AntiCursor) enemy).hasTrashBin()){
+                drawTrashBin = false;
+            };
+        }
+        if(drawTrashBin){
+            image(sprites.getSprite("TrashBin", 0), (float) (width / 30), (float) (height / 8 * 2) - 55);
+        }
+
+        text("Recycle\nBin", cell2.getX(), cell2.getY() + (float) sprites.getSprite("TrashBin", 0).height /2 + 10);
+    }
+    public void drawScore(){
+        textAlign(LEFT,TOP);
+        textSize(18);
+        fill(50);
+        text("Points: " + controller.getScore()/10 + "\nHighScore: " + controller.getHighScore()/10,controller.getMainWindow().getPosition().getX()+20,controller.getMainWindow().getPosition().getY() +100);}
 
     public void keyPressed(KeyEvent event){controller.handleKeyPressed(event);}
     public void keyReleased(KeyEvent event){controller.handleKeyReleased(event);}
@@ -201,6 +239,7 @@ public class View extends PApplet implements IView{
     public void mouseReleased(MouseEvent event){controller.handleMouseReleased(event);}
     public void setController(IController controller) {this.controller = controller;}
     public int getScreenHeight(){return height;}
+    public void showStartButton() {startButton.show();}
     public int getScreenWidth(){return width;}
 
 }

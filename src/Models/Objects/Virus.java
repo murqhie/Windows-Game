@@ -14,6 +14,7 @@ public class Virus extends Enemy{
         if(shootTimer.isUp()){
             shootingDirection = shootingDirection.rotate(10);
             projectiles.add(new Projectile(this.position,shootingDirection.unit().multiply(shootingSpeed), "virus", 4));
+            projectiles.add(new Projectile(this.position,shootingDirection.unit().multiply(-shootingSpeed), "virus", 4));
             shootTimer.reset();}
         shootTimer.tick();}
     @Override

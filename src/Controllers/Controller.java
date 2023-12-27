@@ -17,8 +17,10 @@ public class Controller implements IController {
     public void tick() {
 
         if(model.getState() == GameState.START){
-            view.drawStart();
+
             model.startNewGame(view.getScreenWidth(),view.getScreenHeight());
+            view.drawStart();
+            view.showStartButton();
         }
 
         if(model.getState() == GameState.PLAYING) {

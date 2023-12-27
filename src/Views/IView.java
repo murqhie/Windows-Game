@@ -12,4 +12,5 @@ public interface IView {
     int getScreenWidth();
 
     int getScreenHeight();
+    void showStartButton();
 }
