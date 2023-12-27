@@ -1,6 +1,5 @@
 package Views;
 
-import Models.DataStructures.GameState;
 import controlP5.*;
 import Controllers.IController;
 import Models.DataStructures.Vector;
@@ -32,7 +31,7 @@ public class View extends PApplet implements IView{
     @Override
     public void settings() {
         size(1920,1080);
-        loadingImage = loadImage("Loading.640.360.png");
+        loadingImage = loadImage("img/Loading.640.360.png");
         loadingImage.resize(width,height);
         //fullScreen();
     }
@@ -42,8 +41,8 @@ public class View extends PApplet implements IView{
 
         sprites = SpriteAnimLoader.initialize(width,height);
 
-        dogica = createFont("dogica.ttf", 128);
-        defaultFont = createFont("default.ttf", 128);
+        dogica = createFont("font/dogica.ttf", 128);
+        defaultFont = createFont("font/default.ttf", 128);
         cell1 = new Vector((float) (width / 30),(float) (height / 8) - 55 );
         cell2 = new Vector( (float) (width / 30), (float) (height / 8*2) - 55);
 

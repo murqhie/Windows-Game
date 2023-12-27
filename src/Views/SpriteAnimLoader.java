@@ -1,8 +1,6 @@
 package Views;
 import processing.core.PImage;
 import processing.core.PApplet;
-import processing.data.JSONArray;
-import processing.data.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,7 +18,7 @@ public class SpriteAnimLoader extends PApplet implements Runnable {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.scaleFactor = screenHeight/360f;
-        this.dir = new File("images");
+        this.dir = new File("res/img");
     }
 
     @Override
@@ -41,7 +39,7 @@ public class SpriteAnimLoader extends PApplet implements Runnable {
         sprites.put(name,new ArrayList<PImage>());
 
         sketchPath();
-        PImage spriteSheet = loadImage(file.getName());
+        PImage spriteSheet = loadImage("img/" + file.getName());
 
 
 
