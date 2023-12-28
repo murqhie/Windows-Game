@@ -1,4 +1,5 @@
 package Views;
+import Models.DataStructures.Vector;
 import processing.core.PImage;
 import processing.core.PApplet;
 
@@ -12,12 +13,12 @@ public class SpriteAnimLoader extends PApplet implements Runnable {
     private File dir;
     int screenHeight;
     int screenWidth;
-    float scaleFactor;
+    Vector scaleFactor;
 
     public SpriteAnimLoader(int screenWidth,int screenHeight) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        this.scaleFactor = screenHeight/360f;
+        this.scaleFactor = new Models.DataStructures.Vector(screenWidth/640f,screenHeight/360f);
         this.dir = new File("res/img");
     }
 
@@ -46,7 +47,7 @@ public class SpriteAnimLoader extends PApplet implements Runnable {
         int numberOfFrames = spriteSheet.width / (pixelWidth);
         for (int i = 0; i < numberOfFrames ; i++) {
             PImage sprite = spriteSheet.get(pixelWidth * i,0,pixelWidth,pixelHeight);
-            sprite.resize((int) (pixelWidth/10 *scaleFactor), (int) (pixelHeight/10 *scaleFactor));
+            sprite.resize((int) (pixelWidth/10 *scaleFactor.getX()), (int) (pixelHeight/10 *scaleFactor.getY()));
             sprites.get(name).add(sprite);
         }
 

@@ -26,7 +26,6 @@ public class Model {
         spawnRate = 150;
         if(score >highScore){highScore = score;}
         score = 0;}
-
     public void addEnemy(){
         boolean canSpawn = true;
         if(addEnemyTimer.isUp()){
@@ -57,7 +56,6 @@ public class Model {
             projectile.getsOutOfWindow(mainWindow, windows);}
 
         for (Enemy enemy : enemies) {if(enemy.getClass() == AntiCursor.class){if(((AntiCursor) enemy).hasTrashBin()){enemy.collidesWithPlayer(player);}}else{enemy.collidesWithPlayer(player);}}}
-
     public void checkGameOver(){if(player.isDead()){state = GameState.GAME_OVER;}}
     public Player getPlayer() {return player;}
     public GameState getState() {return state;}
