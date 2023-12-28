@@ -30,21 +30,45 @@ public class View extends PApplet implements IView{
     Vector cell1;
     Vector cell2;
     PImage loadingImage;
+
     @Override
     public void settings() {
-        fullScreen();
-        //size(1920,1080);
-
         loadingImage = loadImage("img/Loading.640.360.png");
-        loadingImage.resize((int) (640*(displayHeight/360f)), (int) (360*(displayHeight/360f)));
+
+        boolean fullscreen = false;
+
+        if (fullscreen){
+            fullScreen();
+            loadingImage.resize((int) (640*(displayHeight/360f)), (int) (360*(displayHeight/360f)));
+        }else {
+            size(1920,1080);
+            loadingImage.resize((int) (640*(height/360f)), (int) (360*(height/360f)));
+        }
 
     }
     @Override
     public void setup() {
         background(loadingImage);
 
-        sprites = SpriteAnimLoader.initialize(width,height);
-        soundLoader = SoundLoader.initialize();
+        soundLoader = new SoundLoader();
+        Thread soundThread = new Thread(soundLoader);
+        soundThread.start();
+
+        sprites = new SpriteAnimLoader(width,height);
+        Thread spriteThread = new Thread(sprites);
+        spriteThread.start();
+
+
+        Thread[] threads = new Thread[]{spriteThread, soundThread};
+
+        for (Thread thread : threads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         dogica = createFont("font/dogica.ttf", 128);
         defaultFont = createFont("font/default.ttf", 128);
         cell1 = new Vector((float) (width / 30),(float) (height / 8) - 55 );

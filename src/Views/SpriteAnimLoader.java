@@ -51,16 +51,4 @@ public class SpriteAnimLoader extends PApplet implements Runnable {
         }
 
     }
-    public static SpriteAnimLoader initialize(int width, int height){
-        SpriteAnimLoader sprites = new SpriteAnimLoader(width,height);
-        Thread thread = new Thread(sprites);
-        thread.start();
-
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        return sprites;
-    }
 }

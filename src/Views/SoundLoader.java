@@ -49,18 +49,7 @@ public class SoundLoader extends PApplet implements Runnable {
             }chosen = titleMusic[new Random().nextInt(titleMusic.length)];
         }
     }
-    public static SoundLoader initialize(){
-        SoundLoader soundLoader = new SoundLoader();
-        Thread thread = new Thread(soundLoader);
-        thread.start();
 
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        return soundLoader;
-    }
     public SoundFile getSound(String name) {return sounds.get(name);}
     public Boolean isPlaying(String name) {return isPlaying.get(name);}
     public void setPlaying(String name, boolean bool) {isPlaying.put(name, bool);}
