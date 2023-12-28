@@ -32,10 +32,12 @@ public class View extends PApplet implements IView{
     PImage loadingImage;
     @Override
     public void settings() {
-        size(1920,1080);
+        fullScreen();
+        //size(1920,1080);
+
         loadingImage = loadImage("img/Loading.640.360.png");
-        loadingImage.resize(width,height);
-        //fullScreen();
+        loadingImage.resize((int) (640*(displayHeight/360f)), (int) (360*(displayHeight/360f)));
+
     }
     @Override
     public void setup() {
