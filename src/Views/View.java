@@ -30,6 +30,7 @@ public class View extends PApplet implements IView{
     Vector cell1;
     Vector cell2;
     PImage loadingImage;
+    int w, h;
 
     @Override
     public void settings() {
@@ -39,15 +40,13 @@ public class View extends PApplet implements IView{
 
         if (fullscreen){
             fullScreen();
-            loadingImage.resize((int) (640*(displayHeight/360f)), (int) (360*(displayHeight/360f)));
         }else {
             size(1920,1080);
-            loadingImage.resize((int) (640*(height/360f)), (int) (360*(height/360f)));
         }
-
     }
     @Override
     public void setup() {
+        loadingImage.resize(width, height);
         background(loadingImage);
 
         soundLoader = new SoundLoader();

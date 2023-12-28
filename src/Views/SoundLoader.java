@@ -11,8 +11,8 @@ public class SoundLoader extends PApplet implements Runnable {
     private HashMap<String, SoundFile> sounds = new HashMap<>();
     private HashMap<String, Boolean> isPlaying = new HashMap<>();
     private File dir = new File("res/audio");
-    String[] titleMusic = new String[]{"nyan"};
-    String chosen = titleMusic[new Random().nextInt(titleMusic.length)];
+    String[] titleMusic = new String[]{"Toxicity", "DuHast","MasterOfPuppets"};
+    String chosen = new Random().nextInt(100) == 0 ? "Nyan" : titleMusic[new Random().nextInt(titleMusic.length)];
 
 
     @Override
@@ -22,13 +22,13 @@ public class SoundLoader extends PApplet implements Runnable {
         }
     }
     private void loadAudio(File file) {
+
         String name = file.getName().split("\\.")[0];
         sketchPath();
         sounds.put(name,new SoundFile(this, "audio/" + name + ".wav"));
         isPlaying.put(name,false);
     }
     public void playTitleMusic(){
-
         if(!isPlaying(chosen)){
             getSound(chosen).loop();
             setPlaying(chosen, true);
@@ -43,10 +43,12 @@ public class SoundLoader extends PApplet implements Runnable {
             getSound("error").play();
             setPlaying("error", true);
 
+            getSound("Nyan").stop();
+            setPlaying("Nyan", false);
             for (String name : titleMusic) {
                 getSound(name).stop();
                 setPlaying(name, false);
-            }chosen = titleMusic[new Random().nextInt(titleMusic.length)];
+            }chosen = new Random().nextInt(100) == 0 ? "Nyan" : titleMusic[new Random().nextInt(titleMusic.length)];
         }
     }
 
