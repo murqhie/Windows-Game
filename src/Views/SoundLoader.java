@@ -11,7 +11,7 @@ public class SoundLoader extends PApplet implements Runnable {
     private HashMap<String, SoundFile> sounds = new HashMap<>();
     private HashMap<String, Boolean> isPlaying = new HashMap<>();
     private File dir = new File("res/audio");
-    String[] titleMusic = new String[]{"duHast", "clint"};
+    String[] titleMusic = new String[]{"nyan"};
     String chosen = titleMusic[new Random().nextInt(titleMusic.length)];
 
 
