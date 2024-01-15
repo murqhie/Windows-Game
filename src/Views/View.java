@@ -43,13 +43,10 @@ public class View extends PApplet implements IView{
         }else {
             size(1920,1080);
         }
-        loadingImage.resize(width, height);
-
     }
     @Override
     public void setup() {
-        //TODO fix fullscreen
-
+        loadingImage.resize(width, height);
         background(loadingImage);
 
         soundLoader = new SoundLoader();
