@@ -35,7 +35,7 @@ public class View extends PApplet implements IView{
     public void settings() {
         loadingImage = loadImage("img/Loading.640.360.png");
 
-        boolean fullscreen = true;
+        boolean fullscreen = false;
 
         if (fullscreen){
             fullScreen();
@@ -214,9 +214,12 @@ public class View extends PApplet implements IView{
         image(sprites.getSprite("Projectile",new Random().nextInt(2)), projectile.getX(), projectile.getY());}
     private void drawWindow(Window window){
         String name = "VirusWindow";
-        if(window == controller.getMainWindow()){name = "MainWindow";}
-        rect(window.getPosition().getX(),window.getPosition().getY(),window.getWidth(), window.getHeight());
-        image(sprites.getSprite(name,0),window.getPosition().getX()+window.getWidth()/2,window.getPosition().getY()+window.getHeight()/2);
+        int frame = 0;
+        if(window == controller.getMainWindow()){name = "MainWindow";
+        if(controller.getHighScore()== 0){frame= 1;}
+        }
+
+        image(sprites.getSprite(name,frame),window.getPosition().getX()+window.getWidth()/2,window.getPosition().getY()+window.getHeight()/2);
     }
     public void drawExplorer(){
         image(sprites.getSprite("txt",0),cell1.getX(), cell1.getY());
@@ -253,7 +256,6 @@ public class View extends PApplet implements IView{
             @Override
             public void controlEvent(CallbackEvent callbackEvent) {
                 controller.setGameState("PLAYING");
-                System.out.println("FASKBHJL");
                 startButton.hide();
             }
         });}
