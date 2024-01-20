@@ -14,7 +14,7 @@ public class Player implements ICharacter {
     private boolean[] keyInputs = new boolean[]{false,false,false,false}; // {w,a,s,d}
     private boolean mouseInput = false,dead = false;
     private Timer shootTimer = new Timer(10, 0); // (Delay, Timer)
-
+    // TODO Idee: ab einem bestimmten highscore unlockt man stärkere projektile
     public Player(int radius, Window window) {
         this.radius = radius;
         this.window = window;

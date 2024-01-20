@@ -1,15 +1,14 @@
 package Views;
 
-import controlP5.*;
 import Controllers.IController;
 import Models.DataStructures.Vector;
 import Models.Objects.*;
+import controlP5.*;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import processing.sound.SoundFile;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -36,17 +35,18 @@ public class View extends PApplet implements IView{
     public void settings() {
         loadingImage = loadImage("img/Loading.640.360.png");
 
-        boolean fullscreen = false;
+        boolean fullscreen = true;
 
         if (fullscreen){
             fullScreen();
         }else {
             size(1920,1080);
         }
+        loadingImage.resize(1920, 1080);
     }
     @Override
     public void setup() {
-        loadingImage.resize(width, height);
+
         background(loadingImage);
 
         soundLoader = new SoundLoader();

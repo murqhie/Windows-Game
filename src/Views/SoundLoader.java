@@ -5,8 +5,8 @@ import processing.sound.*;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Random;
-//TODO lower volume
-// TODO Idee: ab einem bestimmten highscore unlockt man stärkere projektile
+
+
 
 public class SoundLoader extends PApplet implements Runnable {
     private HashMap<String, SoundFile> sounds = new HashMap<>();
@@ -26,7 +26,10 @@ public class SoundLoader extends PApplet implements Runnable {
 
         String name = file.getName().split("\\.")[0];
         sketchPath();
-        sounds.put(name,new SoundFile(this, "audio/" + name + ".wav"));
+        SoundFile sound = new SoundFile(this, "audio/" + name + ".wav");
+        //TODO fix volume
+        //sound.amp(0.0f);
+        sounds.put(name,sound);
         isPlaying.put(name,false);
     }
     public void playTitleMusic(){
@@ -49,7 +52,8 @@ public class SoundLoader extends PApplet implements Runnable {
             for (String name : titleMusic) {
                 getSound(name).stop();
                 setPlaying(name, false);
-            }chosen = new Random().nextInt(100) == 0 ? "Nyan" : titleMusic[new Random().nextInt(titleMusic.length)];
+            }
+            chosen = new Random().nextInt(100) == 0 ? "Nyan" : titleMusic[new Random().nextInt(titleMusic.length)];
         }
     }
 
