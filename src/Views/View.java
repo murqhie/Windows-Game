@@ -133,6 +133,14 @@ public class View extends PApplet implements IView{
 
                 Press [SPACE] to initiate system reboot.
                 Your score was %d and the highscore was %d.""", controller.getScore()/10, controller.getHighScore()/10), 200, (float) (height * 0.35));
+
+
+        textSize(40);
+        text("""
+                For more info about this issue and possible fixes, visit
+                https://youtu.be/L1mOhsHCda8
+                """
+                ,450, (float) (height * 0.65)+50);
         image(sprites.getSprite("QR",0), 296, (float) (height * 0.65) +96);
 
     }
@@ -184,7 +192,8 @@ public class View extends PApplet implements IView{
         circle(projectile.getX(), projectile.getY(), projectile.getRadius() * 2);
         //image(sprites.getSprite("PlayerProjectile"), projectile.getX(), projectile.getY());
     }
-    private void drawBugProjectile(Projectile projectile){ image(sprites.getSprite("Desktop",0).get(
+    private void drawBugProjectile(Projectile projectile){
+        image(sprites.getSprite("Desktop",0).get(
                     (int) projectile.getX(),
                     (int) projectile.getY() + projectile.getRadius()*2 /3,
                     projectile.getRadius()*2,
