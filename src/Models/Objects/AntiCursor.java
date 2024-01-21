@@ -3,8 +3,8 @@ import Models.DataStructures.Vector;
 import java.util.ArrayList;
 public class AntiCursor extends Enemy{
     private boolean hasTrashBin;
-    public AntiCursor(Vector position, Player player, Window window) {
-        super(position,35,8,player, window);
+    public AntiCursor(Vector position, Player player) {
+        super(position,35,8,player);
     }
     public void attack(ArrayList<Projectile> projectiles) {}
     public void move(){

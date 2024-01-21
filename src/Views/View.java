@@ -43,10 +43,11 @@ public class View extends PApplet implements IView{
             size(1920,1080);
         }
         loadingImage.resize(1920, 1080);
+
     }
     @Override
     public void setup() {
-
+        loadingImage.resize(width, height);
         background(loadingImage);
 
         soundLoader = new SoundLoader();

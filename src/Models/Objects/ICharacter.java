@@ -9,5 +9,4 @@ public interface ICharacter {
     float getX();
     float getY();
     int getRadius();
-    boolean isDead();
-    boolean isInWindow();}
+    boolean isDead();}

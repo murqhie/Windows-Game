@@ -14,7 +14,7 @@ public class Model {
     private ArrayList<Window> windows = new ArrayList<>();
     private ArrayList<Enemy> enemies;
     private ArrayList<Projectile> projectiles = new ArrayList<>();
-    private Timer addEnemyTimer = new Timer(0 , 0);
+    private final Timer addEnemyTimer = new Timer(0 , 0);
 
     public void startNewGame(int screenWidth, int screenHeight){
         this.screenWidth = screenWidth; this.screenHeight = screenHeight;
@@ -30,13 +30,18 @@ public class Model {
         boolean canSpawn = true;
         if(addEnemyTimer.isUp()){
             int rand = new Random().nextInt(4);
-            if(rand == 1){Vector virusPosition = calcSpawnPosition(new Vector(0,0),new Vector(this.screenWidth, this.screenHeight), mainWindow.getPosition(), new Vector(mainWindow.getPosition().getX()+ mainWindow.getWidth(),mainWindow.getPosition().getY()+ mainWindow.getHeight() ));
+            if(rand == 1){
+                Vector virusPosition = calcSpawnPosition(new Vector(0,0),new Vector(this.screenWidth, this.screenHeight), mainWindow.getPosition(), new Vector(mainWindow.getPosition().getX()+ mainWindow.getWidth(),mainWindow.getPosition().getY()+ mainWindow.getHeight() ));
                 Virus tempVirus = new Virus(virusPosition, player, new Window(402, 600, new Vector( (virusPosition.getX()- 300), (virusPosition.getY()-201))));
                 windows.add(tempVirus.getWindow());
                 enemies.add(tempVirus);}
-            if(rand == 2){ enemies.add(new Bug(calcSpawnPosition(new Vector(-50,-50), new Vector(this.screenWidth +50, this.screenHeight+50), new Vector(0,0), new Vector(this.screenWidth, this.screenHeight)), player, mainWindow));}
-            else{ for(Object enemy : enemies) {if(enemy instanceof AntiCursor){ canSpawn = false;} }
-                if(canSpawn){enemies.add(new AntiCursor(calcSpawnPosition(new Vector(-50,-50), new Vector(this.screenWidth +50, this.screenHeight+50), new Vector(0,0), new Vector(this.screenWidth, this.screenHeight)), player, mainWindow));}}
+            if(rand == 2){ enemies.add(new Bug(calcSpawnPosition(new Vector(-50,-50), new Vector(this.screenWidth +50, this.screenHeight+50), new Vector(0,0), new Vector(this.screenWidth, this.screenHeight)), player));}
+            else{ for(Object enemy : enemies) {
+                if (enemy instanceof AntiCursor) {
+                    canSpawn = false;
+                    break;
+                } }
+                if(canSpawn){enemies.add(new AntiCursor(calcSpawnPosition(new Vector(-50,-50), new Vector(this.screenWidth +50, this.screenHeight+50), new Vector(0,0), new Vector(this.screenWidth, this.screenHeight)), player));}}
             spawnRate = spawnRate > 50 ? spawnRate - 5 : spawnRate;
             addEnemyTimer.setRate(spawnRate);
             addEnemyTimer.reset();}

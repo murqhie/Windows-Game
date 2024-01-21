@@ -8,12 +8,12 @@ import java.util.ArrayList;
 
 public class Player implements ICharacter {
     private int radius, shootingSpeed = 15;
-    private Window window;
+    private final Window window;
     private Vector position,shootDirection,velocity= new Vector(0,0),acceleration = new Vector(0,0);
     private float jerk = 1, friction  = 0.1f;
     private boolean[] keyInputs = new boolean[]{false,false,false,false}; // {w,a,s,d}
     private boolean mouseInput = false,dead = false;
-    private Timer shootTimer = new Timer(10, 0); // (Delay, Timer)
+    private final Timer shootTimer = new Timer(10, 0); // (Delay, Timer)
     // TODO Idee: ab einem bestimmten highscore unlockt man stärkere projektile
     public Player(int radius, Window window) {
         this.radius = radius;
@@ -43,5 +43,4 @@ public class Player implements ICharacter {
     public boolean isDead() {return dead;}
     public void setMouseInput(boolean mouseInput) {this.mouseInput = mouseInput;}
     public void setShootDirection(Vector shootDirection) {this.shootDirection = shootDirection;}
-    public boolean isInWindow() {return true;}
 }

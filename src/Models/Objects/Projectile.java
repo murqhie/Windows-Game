@@ -7,10 +7,9 @@ import java.util.Objects;
 
 public class Projectile {
     private Vector position;
-    private Vector velocity;
-    private int radius = 4;
-    private int knockBack = 2;
-    private String parent;
+    private final Vector velocity;
+    private final int radius;
+    private final String parent;
     private boolean collided = false;
     private Window window;
     public Projectile(Vector position, Vector velocity, String parent, int radius) {
@@ -33,7 +32,9 @@ public class Projectile {
 
         collisionResolution();
 
-        if (Objects.equals(parent, "player") & this.window== mainWindow) {mainWindow.setAcceleration(velocity.unit().multiply(knockBack));}}
+        if (Objects.equals(parent, "player") & this.window== mainWindow) {
+            int knockBack = 2;
+            mainWindow.setAcceleration(velocity.unit().multiply(knockBack));}}
     private boolean isInWindow(Window window){return  !collisionL( window) &  !collisionU( window) &  !collisionR( window) &  !collisionO( window);}
     private boolean collisionL( Window window){return this.position.getX() + radius <= window.getPosition().getX() + 10;}
     private boolean collisionO( Window window){return this.position.getY() + radius <= window.getPosition().getY() + 25;}

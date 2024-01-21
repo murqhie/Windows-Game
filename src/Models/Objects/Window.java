@@ -3,14 +3,14 @@ package Models.Objects;
 import Models.DataStructures.Vector;
 
 public class Window {
-    private int height;
-    private int width;
+    private final int height;
+    private final int width;
     private int screenWidth;
     private int screenHeight;
     private Vector position;
     private Vector velocity = new Vector(0,0);
     private Vector acceleration = new Vector(0,0);
-    private float friction  = 0.05f;
+
     public Window(int height, int width, int screenWidth, int screenHeight) {
         this.height = height;
         this.width = width;
@@ -26,7 +26,8 @@ public class Window {
     public int getWidth() {return width;}
     public void move() {
         this.velocity = this.velocity.add(this.acceleration);
-        this.velocity = this.velocity.multiply(1-friction);
+        float friction = 0.05f;
+        this.velocity = this.velocity.multiply(1- friction);
         this.position = this.position.add(this.velocity);
         this.acceleration = new Vector(0,0);
 
