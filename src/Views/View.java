@@ -16,21 +16,27 @@ import java.util.Random;
 
 import static controlP5.ControlP5Constants.ACTION_RELEASE;
 
-public class View extends PApplet implements IView{
-    IController controller;
-    SpriteAnimLoader sprites;
-    SoundLoader soundLoader;
-    Button startButton;
-    int animationFrame = 0;
-    int animationSpeed = 40;
-    int shift;
-    PFont dogica;
-    PFont defaultFont;
-    Vector cell1;
-    Vector cell2;
-    PImage loadingImage;
-    int w, h;
+/**
+ * A view implementation for an MVC concept. It creates a graphical user interface using Processing.
+ */
 
+public class View extends PApplet implements IView{
+    private IController controller;
+    private SpriteLoader spriteLoader;
+    private SoundLoader soundLoader;
+    private Button startButton;
+    private int animationFrame = 0;
+    private int animationSpeed = 40;
+    private int shift;
+    private PFont dogica;
+    private PFont defaultFont;
+    private Vector cell1;
+    private Vector cell2;
+    private PImage loadingImage;
+
+    /**
+     * Sets the settings for the GUI and sets the loading screen while setup() is loading. (automatically called by processing).
+     */
     @Override
     public void settings() {
         loadingImage = loadImage("img/Loading.640.360.png");
@@ -45,6 +51,9 @@ public class View extends PApplet implements IView{
         loadingImage.resize(1920, 1080);
 
     }
+    /**
+     * Initial loading of all sprites, sounds (each in their own thread), fonts and setup of other graphical elements. (automatically called by processing).
+     */
     @Override
     public void setup() {
         loadingImage.resize(width, height);
@@ -54,8 +63,8 @@ public class View extends PApplet implements IView{
         Thread soundThread = new Thread(soundLoader);
         soundThread.start();
 
-        sprites = new SpriteAnimLoader(width,height);
-        Thread spriteThread = new Thread(sprites);
+        spriteLoader = new SpriteLoader(width);
+        Thread spriteThread = new Thread(spriteLoader);
         spriteThread.start();
 
 
@@ -79,14 +88,21 @@ public class View extends PApplet implements IView{
 
         controller.setGameState("START");
     }
+    /**
+     * Draw operation that needs to be forwarded to the controller.
+     * This method is automatically called by Processing (~60FPS).
+     */
     public void draw(){
         controller.tick();
         animationFrame = frameCount%animationSpeed > animationSpeed/2 ? 1 :  0 ;
     }
+    /**
+     * Draws the desktop.
+     */
     public void drawStart(){
 
         textAlign(CENTER,CENTER);
-        background(sprites.getSprite("Desktop",0));
+        background(spriteLoader.getSprite("Desktop",0));
         textFont(dogica);
         textSize(10);
         fill(255);
@@ -94,10 +110,13 @@ public class View extends PApplet implements IView{
         drawExplorer();
         drawBin();
     }
+    /**
+     * Draws the player, all windows, all enemies and plays the music to allow the user to see the game state and play.
+     */
     public void drawPlaying(){
         soundLoader.playTitleMusic();
 
-        background(sprites.getSprite("Desktop", 0));
+        background(spriteLoader.getSprite("Desktop", 0));
 
         textSize(10);
         fill(255);
@@ -117,6 +136,11 @@ public class View extends PApplet implements IView{
             drawCharacter(enemy);
         }
     }
+
+    /**
+     * Draws the Game Over screen and plays the Windows error sound.
+     * Also shows the player their score and highscore.
+     */
     public void drawGameOver(){
         soundLoader.playEndMusic();
 
@@ -141,7 +165,7 @@ public class View extends PApplet implements IView{
                 https://youtu.be/L1mOhsHCda8
                 """
                 ,450, (float) (height * 0.65)+50);
-        image(sprites.getSprite("QR",0), 296, (float) (height * 0.65) +96);
+        image(spriteLoader.getSprite("QR",0), 296, (float) (height * 0.65) +96);
 
     }
     private void drawCharacter(ICharacter character){
@@ -156,10 +180,10 @@ public class View extends PApplet implements IView{
         }
     }
     private void drawPlayer(Player player){
-        image(sprites.getSprite("Cursor",0), player.getX() + 4, player.getY());
+        image(spriteLoader.getSprite("Cursor",0), player.getX() + 4, player.getY());
     }
     private void drawVirus(Virus virus){
-        image(sprites.getSprite("Virus",animationFrame), virus.getX(), virus.getY());
+        image(spriteLoader.getSprite("Virus",animationFrame), virus.getX(), virus.getY());
     }
     private void drawBug(Bug bug){pushMatrix();
         translate(bug.getX(), bug.getY());
@@ -167,14 +191,14 @@ public class View extends PApplet implements IView{
         if (bug.getY()>=controller.getPlayer().getY())
             angle=-radians(270)-angle;
         rotate(angle);
-        image(sprites.getSprite("Bug",animationFrame),  0, 0);
+        image(spriteLoader.getSprite("Bug",animationFrame),  0, 0);
         popMatrix();
     }
     private void drawAntiCursor(AntiCursor antiCursor){
         if(antiCursor.hasTrashBin()){
-            image(sprites.getSprite("AntiCursor",1), antiCursor.getX()+ 4, antiCursor.getY());
+            image(spriteLoader.getSprite("AntiCursor",1), antiCursor.getX()+ 4, antiCursor.getY());
         }else{
-            image(sprites.getSprite("AntiCursor",0), antiCursor.getX()+ 4, antiCursor.getY());}
+            image(spriteLoader.getSprite("AntiCursor",0), antiCursor.getX()+ 4, antiCursor.getY());}
     }
     private void drawProjectiles(ArrayList<Projectile> projectiles){
         for (Projectile projectile : projectiles) {
@@ -193,7 +217,7 @@ public class View extends PApplet implements IView{
         //image(sprites.getSprite("PlayerProjectile"), projectile.getX(), projectile.getY());
     }
     private void drawBugProjectile(Projectile projectile){
-        image(sprites.getSprite("Desktop",0).get(
+        image(spriteLoader.getSprite("Desktop",0).get(
                     (int) projectile.getX(),
                     (int) projectile.getY() + projectile.getRadius()*2 /3,
                     projectile.getRadius()*2,
@@ -201,7 +225,7 @@ public class View extends PApplet implements IView{
             projectile.getX(),
             projectile.getY() + (float) (projectile.getRadius() * 2) /3 );
 
-        image(sprites.getSprite("Desktop",0).get(
+        image(spriteLoader.getSprite("Desktop",0).get(
                         (int) projectile.getX(),
                         (int) projectile.getY() - projectile.getRadius()*2 /3,
                         projectile.getRadius()*2,
@@ -210,7 +234,7 @@ public class View extends PApplet implements IView{
                 projectile.getY() - (float) (projectile.getRadius() * 2) /3 );
 
         shift = animationFrame == 0 ? 10 :0;
-        image(sprites.getSprite("Desktop",0).get(
+        image(spriteLoader.getSprite("Desktop",0).get(
                         (int) projectile.getX(),
                         (int) projectile.getY(),
                         projectile.getRadius()*2,
@@ -219,9 +243,9 @@ public class View extends PApplet implements IView{
                 projectile.getY());
 
 
-        image(sprites.getSprite("HoleGlitch",animationFrame), projectile.getX(), projectile.getY());}
+        image(spriteLoader.getSprite("HoleGlitch",animationFrame), projectile.getX(), projectile.getY());}
     private void drawVirusProjectile(Projectile projectile){
-        image(sprites.getSprite("Projectile",new Random().nextInt(2)), projectile.getX(), projectile.getY());}
+        image(spriteLoader.getSprite("Projectile",new Random().nextInt(2)), projectile.getX(), projectile.getY());}
     private void drawWindow(Window window){
         String name = "VirusWindow";
         int frame = 0;
@@ -229,13 +253,13 @@ public class View extends PApplet implements IView{
         if(controller.getHighScore()== 0){frame= 1;}
         }
 
-        image(sprites.getSprite(name,frame),window.getPosition().getX()+window.getWidth()/2,window.getPosition().getY()+window.getHeight()/2);
+        image(spriteLoader.getSprite(name,frame),window.getPosition().getX()+window.getWidth()/2,window.getPosition().getY()+window.getHeight()/2);
     }
-    public void drawExplorer(){
-        image(sprites.getSprite("txt",0),cell1.getX(), cell1.getY());
-        text("Internet\nExplorer", cell1.getX(), cell1.getY() + (float) sprites.getSprite("TrashBin", 0).height /2 + 10 );
+    private void drawExplorer(){
+        image(spriteLoader.getSprite("txt",0),cell1.getX(), cell1.getY());
+        text("Internet\nExplorer", cell1.getX(), cell1.getY() + (float) spriteLoader.getSprite("TrashBin", 0).height /2 + 10 );
     }
-    public void drawBin(){
+    private void drawBin(){
         boolean drawTrashBin = true;
 
         for (ICharacter enemy : controller.getEnemies()) {
@@ -244,17 +268,17 @@ public class View extends PApplet implements IView{
             };
         }
         if(drawTrashBin){
-            image(sprites.getSprite("TrashBin", 0), (float) (width / 30), (float) (height / 8 * 2) - 55);
+            image(spriteLoader.getSprite("TrashBin", 0), (float) (width / 30), (float) (height / 8 * 2) - 55);
         }
 
-        text("Recycle\nBin", cell2.getX(), cell2.getY() + (float) sprites.getSprite("TrashBin", 0).height /2 + 10);
+        text("Recycle\nBin", cell2.getX(), cell2.getY() + (float) spriteLoader.getSprite("TrashBin", 0).height /2 + 10);
     }
-    public void drawScore(){
+    private void drawScore(){
         textAlign(LEFT,TOP);
         textSize(18);
         fill(50);
         text("Points: " + controller.getScore()/10 + "\nHighScore: " + controller.getHighScore()/10,controller.getMainWindow().getPosition().getX()+20,controller.getMainWindow().getPosition().getY() +100);}
-    public void createButton(){
+    private void createButton(){
         ControlP5 cp5 = new ControlP5(this);
         startButton = cp5.addButton("");
         startButton.setColorBackground( color( 255,255,255,1 ) );
@@ -269,14 +293,58 @@ public class View extends PApplet implements IView{
                 startButton.hide();
             }
         });}
-    public void keyPressed(KeyEvent event){controller.handleKeyPressed(event);}
-    public void keyReleased(KeyEvent event){controller.handleKeyReleased(event);}
-    public void mousePressed(MouseEvent event){controller.handleMousePressed(event);}
-    public void mouseReleased(MouseEvent event){controller.handleMouseReleased(event);}
+    /**
+     * Sets the controller to use for the MVC concept.
+     * @param controller the controller to call from the view
+     */
     public void setController(IController controller) {this.controller = controller;}
+
+    /**
+     * Listens to key presses and sends it to the controller.
+     * @param event pressed key
+     */
+    public void keyPressed(KeyEvent event){controller.handleKeyPressed(event);}
+    /**
+     * Listens to key releases and sends it to the controller.
+     * @param event released key
+     */
+    public void keyReleased(KeyEvent event){controller.handleKeyReleased(event);}
+    /**
+     * Listens to mouse presses and sends it to the controller.
+     * @param event pressed mouse button
+     */
+    public void mousePressed(MouseEvent event){controller.handleMousePressed(event);}
+    /**
+     * Listens to mouse release and sends it to the controller.
+     * @param event released mouse button
+     */
+    public void mouseReleased(MouseEvent event){controller.handleMouseReleased(event);}
+
+    /**
+     * Getter for screen height.
+     * @return screen height
+     */
     public int getScreenHeight(){return height;}
-    public void showStartButton() {startButton.show();}
+    /**
+     * Getter for screen width.
+     * @return screen width
+     */
     public int getScreenWidth(){return width;}
+
+    /**
+     * shows the start button. (in-game: Internet Explorer)
+     */
+    public void showStartButton() {startButton.show();}
+
+    /**
+     * Getter for mouse position.
+     * @return mouse position
+     */
     public Vector getMousePosition() {return new Vector(mouseX, mouseY);}
+
+    /**
+     * Getter for the SoundLoader Object.
+     * @return SoundLoader
+     */
     public SoundLoader getSounds(){return soundLoader;}
 }

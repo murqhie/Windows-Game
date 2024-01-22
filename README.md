@@ -1,5 +1,5 @@
 # PIS Projekt
-The game is a bullet hell game in the style of Windows XP.
+The game is a Bullet-Hell game in the style of Windows XP.
 The player starts the game via Internet Explorer and is then confronted 
 with a multitude of viruses, bugs and glitches, and scammers that have gained 
 access to the computer. The challenge is to protect the system from this 
@@ -17,6 +17,14 @@ digital invasion.
 Copy the repository to your computer and execute the "src/Main.java" file.
 
 ## Example
-```
+``` jshelllanguage
+jshell -class-path .\out\production\PISProjekt
+import Models.*
+Model model = new Model()
+model.startNewGame(100,100)
+model.getPlayer().getsHit()
+model.checkGameOver()
+model.getState()
 
+// $8 ==> GAME_OVER
 ```

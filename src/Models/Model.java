@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * A model implementation for an MVC concept. It contains the game logic.
+ */
 public class Model {
     private Player player;
     private GameState state;
@@ -18,7 +21,7 @@ public class Model {
 
     public void startNewGame(int screenWidth, int screenHeight){
         this.screenWidth = screenWidth; this.screenHeight = screenHeight;
-        mainWindow  = new Window(402, 600,screenWidth,screenHeight);
+        mainWindow  = new Window((int) (134 *(screenHeight/360f)), (int) (200 *(screenWidth/640f)),screenWidth,screenHeight);
         player = new Player(20,mainWindow);
         enemies = new ArrayList<>();
         projectiles = new ArrayList<>();

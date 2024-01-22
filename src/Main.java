@@ -3,6 +3,9 @@ import Models.Model;
 import Controllers.Controller;
 import Views.View;
 
+/**
+ * A main class that connects the model view and controller components and runs the Processing sketch.
+ */
 public final class Main {
     public static void main(String[] args) {
 

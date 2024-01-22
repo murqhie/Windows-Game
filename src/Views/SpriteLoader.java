@@ -6,28 +6,41 @@ import processing.core.PApplet;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+/**
+ * Loads and provides all Sprites in the game.
+ * Part of the View.
+ */
 
-
-public class SpriteAnimLoader extends PApplet implements Runnable {
+public class SpriteLoader extends PApplet implements Runnable {
     private HashMap<String, ArrayList<PImage>> sprites = new HashMap<>();
-    private File dir;
-    int screenHeight;
-    int screenWidth;
-    Vector scaleFactor;
+    private File dir = new File("res/img");
+    private float scaleFactor;
 
-    public SpriteAnimLoader(int screenWidth,int screenHeight) {
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
-        this.scaleFactor = new Models.DataStructures.Vector(screenWidth/640f,screenHeight/360f);
-        this.dir = new File("res/img");
+    /**
+     * Constructor of SpriteLoader.
+     * sets a scale factor for the images.
+     * @param screenWidth screenWidth
+     */
+    public SpriteLoader(int screenWidth) {
+        this.scaleFactor = screenWidth/640f;
     }
 
+    /**
+     * run method for a thread.
+     * Reads all png files in res/img.
+     */
     @Override
     public void run() {
         for (File file : dir.listFiles()) {
             if(file.getName().endsWith("png")){loadSprite(file);}
         }
     }
+    /**
+     * Getter for a specific sprite.
+     * @param name Sprite name
+     * @param frame frame number on sprite sheet
+     * @return SoundFile
+     */
     public PImage getSprite(String name, int frame) {
         return sprites.get(name).get(frame);
     }
@@ -47,7 +60,7 @@ public class SpriteAnimLoader extends PApplet implements Runnable {
         int numberOfFrames = spriteSheet.width / (pixelWidth);
         for (int i = 0; i < numberOfFrames ; i++) {
             PImage sprite = spriteSheet.get(pixelWidth * i,0,pixelWidth,pixelHeight);
-            sprite.resize((int) (pixelWidth/10 *scaleFactor.getX()), (int) (pixelHeight/10 *scaleFactor.getY()));
+            sprite.resize((int) (pixelWidth/10 *scaleFactor), (int) (pixelHeight/10 *scaleFactor));
             sprites.get(name).add(sprite);
         }
 
