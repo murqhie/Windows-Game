@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavadocGenerationManager">
-    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Desktop" />
-    <option name="OPTION_SCOPE" value="public" />
+    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Desktop/JavaDoc" />
+    <option name="OPTION_SCOPE" value="private" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_20" project-jdk-name="openjdk-21 (2)" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />

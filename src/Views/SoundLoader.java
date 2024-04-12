@@ -7,8 +7,12 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- * Loads and provides all Sounds in the game.
+ * Loads and provides all Sounds in the game.<br>
  * Part of the View.
+ * <p>
+ * Example:<br>
+ * if(model.getState() == GameState.PLAYING) { soundLoader.playTitleMusic(); }<br>
+ * if(model.getState() == GameState.GAME_OVER) { soundLoader.playEndMusic(); }<br>
  */
 
 public class SoundLoader extends PApplet implements Runnable {

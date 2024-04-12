@@ -37,7 +37,6 @@ public class ModelTest {
         Assertions.assertTrue(antiCursorCount <= 1);
     }
 
-
     @Test
     void testPlayerMovement(){
         model.getPlayer().setKeyInputs(0,true);
@@ -99,7 +98,7 @@ public class ModelTest {
     @Test
     void testAntiCursorCollidesWithPlayer(){
         antiCursor = new AntiCursor(model.getPlayer().getPosition(), model.getPlayer());
-        antiCursor.collidesWithPlayer(model.getPlayer());
+        antiCursor.collidesWithPlayer();
         Assertions.assertTrue(model.getPlayer().isDead());
     }
 
@@ -124,14 +123,14 @@ public class ModelTest {
 
     @Test
     void testVirusAttack(){
-        Virus virus = new Virus(new Vector(0,0), model.getPlayer(),new Window(100,100,100,100));
+        Virus virus = new Virus(new Vector(0,0), model.getPlayer());
         virus.attack(model.getProjectiles());
         Assertions.assertFalse(model.getProjectiles().isEmpty());
     }
 
     @Test
     void testVirusGetsHit(){
-        Virus virus = new Virus(new Vector(0,0), model.getPlayer(),new Window(100,100,100,100));
+        Virus virus = new Virus(new Vector(0,0), model.getPlayer());
         model.getEnemies().add(virus);
 
         Projectile projectile = new Projectile(new Vector(0,0), new Vector(0,0),"player",5);
@@ -142,9 +141,8 @@ public class ModelTest {
     @Test
     void detectCollisions(){
 
-
         model.getEnemies().add(new Bug(new Vector(0,0),model.getPlayer()));
-        model.getEnemies().add(new Virus(new Vector(100,100), model.getPlayer(), model.getMainWindow()));
+        model.getEnemies().add(new Virus(new Vector(100,100), model.getPlayer()));
         model.getEnemies().add(new AntiCursor(new Vector(200,200),model.getPlayer()));
 
         Projectile projectile0 = new Projectile(model.getEnemies().get(0).getPosition(),new Vector(0,0),"player",5);
