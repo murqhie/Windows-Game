@@ -7,8 +7,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 /**
- * Loads and provides all Sprites in the game.
+ * Loads and provides all Sprites in the game.<br>
  * Part of the View.
+ * <p>
+ * Example:<br>
+ *  if(antiCursor.hasTrashBin()){<br>
+ *             image(spriteLoader.getSprite("AntiCursor",1), antiCursor.getX()+ 4, antiCursor.getY());<br>
+ *         }else{<br>
+ *             image(spriteLoader.getSprite("AntiCursor",0), antiCursor.getX()+ 4, antiCursor.getY());}<br>
  */
 
 public class SpriteLoader extends PApplet implements Runnable {

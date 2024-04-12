@@ -9,8 +9,15 @@ import processing.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
- * A controller implementation for an MVC concept. This controller creates and uses a {@link Model}.
+ * A controller implementation for an MVC concept. This controller creates and uses a {@link Model}.<br>
  * It handles the user inputs and keeps track of the frame the view should draw next.
+ * <p>
+ * Example:<br>
+ * Player player = controller.getPlayer();<br>
+ * drawProjectiles(controller.getProjectiles());<br>
+ * drawCharacter(player);<br>
+ * for (ICharacter enemy : controller.getEnemies()) {<br>
+ *     drawCharacter(enemy);<br>
  */
 public class Controller implements IController {
     private Model model;
@@ -60,8 +67,8 @@ public class Controller implements IController {
         for (Enemy enemy : model.getEnemies()) {
             enemy.move();
             enemy.attack(model.getProjectiles());
-            if(enemy.isDead()){
-                model.getWindows().remove(enemy.getWindow());}
+            if(enemy.isDead() && enemy instanceof Virus){
+                model.getWindows().remove(((Virus) enemy).getWindow());}
         }
         model.getEnemies().removeIf(Enemy::isDead);
 

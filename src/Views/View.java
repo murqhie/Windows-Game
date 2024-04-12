@@ -18,6 +18,15 @@ import static controlP5.ControlP5Constants.ACTION_RELEASE;
 
 /**
  * A view implementation for an MVC concept. It creates a graphical user interface using Processing.
+ * <p>
+ * Example:<br>
+ * var model = new Model();<br>
+ * var controller = new Controller();<br>
+ * var view = new View();<br>
+ * controller.setModel(model);<br>
+ * controller.setView(view);<br>
+ * view.setController(controller);<br>
+ * PApplet.runSketch(new String[]{""}, view);<br>
  */
 
 public class View extends PApplet implements IView{
@@ -41,7 +50,7 @@ public class View extends PApplet implements IView{
     public void settings() {
         loadingImage = loadImage("img/Loading.640.360.png");
 
-        boolean fullscreen = false;
+        boolean fullscreen = true;
 
         if (fullscreen){
             fullScreen();
